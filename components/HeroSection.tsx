@@ -75,7 +75,7 @@ export default function HeroSection({
                     transition={{ duration: 0.8, delay: 0.6 }}
                 >
                     <a href="#suites" className="inline-block">
-                        <Button className="bg-[#C9A05B] hover:bg-[#B38F4F] text-[#0F2C23] text-lg px-8 py-6 rounded-none transition-all duration-300 hover:shadow-lg uppercase tracking-wider font-medium">
+                        <Button className="bg-[#C9A05B] hover:bg-[#B38F4F] text-[#0F2C23] text-lg px-8 py-6 rounded-full transition-all duration-300 hover:shadow-lg uppercase tracking-wider font-medium">
                             Discover Our Suites
                         </Button>
                     </a>
