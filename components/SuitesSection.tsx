@@ -26,7 +26,7 @@ function ApartmentCard({ apt, index }: { apt: Apartment; index: number }) {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.8, delay: index * 0.2 }}
-            className="group relative overflow-hidden bg-white shadow-xl rounded-none border border-gray-100 flex flex-col h-[500px]"
+            className="group relative overflow-hidden bg-white shadow-xl rounded-xl border border-gray-100 flex flex-col h-[500px]"
         >
             <div className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
                 style={{ backgroundImage: `url(${apt.image})` }}>
@@ -58,7 +58,7 @@ function ApartmentCard({ apt, index }: { apt: Apartment; index: number }) {
                             ))}
                         </div>
 
-                        <Button className="w-full bg-[#C9A05B] hover:bg-white text-[#0F2C23] transition-colors rounded-none">
+                        <Button className="w-full bg-[#C9A05B] hover:bg-white text-[#0F2C23] transition-colors rounded-full">
                             Book Now
                         </Button>
                     </div>
