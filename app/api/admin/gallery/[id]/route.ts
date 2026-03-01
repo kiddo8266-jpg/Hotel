@@ -24,6 +24,7 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
         type: body.type,
         alt: body.alt || '',
         section: body.section || 'gallery',
+        area: body.area || '',
       },
     });
     return NextResponse.json(item);

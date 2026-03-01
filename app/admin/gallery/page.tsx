@@ -21,10 +21,30 @@ type MediaItem = {
   type: string;
   alt: string;
   section: string;
+  area: string;
   createdAt: string;
 };
 
 const SECTIONS = ['gallery', 'apartments', 'about', 'hero'];
+
+const AREAS = [
+  'Living Area',
+  'Bedroom',
+  'Shower',
+  'Dining',
+  'Balcony',
+  'Kitchen',
+  'Compound',
+  'Parking',
+  'Restaurant',
+  'Office',
+  'Washing Bay',
+  'Swimming Pool',
+  'Lobby',
+  'Conference Room',
+  'Garden',
+  'Other',
+];
 
 export default function AdminGallery() {
   const [items, setItems] = useState<MediaItem[]>([]);
@@ -38,6 +58,7 @@ export default function AdminGallery() {
     type: 'image',
     alt: '',
     section: 'gallery',
+    area: '',
   });
 
   useEffect(() => {
@@ -118,12 +139,12 @@ export default function AdminGallery() {
 
   const startEdit = (item: MediaItem) => {
     setEditing(item);
-    setForm({ url: item.url, type: item.type, alt: item.alt, section: item.section });
+    setForm({ url: item.url, type: item.type, alt: item.alt, section: item.section, area: item.area || '' });
     setOpen(true);
   };
 
   const resetForm = () => {
-    setForm({ url: '', type: 'image', alt: '', section: 'gallery' });
+    setForm({ url: '', type: 'image', alt: '', section: 'gallery', area: '' });
     setEditing(null);
   };
 
@@ -197,6 +218,20 @@ export default function AdminGallery() {
                     className="bg-[#0F2C23]/70 border-[#C9A05B]/30"
                     placeholder="Describe the media..."
                   />
+                </div>
+
+                <div>
+                  <label className="block text-sm mb-2">Hotel Area</label>
+                  <select
+                    value={form.area}
+                    onChange={(e) => setForm({ ...form, area: e.target.value })}
+                    className="w-full px-3 py-2 rounded bg-[#0F2C23]/70 border border-[#C9A05B]/30 text-white text-sm"
+                  >
+                    <option value="">— Select Area —</option>
+                    {AREAS.map((a) => (
+                      <option key={a} value={a}>{a}</option>
+                    ))}
+                  </select>
                 </div>
 
                 <DialogFooter>

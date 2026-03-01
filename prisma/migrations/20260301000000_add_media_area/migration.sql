@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Media" ADD COLUMN "area" TEXT NOT NULL DEFAULT '';

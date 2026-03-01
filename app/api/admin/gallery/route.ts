@@ -22,6 +22,7 @@ export async function POST(req: NextRequest) {
         type: body.type,
         alt: body.alt || '',
         section: body.section || 'gallery',
+        area: body.area || '',
       },
     });
     return NextResponse.json(item, { status: 201 });
