@@ -34,15 +34,24 @@ export default async function AdminLayout({
 
                 <nav className="flex-1 p-4 space-y-2">
                     <Link href="/admin" className="block p-3 rounded hover:bg-white/10 transition">
-                        Dashboard / Settings
+                        Dashboard
                     </Link>
                     <Link href="/admin/apartments" className="block p-3 rounded hover:bg-white/10 transition">
                         Apartments
                     </Link>
+                    <Link href="/admin/blog" className="block p-3 rounded hover:bg-white/10 transition">
+                        Blog / News
+                    </Link>
+                    <Link href="/admin/gallery" className="block p-3 rounded hover:bg-white/10 transition">
+                        Gallery
+                    </Link>
+                    <Link href="/admin/settings" className="block p-3 rounded hover:bg-white/10 transition">
+                        Site Settings
+                    </Link>
                 </nav>
 
                 <div className="p-4 border-t border-white/10">
-                    <Link href="/" className="block p-3 rounded hover:bg-white/10 transition">
+                    <Link href="/" className="block p-3 rounded bg-[#C9A05B]/10 hover:bg-[#C9A05B]/20 text-[#C9A05B] transition font-medium">
                         ← Back to Site
                     </Link>
                 </div>
