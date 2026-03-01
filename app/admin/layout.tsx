@@ -1,7 +1,7 @@
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import jwt from 'jsonwebtoken';
-import Link from 'next/link';
+import AdminSidebar from './AdminSidebar';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'supersecretjwtkeyforjosephinehaven';
 
@@ -26,39 +26,9 @@ export default async function AdminLayout({
 
     return (
         <div className="min-h-screen flex">
-            {/* Sidebar */}
-            <aside className="w-64 bg-[#0F2C23] text-white fixed h-full flex flex-col">
-                <div className="p-6 border-b border-white/10">
-                    <h2 className="text-xl font-serif font-bold text-[#C9A05B]">Admin Area</h2>
-                </div>
-
-                <nav className="flex-1 p-4 space-y-2">
-                    <Link href="/admin" className="block no-underline p-3 rounded hover:bg-white/10 transition">
-                        Dashboard
-                    </Link>
-                    <Link href="/admin/apartments" className="block no-underline p-3 rounded hover:bg-white/10 transition">
-                        Apartments
-                    </Link>
-                    <Link href="/admin/blog" className="block no-underline p-3 rounded hover:bg-white/10 transition">
-                        Blog / News
-                    </Link>
-                    <Link href="/admin/gallery" className="block no-underline p-3 rounded hover:bg-white/10 transition">
-                        Gallery
-                    </Link>
-                    <Link href="/admin/settings" className="block no-underline p-3 rounded hover:bg-white/10 transition">
-                        Site Settings
-                    </Link>
-                </nav>
-
-                <div className="p-4 border-t border-white/10">
-                    <Link href="/" className="block no-underline p-3 rounded bg-[#C9A05B]/10 hover:bg-[#C9A05B]/20 text-[#C9A05B] transition font-medium">
-                        ← Back to Site
-                    </Link>
-                </div>
-            </aside>
-
-            {/* Main Content Area */}
-            <main className="ml-64 flex-1 p-10">
+            <AdminSidebar />
+            {/* Hamburger spacer on mobile */}
+            <main className="flex-1 md:ml-64 p-6 md:p-10">
                 {children}
             </main>
         </div>
