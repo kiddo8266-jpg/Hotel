@@ -79,8 +79,8 @@ export default function AdminBlog() {
     setForm(prev => ({
       ...prev,
       title,
-      // Auto-generate slug only when not editing (don't overwrite manual slug on edits)
-      slug: editing ? prev.slug : slugify(title),
+      // Auto-generate slug only when not editing, or if slug is currently empty
+      slug: editing && prev.slug ? prev.slug : slugify(title),
     }));
   };
 
