@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="NL Josephine's Hotel — Where luxury meets comfort. Experience world-class hospitality in the heart of the city." />
+  <title>NL Josephine's Hotel</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ======================== NAVIGATION ======================== -->
+  <nav id="navbar" aria-label="Main navigation">
+    <a href="#hero" class="nav-logo">NL <span>Josephine's</span></a>
+
+    <ul class="nav-links" id="nav-links" role="list">
+      <li><a href="#about">About</a></li>
+      <li><a href="#rooms">Rooms</a></li>
+      <li><a href="#amenities">Amenities</a></li>
+      <li><a href="#gallery">Gallery</a></li>
+      <li><a href="#contact">Contact</a></li>
+      <li><a href="#contact" class="nav-book-btn">Book Now</a></li>
+    </ul>
+
+    <button class="hamburger" id="hamburger" aria-label="Toggle navigation" aria-expanded="false" aria-controls="nav-links">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </nav>
+
+  <!-- ======================== HERO ======================== -->
+  <section id="hero" aria-label="Welcome">
+    <p class="hero-badge">Welcome to luxury</p>
+    <h1>NL <span>Josephine's</span> Hotel</h1>
+    <p>Where elegance meets comfort. Discover a haven of world-class hospitality, fine dining, and unforgettable experiences in the heart of the city.</p>
+    <div class="hero-cta">
+      <a href="#rooms" class="btn btn-primary">Explore Rooms</a>
+      <a href="#contact" class="btn btn-outline">Book Your Stay</a>
+    </div>
+    <div class="hero-scroll" aria-hidden="true">Scroll</div>
+  </section>
+
+  <!-- ======================== ABOUT ======================== -->
+  <section id="about">
+    <div class="about-grid">
+      <div class="about-image reveal">
+        <div class="about-image-main" role="img" aria-label="Hotel exterior">🏨</div>
+        <div class="about-badge">
+          <span class="number">15+</span>
+          <span class="label">Years of Excellence</span>
+        </div>
+      </div>
+      <div class="about-content reveal">
+        <span class="section-label">Our Story</span>
+        <h2 class="section-title">A Legacy of Luxury &amp; Warmth</h2>
+        <p>NL Josephine's Hotel has been a landmark of exceptional hospitality for over 15 years. Nestled in a prime location, we blend timeless elegance with modern comforts to create an unparalleled guest experience.</p>
+        <p>From our meticulously designed rooms to our award-winning restaurant, every detail is crafted to exceed your expectations and ensure your stay is nothing short of extraordinary.</p>
+        <ul class="about-features">
+          <li>Award-winning service</li>
+          <li>Prime city-centre location</li>
+          <li>Gourmet dining experience</li>
+          <li>State-of-the-art spa</li>
+          <li>Conference &amp; event spaces</li>
+          <li>24/7 concierge support</li>
+        </ul>
+        <a href="#contact" class="btn btn-primary">Learn More</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================== ROOMS ======================== -->
+  <section id="rooms">
+    <div class="rooms-header reveal">
+      <span class="section-label">Accommodations</span>
+      <h2 class="section-title">Our Rooms &amp; Suites</h2>
+      <p class="section-subtitle">Each room is a sanctuary of comfort, thoughtfully designed to offer the finest amenities and breathtaking views.</p>
+    </div>
+
+    <div class="rooms-grid">
+      <!-- Classic Room -->
+      <article class="room-card reveal">
+        <div class="room-image classic" role="img" aria-label="Classic room">
+          🛏️
+          <div class="room-badge">Classic</div>
+        </div>
+        <div class="room-body">
+          <h3>Classic Room</h3>
+          <p>A comfortable and stylishly appointed room ideal for business or leisure travellers seeking a peaceful retreat.</p>
+          <ul class="room-features">
+            <li>King Bed</li>
+            <li>City View</li>
+            <li>Free Wi-Fi</li>
+            <li>Mini Bar</li>
+          </ul>
+          <div class="room-footer">
+            <div class="room-price">$120 <span>/ night</span></div>
+            <a href="#contact" class="btn btn-primary">Book Now</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Deluxe Room -->
+      <article class="room-card reveal">
+        <div class="room-image deluxe" role="img" aria-label="Deluxe room">
+          🌃
+          <div class="room-badge">Deluxe</div>
+        </div>
+        <div class="room-body">
+          <h3>Deluxe Room</h3>
+          <p>Indulge in our spacious deluxe rooms, featuring premium furnishings, a rain shower, and stunning panoramic views.</p>
+          <ul class="room-features">
+            <li>King Bed</li>
+            <li>Panoramic View</li>
+            <li>Rain Shower</li>
+            <li>Bathrobe &amp; Slippers</li>
+          </ul>
+          <div class="room-footer">
+            <div class="room-price">$200 <span>/ night</span></div>
+            <a href="#contact" class="btn btn-primary">Book Now</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Presidential Suite -->
+      <article class="room-card reveal">
+        <div class="room-image suite" role="img" aria-label="Presidential suite">
+          👑
+          <div class="room-badge">Suite</div>
+        </div>
+        <div class="room-body">
+          <h3>Presidential Suite</h3>
+          <p>The pinnacle of luxury — our presidential suite offers a private living area, butler service, and exclusive amenities.</p>
+          <ul class="room-features">
+            <li>Private Lounge</li>
+            <li>Jacuzzi</li>
+            <li>Butler Service</li>
+            <li>Private Terrace</li>
+          </ul>
+          <div class="room-footer">
+            <div class="room-price">$450 <span>/ night</span></div>
+            <a href="#contact" class="btn btn-primary">Book Now</a>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ======================== AMENITIES ======================== -->
+  <section id="amenities">
+    <span class="section-label">What We Offer</span>
+    <h2 class="section-title reveal">World-Class Amenities</h2>
+    <p class="section-subtitle reveal">Everything you need for a perfect stay — all under one roof.</p>
+
+    <div class="amenities-grid">
+      <div class="amenity-card reveal">
+        <span class="amenity-icon">🍽️</span>
+        <h3>Fine Dining</h3>
+        <p>Savour exquisite cuisine prepared by our award-winning chefs using locally-sourced ingredients.</p>
+      </div>
+      <div class="amenity-card reveal">
+        <span class="amenity-icon">💆</span>
+        <h3>Luxury Spa</h3>
+        <p>Rejuvenate your body and mind with our full-service spa, offering a wide range of treatments.</p>
+      </div>
+      <div class="amenity-card reveal">
+        <span class="amenity-icon">🏊</span>
+        <h3>Infinity Pool</h3>
+        <p>Enjoy breathtaking views from our rooftop infinity pool, open year-round for all guests.</p>
+      </div>
+      <div class="amenity-card reveal">
+        <span class="amenity-icon">🏋️</span>
+        <h3>Fitness Centre</h3>
+        <p>Stay fit with our state-of-the-art gymnasium, open 24 hours with professional trainers on call.</p>
+      </div>
+      <div class="amenity-card reveal">
+        <span class="amenity-icon">🤝</span>
+        <h3>Event Spaces</h3>
+        <p>Host your conferences, weddings, or private events in our elegant, fully-equipped function rooms.</p>
+      </div>
+      <div class="amenity-card reveal">
+        <span class="amenity-icon">🚗</span>
+        <h3>Valet Parking</h3>
+        <p>Complimentary valet parking service available for all guests around the clock.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================== GALLERY ======================== -->
+  <section id="gallery">
+    <div class="gallery-header reveal">
+      <span class="section-label">Gallery</span>
+      <h2 class="section-title">A Glimpse of Josephine's</h2>
+      <p class="section-subtitle">Step inside our world of elegance and experience the beauty of NL Josephine's Hotel.</p>
+    </div>
+    <div class="gallery-grid" role="list" aria-label="Hotel gallery">
+      <div class="gallery-item reveal" role="listitem">
+        <div class="gallery-image g1" role="img" aria-label="Hotel lobby">🏛️</div>
+      </div>
+      <div class="gallery-item reveal" role="listitem">
+        <div class="gallery-image g2" role="img" aria-label="Rooftop pool">🌅</div>
+      </div>
+      <div class="gallery-item reveal" role="listitem">
+        <div class="gallery-image g3" role="img" aria-label="Fine dining restaurant">🍷</div>
+      </div>
+      <div class="gallery-item reveal" role="listitem">
+        <div class="gallery-image g4" role="img" aria-label="Spa and wellness centre">🌿</div>
+      </div>
+      <div class="gallery-item reveal" role="listitem">
+        <div class="gallery-image g5" role="img" aria-label="Presidential suite bedroom">🛌</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================== CONTACT ======================== -->
+  <section id="contact">
+    <span class="section-label">Get in Touch</span>
+    <h2 class="section-title reveal">Book Your Stay</h2>
+    <p class="section-subtitle reveal">We'd love to host you. Reach out to make a reservation or enquire about our services.</p>
+
+    <div class="contact-grid">
+      <div class="contact-info reveal">
+        <h3>Contact Information</h3>
+
+        <div class="contact-item">
+          <div class="contact-icon" aria-hidden="true">📍</div>
+          <div>
+            <h4>Address</h4>
+            <p>1 Josephine Avenue, City Centre<br />Lagos, Nigeria</p>
+          </div>
+        </div>
+
+        <div class="contact-item">
+          <div class="contact-icon" aria-hidden="true">📞</div>
+          <div>
+            <h4>Phone</h4>
+            <p>+234 800 000 0000</p>
+          </div>
+        </div>
+
+        <div class="contact-item">
+          <div class="contact-icon" aria-hidden="true">✉️</div>
+          <div>
+            <h4>Email</h4>
+            <p>reservations@nljosephineshotel.com</p>
+          </div>
+        </div>
+
+        <div class="contact-item">
+          <div class="contact-icon" aria-hidden="true">🕐</div>
+          <div>
+            <h4>Check-in / Check-out</h4>
+            <p>Check-in: 2:00 PM<br />Check-out: 12:00 PM</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="reveal">
+        <form class="contact-form" id="contact-form" aria-label="Reservation enquiry form">
+          <h3>Make a Reservation</h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="first-name">First Name</label>
+              <input type="text" id="first-name" name="first-name" placeholder="John" required />
+            </div>
+            <div class="form-group">
+              <label for="last-name">Last Name</label>
+              <input type="text" id="last-name" name="last-name" placeholder="Doe" required />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email" placeholder="john@example.com" required />
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="check-in">Check-in Date</label>
+              <input type="date" id="check-in" name="check-in" required />
+            </div>
+            <div class="form-group">
+              <label for="check-out">Check-out Date</label>
+              <input type="date" id="check-out" name="check-out" required />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="room-type">Room Type</label>
+            <select id="room-type" name="room-type">
+              <option value="">Select a room type…</option>
+              <option value="classic">Classic Room — $120/night</option>
+              <option value="deluxe">Deluxe Room — $200/night</option>
+              <option value="suite">Presidential Suite — $450/night</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="message">Special Requests</label>
+            <textarea id="message" name="message" placeholder="Any special requirements or requests…"></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary btn-full">Send Enquiry</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================== FOOTER ======================== -->
+  <footer role="contentinfo">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#hero" class="nav-logo" style="font-size:1.3rem;">NL <span>Josephine's</span></a>
+        <p>Experience the finest in luxury hospitality. NL Josephine's Hotel is dedicated to creating unforgettable memories for every guest.</p>
+      </div>
+      <div>
+        <h4 class="footer-heading">Quick Links</h4>
+        <ul class="footer-links">
+          <li><a href="#about">About Us</a></li>
+          <li><a href="#rooms">Our Rooms</a></li>
+          <li><a href="#amenities">Amenities</a></li>
+          <li><a href="#gallery">Gallery</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="footer-heading">Rooms</h4>
+        <ul class="footer-links">
+          <li><a href="#rooms">Classic Room</a></li>
+          <li><a href="#rooms">Deluxe Room</a></li>
+          <li><a href="#rooms">Presidential Suite</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="footer-heading">Services</h4>
+        <ul class="footer-links">
+          <li><a href="#amenities">Fine Dining</a></li>
+          <li><a href="#amenities">Luxury Spa</a></li>
+          <li><a href="#amenities">Event Spaces</a></li>
+          <li><a href="#amenities">Fitness Centre</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; <span id="year">2026</span> NL Josephine's Hotel. All rights reserved.</p>
+      <div class="footer-social" aria-label="Social media links">
+        <a href="#" aria-label="Facebook">📘</a>
+        <a href="#" aria-label="Instagram">📸</a>
+        <a href="#" aria-label="Twitter">🐦</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Toast notification -->
+  <div class="toast" id="toast" role="alert" aria-live="polite"></div>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+  <script src="script.js"></script>
+</body>
+</html>
