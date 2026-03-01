@@ -25,7 +25,7 @@ export default function SuitesSection({ apartments }: { apartments: Apartment[] 
                         className="w-24 h-1 bg-[#C9A05B] mx-auto mb-6 origin-left"
                     />
                     <p className="text-gray-600 font-light">
-                        Each suite at Josephine Haven is individually curated to offer exceptional comfort,
+                        Each suite at NL Josephine&apos;s Hotel is individually curated to offer exceptional comfort,
                         blending modern aesthetics with thoughtful amenities.
                     </p>
                 </div>

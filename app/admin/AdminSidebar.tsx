@@ -67,7 +67,7 @@ export default function AdminSidebar() {
                 <div className="p-6 border-b border-white/10">
                     <div className="flex items-center gap-2">
                         <Building2 size={20} className="text-[#C9A05B]" />
-                        <h2 className="text-lg font-serif font-bold text-[#C9A05B]">Josephine Haven</h2>
+                        <h2 className="text-lg font-serif font-bold text-[#C9A05B]">NL Josephine&apos;s Hotel</h2>
                     </div>
                     <p className="text-xs text-white/50 mt-1 ml-7">Admin Panel</p>
                 </div>

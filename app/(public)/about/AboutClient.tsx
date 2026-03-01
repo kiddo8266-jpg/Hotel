@@ -34,7 +34,7 @@ export default function AboutClient({ initialTeam, settings }: { initialTeam: Te
                 <div className="absolute inset-0 z-0">
                     <img
                         src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&q=80"
-                        alt="Josephine Haven Interior"
+                        alt="NL Josephine's Hotel Interior"
                         className="w-full h-full object-cover object-center scale-105 transform origin-center"
                     />
                     <div className="absolute inset-0 bg-gradient-to-b from-[#0F2C23]/80 via-[#0F2C23]/60 to-[#F5F0E6]" />
@@ -63,7 +63,7 @@ export default function AboutClient({ initialTeam, settings }: { initialTeam: Te
                         transition={{ duration: 1, delay: 0.4 }}
                         className="text-gray-200 text-lg md:text-xl font-light leading-relaxed max-w-2xl mx-auto"
                     >
-                        Discover the story, vision, and uncompromising dedication behind Josephine Haven's premier luxury living experience.
+                        Discover the story, vision, and uncompromising dedication behind NL Josephine's Hotel's premier luxury living experience.
                     </motion.p>
                 </div>
             </section>

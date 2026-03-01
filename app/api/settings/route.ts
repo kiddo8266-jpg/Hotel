@@ -39,9 +39,9 @@ export async function POST(request: Request) {
                 aboutText: data.aboutText || '',
                 contactPhone: data.contactPhone || '',
                 contactEmail: data.contactEmail || '',
-                aboutHero: data.aboutHero || 'More Than a Residence.\\nA Sanctuary.',
+                aboutHero: data.aboutHero || "More Than a Residence.\\nNL Josephine's Hotel.",
                 aboutVision: data.aboutVision || 'Born from a desire to blend uncompromising tranquility with modern luxury.',
-                aboutStory: data.aboutStory || 'Josephine Haven was designed as a retreat from the ordinary. We believe that a home is not just a place, but a feeling—a serene sanctuary where life\'s best moments unfold.\n\nEvery detail, from the grand architecture to the finest interior finishes, has been meticulously curated to foster an environment of peace, security, and absolute comfort for our residents.',
+                aboutStory: data.aboutStory || "NL Josephine's Hotel was designed as a retreat from the ordinary. We believe that a home is not just a place, but a feeling—a serene sanctuary where life's best moments unfold.\n\nEvery detail, from the grand architecture to the finest interior finishes, has been meticulously curated to foster an environment of peace, security, and absolute comfort for our residents.",
             }
         });
 

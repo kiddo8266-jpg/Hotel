@@ -62,9 +62,9 @@ model SiteSetting {
   aboutText        String
   contactPhone     String
   contactEmail     String
-  aboutHero        String @default("More Than a Residence.\\nA Sanctuary.")
+  aboutHero        String @default("More Than a Residence.\\nNL Josephine's Hotel.")
   aboutVision      String @default("Born from a desire to blend uncompromising tranquility with modern luxury.")
-  aboutStory       String @default("Josephine Haven was designed as a retreat from the ordinary. We believe that a home is not just a place, but a feeling—a serene sanctuary where life's best moments unfold.\\n\\nEvery detail, from the grand architecture to the finest interior finishes, has been meticulously curated to foster an environment of peace, security, and absolute comfort for our residents.")
+  aboutStory       String @default("NL Josephine's Hotel was designed as a retreat from the ordinary. We believe that a home is not just a place, but a feeling—a serene sanctuary where life's best moments unfold.\\n\\nEvery detail, from the grand architecture to the finest interior finishes, has been meticulously curated to foster an environment of peace, security, and absolute comfort for our residents.")
 }
 
 model Team {
@@ -86,5 +86,16 @@ model HeroContent {
   mediaType String   // "image" or "video"
   order     Int      @default(0)
   isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+}
+
+model Enquiry {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  phone     String?
+  subject   String?
+  message   String
+  status    String   @default("new") // new, read, replied, archived
   createdAt DateTime @default(now())
 }

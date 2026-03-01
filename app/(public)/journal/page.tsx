@@ -30,8 +30,8 @@ async function getPosts() {
 }
 
 export const metadata = {
-    title: 'Journal | Josephine Haven',
-    description: 'Latest news, events, and stories from Josephine Haven.',
+    title: "Journal | NL Josephine's Hotel",
+    description: "Latest news, events, and stories from NL Josephine's Hotel.",
 };
 
 export default async function JournalPage() {

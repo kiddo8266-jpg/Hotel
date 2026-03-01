@@ -9,7 +9,7 @@ export default function Footer() {
                     <span className="inline-block px-3 py-1 rounded-full border border-white/10 bg-white/5 text-white/60 text-[10px] font-bold tracking-[0.3em] uppercase mb-2 backdrop-blur-md">
                         A Sanctuary
                     </span>
-                    <h3 className="text-3xl font-light text-white font-serif italic mb-4">Josephine Haven</h3>
+                    <h3 className="text-3xl font-light text-white font-serif italic mb-4">NL Josephine&apos;s Hotel</h3>
                     <p className="text-sm font-light leading-relaxed text-gray-300 max-w-sm">
                         Experience quiet luxury and uncompromising comfort. Your serene home away from home in the heart of Seguku.
                     </p>
@@ -33,7 +33,7 @@ export default function Footer() {
                             <span className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-[#C9A05B] transition-colors duration-300">
                                 <Phone size={14} className="text-[#C9A05B] group-hover:text-[#0F2C23] transition-colors" />
                             </span>
-                            <span className="text-sm font-light text-gray-300">+256 772 560 696</span>
+                            <span className="text-sm font-light text-gray-300">0772560696</span>
                         </li>
                         <li className="flex items-center gap-4 group">
                             <span className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-[#C9A05B] transition-colors duration-300">
@@ -77,7 +77,7 @@ export default function Footer() {
             </div>
 
             <div className="container mx-auto px-4 mt-12 pt-8 border-t border-white/10 text-center text-sm">
-                <p>&copy; {new Date().getFullYear()} NL Josephine's Apartments. All rights reserved.</p>
+                <p>&copy; {new Date().getFullYear()} NL Josephine&apos;s Hotel. All rights reserved.</p>
             </div>
         </footer>
     );

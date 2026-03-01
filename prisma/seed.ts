@@ -9,12 +9,12 @@ async function main() {
         update: {},
         create: {
             id: 'main',
-            heroTitle: 'Welcome to Josephine Haven',
+            heroTitle: "Welcome to NL Josephine's Hotel",
             heroSubtitle: 'Experience luxury and comfort in the heart of the city.',
             heroImage: 'https://images.unsplash.com/photo-1542314831-c6a4d14d8343?q=80&w=2600&auto=format&fit=crop',
-            aboutText: 'Josephine Haven offers an unparalleled stay with top-tier amenities, exquisite dining, and breathtaking views. Whether you are here for business or leisure, our dedicated team ensures your experience is memorable and relaxing.',
-            contactPhone: '+1 (555) 123-4567',
-            contactEmail: 'contact@josephinehaven.com',
+            aboutText: "NL Josephine's Hotel offers an unparalleled stay with top-tier amenities, exquisite dining, and breathtaking views. Whether you are here for business or leisure, our dedicated team ensures your experience is memorable and relaxing.",
+            contactPhone: '0772560696',
+            contactEmail: 'info@josephinehaven.com',
         },
     });
 

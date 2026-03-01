@@ -61,7 +61,7 @@ export default function Navbar() {
                     </div>
                     <div>
                         <span className={`text-2xl font-light tracking-tight transition-colors duration-500 ${isActuallyScrolled ? 'text-[#0F2C23]' : 'text-white'}`}>
-                            Josephine Haven
+                            NL Josephine&apos;s Hotel
                         </span>
                     </div>
                 </Link>

@@ -8,7 +8,7 @@ const contactDetails = [
     {
         icon: Phone,
         label: 'Call Us',
-        value: '+256 772 560 696',
+        value: '0772560696',
         sub: 'Available 24 hours',
     },
     {
@@ -68,9 +68,8 @@ export default function ContactPage() {
                         transition={{ duration: 1, ease: 'easeOut' }}
                         className="text-6xl md:text-7xl lg:text-8xl font-light text-white leading-tight mb-6"
                     >
-                        We&apos;d Love to{' '}
-                        <span className="italic font-serif text-[#C9A05B]">Hear</span>{' '}
-                        From You
+                        Welcome To{' '}
+                        <span className="italic font-serif text-[#C9A05B]">NL Josephine&apos;s Hotel</span>
                     </motion.h1>
                     <motion.p
                         initial={{ opacity: 0, y: 20 }}
@@ -244,7 +243,7 @@ export default function ContactPage() {
                                 allowFullScreen
                                 loading="lazy"
                                 referrerPolicy="no-referrer-when-downgrade"
-                                title="Josephine Haven Location"
+                                title="NL Josephine's Hotel Location"
                             />
                         </div>
 
@@ -272,7 +271,7 @@ export default function ContactPage() {
                             <p className="text-sm font-light mb-5 opacity-80">Our team is always delighted to assist over a direct call.</p>
                             <a href="tel:+256772560696" className="inline-flex items-center gap-2 bg-[#0F2C23] text-white px-6 py-3 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-white hover:text-[#0F2C23] transition-all duration-500">
                                 <Phone size={14} />
-                                +256 772 560 696
+                                0772560696
                             </a>
                         </div>
                     </motion.div>
