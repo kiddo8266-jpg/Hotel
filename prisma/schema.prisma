@@ -1,0 +1,64 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  name      String
+  role      String   @default("editor")
+  createdAt DateTime @default(now())
+  posts     BlogPost[]
+}
+
+model Apartment {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  price       Float
+  image       String
+  type        String
+  bedrooms    Int
+  bathrooms   Int
+  size        Int
+  features    String   // comma-separated for simplicity
+  createdAt   DateTime @default(now())
+}
+
+model BlogPost {
+  id          String   @id @default(cuid())
+  title       String
+  slug        String   @unique
+  content     String
+  image       String
+  category    String
+  published   Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  authorId    String
+  author      User     @relation(fields: [authorId], references: [id])
+}
+
+model Media {
+  id        String   @id @default(cuid())
+  url       String
+  type      String   // "image" or "video"
+  alt       String
+  section   String
+  createdAt DateTime @default(now())
+}
+
+model SiteSetting {
+  id            String @id @default("main")
+  heroTitle     String
+  heroSubtitle  String
+  heroImage     String
+  aboutText     String
+  contactPhone  String
+  contactEmail  String
+}

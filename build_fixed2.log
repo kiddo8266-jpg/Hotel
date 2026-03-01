@@ -1,0 +1,46 @@
+
+> josephine-haven@0.1.0 build
+> next build
+
+Γû▓ Next.js 16.1.6 (Turbopack)
+- Environments: .env.local
+
+ΓÜá The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+  Creating an optimized production build ...
+Γ£ô Compiled successfully in 8.0s
+  Running TypeScript ...
+  Collecting page data using 11 workers ...
+  Generating static pages using 11 workers (0/18) ...
+  Generating static pages using 11 workers (4/18) 
+  Generating static pages using 11 workers (8/18) 
+  Generating static pages using 11 workers (13/18) 
+prisma:query SELECT `main`.`SiteSetting`.`id`, `main`.`SiteSetting`.`heroTitle`, `main`.`SiteSetting`.`heroSubtitle`, `main`.`SiteSetting`.`heroImage`, `main`.`SiteSetting`.`aboutText`, `main`.`SiteSetting`.`contactPhone`, `main`.`SiteSetting`.`contactEmail` FROM `main`.`SiteSetting` WHERE (`main`.`SiteSetting`.`id` = ? AND 1=1) LIMIT ? OFFSET ?
+prisma:query SELECT `main`.`Apartment`.`id`, `main`.`Apartment`.`title`, `main`.`Apartment`.`description`, `main`.`Apartment`.`price`, `main`.`Apartment`.`image`, `main`.`Apartment`.`type`, `main`.`Apartment`.`bedrooms`, `main`.`Apartment`.`bathrooms`, `main`.`Apartment`.`size`, `main`.`Apartment`.`features`, `main`.`Apartment`.`createdAt` FROM `main`.`Apartment` WHERE 1=1 ORDER BY `main`.`Apartment`.`createdAt` DESC LIMIT ? OFFSET ?
+Γ£ô Generating static pages using 11 workers (18/18) in 1064.0ms
+  Finalizing page optimization ...
+
+Route (app)
+Γöî Γùï /
+Γö£ Γùï /_not-found
+Γö£ ╞Æ /admin
+Γö£ ╞Æ /admin/apartments
+Γö£ ╞Æ /admin/login
+Γö£ ╞Æ /admin/settings
+Γö£ Γùï /apartments
+Γö£ ╞Æ /api/admin/apartments
+Γö£ ╞Æ /api/admin/apartments/[id]
+Γö£ ╞Æ /api/admin/login
+Γö£ ╞Æ /api/admin/stats
+Γö£ ╞Æ /api/apartments
+Γö£ ╞Æ /api/auth/login
+Γö£ ╞Æ /api/auth/logout
+Γö£ ╞Æ /api/settings
+Γö£ ╞Æ /api/upload
+Γöö Γùï /login
+
+
+╞Æ Proxy (Middleware)
+
+Γùï  (Static)   prerendered as static content
+╞Æ  (Dynamic)  server-rendered on demand
+
