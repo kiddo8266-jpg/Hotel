@@ -104,6 +104,10 @@ export default function AdminGallery() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!form.url) {
+      toast.error('Please upload a file or enter a URL first');
+      return;
+    }
     try {
       const method = editing ? 'PUT' : 'POST';
       const url = editing ? `/api/admin/gallery/${editing.id}` : '/api/admin/gallery';
