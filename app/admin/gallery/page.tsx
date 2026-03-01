@@ -145,14 +145,14 @@ export default function AdminGallery() {
       });
       if (!res.ok) {
         const err = await res.json();
-        throw new Error(err.error || 'Operation failed');
+        throw new Error(err.error || (editing ? 'Failed to update media item' : 'Failed to create media item'));
       }
       toast.success(editing ? 'Item updated' : 'Item added');
       setOpen(false);
       resetForm();
       fetchItems();
     } catch (err: unknown) {
-      toast.error(err instanceof Error ? err.message : 'Operation failed');
+      toast.error(err instanceof Error ? err.message : (editing ? 'Failed to update media item' : 'Failed to create media item'));
     }
   };
 

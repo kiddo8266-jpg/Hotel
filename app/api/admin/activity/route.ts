@@ -8,7 +8,7 @@ export async function GET() {
       prisma.apartment.findMany({
         orderBy: { createdAt: 'desc' },
         take: 5,
-        select: { id: true, name: true, createdAt: true },
+        select: { id: true, title: true, createdAt: true },
       }),
       prisma.blogPost.findMany({
         orderBy: { createdAt: 'desc' },
@@ -32,7 +32,7 @@ export async function GET() {
     const activity: ActivityItem[] = [
       ...apartments.map((a) => ({
         id: a.id,
-        label: a.name,
+        label: a.title,
         type: 'apartment' as const,
         createdAt: a.createdAt.toISOString(),
       })),
