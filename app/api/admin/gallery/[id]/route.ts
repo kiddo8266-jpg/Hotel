@@ -17,6 +17,9 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
   try {
     const { id } = await params;
     const body = await req.json();
+    if (!body.url?.trim() || !body.type?.trim()) {
+      return NextResponse.json({ error: 'Missing required fields: url and type are required' }, { status: 400 });
+    }
     const item = await prisma.media.update({
       where: { id },
       data: {
@@ -30,7 +33,7 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
     return NextResponse.json(item);
   } catch (error) {
     console.error(error);
-    return NextResponse.json({ error: 'Failed to update gallery item' }, { status: 500 });
+    return NextResponse.json({ error: `Failed to update gallery item: ${error instanceof Error ? error.message : 'Unknown error'}` }, { status: 500 });
   }
 }
 
