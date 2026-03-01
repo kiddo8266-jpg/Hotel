@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { put } from '@vercel/blob';
+import { writeFile, mkdir } from 'fs/promises';
+import { join } from 'path';
 import { randomUUID } from 'crypto';
-
-export const runtime = 'nodejs';
 
 const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'video/mp4', 'video/webm'];
 
@@ -30,13 +29,18 @@ export async function POST(req: NextRequest) {
             );
         }
 
-        const ext = file.name.split('.').pop()?.replace(/[^a-zA-Z0-9]/g, '') || 'bin';
-        const safeFilename = `${randomUUID()}.${ext}`;
-        const blob = await put(safeFilename, file, {
-            access: 'public',
-        });
+        const bytes = await file.arrayBuffer();
+        const buffer = Buffer.from(bytes);
 
-        return NextResponse.json({ url: blob.url });
+        const ext = file.name.split('.').pop()?.replace(/[^a-zA-Z0-9]/g, '') || 'bin';
+        const filename = `${randomUUID()}.${ext}`;
+
+        const uploadDir = join(process.cwd(), 'public', 'uploads');
+        await mkdir(uploadDir, { recursive: true });
+
+        await writeFile(join(uploadDir, filename), buffer);
+
+        return NextResponse.json({ url: `/uploads/${filename}` });
     } catch (error) {
         console.error('Upload Error:', error);
         return NextResponse.json(
