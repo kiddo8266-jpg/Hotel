@@ -16,6 +16,10 @@
   h6 {
     font-family: var(--font-playfair), serif;
   }
+
+  a {
+    text-decoration: none;
+  }
 }
 
 @layer utilities {
