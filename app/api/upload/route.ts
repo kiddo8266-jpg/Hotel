@@ -1,7 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { writeFile } from 'fs/promises';
-import { join } from 'path';
+import { put } from '@vercel/blob';
 import { randomUUID } from 'crypto';
+
+export const runtime = 'nodejs';
+
+const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'video/mp4', 'video/webm'];
 
 export async function POST(req: NextRequest) {
     try {
@@ -12,27 +15,33 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({ error: 'No file uploaded' }, { status: 400 });
         }
 
-        const bytes = await file.arrayBuffer();
-        const buffer = Buffer.from(bytes);
-
-        // Save to public/uploads directory securely
-        const ext = file.name.split('.').pop() || 'tmp';
-        const filename = `${randomUUID()}.${ext}`;
-        const uploadDir = join(process.cwd(), 'public', 'uploads');
-
-        // Ensure the path exists by writing straight to it (node v20 allows recursive write operations or we assume public/uploads is created)
-        const filePath = join(uploadDir, filename);
-
-        const fs = require('fs');
-        if (!fs.existsSync(uploadDir)) {
-            fs.mkdirSync(uploadDir, { recursive: true });
+        if (!ALLOWED_TYPES.includes(file.type)) {
+            return NextResponse.json(
+                { error: `Unsupported file type: ${file.type}. Allowed types: JPEG, PNG, GIF, WebP, MP4, WebM` },
+                { status: 400 }
+            );
         }
 
-        await writeFile(filePath, buffer);
+        const maxSize = file.type.startsWith('video/') ? 50 * 1024 * 1024 : 10 * 1024 * 1024;
+        if (file.size > maxSize) {
+            return NextResponse.json(
+                { error: `File too large. Max size: ${file.type.startsWith('video/') ? '50MB' : '10MB'}` },
+                { status: 400 }
+            );
+        }
 
-        return NextResponse.json({ url: `/uploads/${filename}` });
+        const ext = file.name.split('.').pop()?.replace(/[^a-zA-Z0-9]/g, '') || 'bin';
+        const safeFilename = `${randomUUID()}.${ext}`;
+        const blob = await put(safeFilename, file, {
+            access: 'public',
+        });
+
+        return NextResponse.json({ url: blob.url });
     } catch (error) {
         console.error('Upload Error:', error);
-        return NextResponse.json({ error: 'Failed to upload file' }, { status: 500 });
+        return NextResponse.json(
+            { error: `Failed to upload file: ${error instanceof Error ? error.message : 'Unknown error'}` },
+            { status: 500 }
+        );
     }
 }
