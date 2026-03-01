@@ -66,21 +66,13 @@ export default function Navbar() {
                             <Link
                                 key={link.href}
                                 href={link.href}
-                                className={`group relative py-1 transition-colors duration-300 ${
+                                className={`py-1 transition-colors duration-300 ${
                                     scrolled
                                         ? isActive ? 'text-[#C9A05B]' : 'text-[#0F2C23] hover:text-[#C9A05B]'
                                         : isActive ? 'text-[#C9A05B]' : 'text-white hover:text-[#C9A05B]'
                                 }`}
                             >
                                 {link.label}
-                                {isActive ? (
-                                    <motion.span
-                                        layoutId="navbar-underline"
-                                        className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#C9A05B]"
-                                    />
-                                ) : (
-                                    <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#C9A05B] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
-                                )}
                             </Link>
                         );
                     })}
