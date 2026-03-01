@@ -50,6 +50,7 @@ model Media {
   type      String   // "image" or "video"
   alt       String
   section   String
+  area      String   @default("")  // hotel area the media depicts
   createdAt DateTime @default(now())
 }
 

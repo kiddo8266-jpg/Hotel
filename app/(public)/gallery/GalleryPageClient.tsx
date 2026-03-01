@@ -9,6 +9,7 @@ type MediaItem = {
     type: string;
     alt: string;
     section: string;
+    area: string;
     // createdAt is serialized to ISO string by Next.js when passing from server to client component
     createdAt: string;
 };
@@ -49,6 +50,11 @@ function GalleryCard({ item, index }: { item: MediaItem; index: number }) {
                 {/* The Foldable Detail Section */}
                 <div className="grid grid-rows-[0fr] opacity-0 group-hover:grid-rows-[1fr] group-hover:opacity-100 transition-all duration-500 ease-in-out">
                     <div className="overflow-hidden">
+                        {item.area && (
+                            <span className="inline-block bg-[#C9A05B]/20 text-[#C9A05B] text-xs font-medium px-2 py-0.5 rounded mb-2">
+                                {item.area}
+                            </span>
+                        )}
                         {item.alt && (
                             <p className="text-gray-200 text-sm font-light mb-3 line-clamp-2">{item.alt}</p>
                         )}
