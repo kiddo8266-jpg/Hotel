@@ -22,8 +22,8 @@ export default function ApartmentsPage() {
                             <span className="text-gray-500">Apartment Image</span>
                         </div>
                         <div className="p-6">
-                            <h3 className="text-2xl font-medium mb-3">2-Bedroom Deluxe</h3>
-                            <p className="text-gray-600 mb-6">
+                            <h3 className="text-2xl font-medium text-[#0F2C23] mb-3">2-Bedroom Deluxe</h3>
+                            <p className="text-gray-700 mb-6">
                                 Spacious living area, modern kitchen, private balcony with garden view.
                             </p>
                             <div className="flex justify-between items-center">
