@@ -1,3 +1,4 @@
+
 // app/admin/apartments/page.tsx
 'use client';
 

@@ -28,11 +28,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <Navbar />
-          <main className="min-h-screen flex flex-col">
-            {children}
-          </main>
-          <Footer />
+          {children}
           <Toaster position="top-center" richColors />
         </ThemeProvider>
       </body>

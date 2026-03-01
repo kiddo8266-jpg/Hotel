@@ -8,6 +8,11 @@ export default async function Home() {
         where: { id: 'main' },
     });
 
+    const heroItems = await prisma.heroContent.findMany({
+        where: { isActive: true },
+        orderBy: { order: 'asc' },
+    });
+
     const apartments = await prisma.apartment.findMany({
         orderBy: { createdAt: 'desc' },
     });
@@ -23,9 +28,12 @@ export default async function Home() {
     return (
         <main className="min-h-screen bg-white">
             <HeroSection
-                title={settings.heroTitle}
-                subtitle={settings.heroSubtitle}
-                image={settings.heroImage}
+                items={heroItems}
+                fallback={{
+                    title: settings.heroTitle,
+                    subtitle: settings.heroSubtitle,
+                    image: settings.heroImage
+                }}
             />
 
             <section className="py-24 bg-white relative overflow-hidden">
