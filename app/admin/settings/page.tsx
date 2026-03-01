@@ -270,13 +270,47 @@ export default function AdminSettingsPage() {
                         <CardTitle>Global Site Settings</CardTitle>
                     </CardHeader>
                     <CardContent className="space-y-6">
+                        <div className="space-y-4">
+                            <h3 className="font-semibold text-lg text-[#0F2C23] border-b pb-2">About Us Page Content</h3>
+                            <div className="space-y-2">
+                                <Label>Hero Headline</Label>
+                                <Input
+                                    name="aboutHero"
+                                    value={settings.aboutHero || ''}
+                                    onChange={handleChange}
+                                    placeholder="e.g. More Than a Residence.\nA Sanctuary."
+                                />
+                                <p className="text-xs text-gray-400">Use \n for line breaks</p>
+                            </div>
+                            <div className="space-y-2">
+                                <Label>Vision Headline</Label>
+                                <Input
+                                    name="aboutVision"
+                                    value={settings.aboutVision || ''}
+                                    onChange={handleChange}
+                                    placeholder="e.g. Born from a desire to blend uncompromising tranquility..."
+                                />
+                            </div>
+                            <div className="space-y-2">
+                                <Label>Vision Story</Label>
+                                <Textarea
+                                    name="aboutStory"
+                                    value={settings.aboutStory || ''}
+                                    onChange={handleChange}
+                                    className="min-h-[150px]"
+                                    placeholder="Enter the main body text for the About Us story section."
+                                />
+                            </div>
+                        </div>
+
                         <div className="space-y-2">
-                            <Label>About Us Text</Label>
+                            <h3 className="font-semibold text-lg text-[#0F2C23] border-b pb-2 mt-6">Homepage / General</h3>
+                            <Label>Short About Text (Homepage)</Label>
                             <Textarea
                                 name="aboutText"
                                 value={settings.aboutText}
                                 onChange={handleChange}
-                                className="min-h-[150px]"
+                                className="min-h-[100px]"
                             />
                         </div>
 

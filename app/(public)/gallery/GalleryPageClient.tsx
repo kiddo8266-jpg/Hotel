@@ -22,8 +22,6 @@ function GalleryCard({ item, index, onClick }: { item: MediaItem; index: number;
         day: 'numeric',
     });
 
-    const isTall = index % 3 === 2;
-
     return (
         <motion.div
             initial={{ opacity: 0, y: 40 }}
@@ -31,7 +29,7 @@ function GalleryCard({ item, index, onClick }: { item: MediaItem; index: number;
             viewport={{ once: true, margin: '-100px' }}
             transition={{ duration: 0.8, delay: index * 0.1 }}
             onClick={onClick}
-            className={`group relative overflow-hidden rounded-xl shadow-xl bg-[#0F2C23] flex flex-col cursor-pointer ${isTall ? 'row-span-2 h-96' : 'h-72'}`}
+            className="group relative overflow-hidden rounded-xl shadow-xl bg-[#0F2C23] flex flex-col cursor-pointer aspect-square w-full"
         >
             {item.type === 'video' ? (
                 <video
@@ -48,37 +46,42 @@ function GalleryCard({ item, index, onClick }: { item: MediaItem; index: number;
                 />
             )}
 
-            {/* Static gradient always visible at bottom */}
-            <div className="absolute inset-0 bg-gradient-to-t from-[#0F2C23]/60 via-transparent to-transparent" />
+            {/* Refined gradient always visible at bottom for text readability */}
+            <div className="absolute inset-0 bg-gradient-to-t from-[#0F2C23]/80 via-[#0F2C23]/20 to-transparent opacity-60 group-hover:opacity-100 transition-opacity duration-700" />
 
-            {/* Directional sweep overlay on hover */}
+            {/* Directional sweep overlay on hover (elegant fade up) */}
             <div
-                className="absolute inset-0 flex flex-col justify-end p-5 translate-y-full group-hover:translate-y-0 backdrop-blur-sm transition-transform duration-500 ease-in-out"
-                style={{ backgroundColor: 'rgba(15, 44, 35, 0.85)' }}
+                className="absolute inset-0 flex flex-col justify-end p-6 translate-y-8 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 ease-out"
             >
+                <div className="bg-[#0F2C23]/40 absolute inset-0 backdrop-blur-[2px] -z-10" />
+
                 {item.area && (
-                    <span className="inline-block bg-[#C9A05B]/20 text-[#C9A05B] text-xs font-medium px-2 py-0.5 rounded mb-2 w-fit">
+                    <span className="inline-block bg-[#C9A05B] text-[#0F2C23] text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full mb-3 w-fit shadow-md">
                         {item.area}
                     </span>
                 )}
                 {item.alt && (
-                    <p className="text-gray-200 text-sm font-light mb-3 line-clamp-2">{item.alt}</p>
+                    <p className="text-white text-base font-medium mb-4 line-clamp-2 leading-relaxed drop-shadow-md">{item.alt}</p>
                 )}
-                <div className="flex gap-4 text-xs text-gray-300 mb-3">
-                    <span className="flex items-center gap-1">
-                        {item.type === 'video' ? (
-                            <><VideoIcon size={12} className="text-[#C9A05B]" /> Video</>
-                        ) : (
-                            <><ImageIcon size={12} className="text-[#C9A05B]" /> Image</>
-                        )}
-                    </span>
-                    <span className="flex items-center gap-1">
-                        <Calendar size={12} className="text-[#C9A05B]" /> {uploadDate}
+
+                <div className="flex items-center justify-between border-t border-white/20 pt-4 mt-auto">
+                    <div className="flex gap-4 text-[11px] text-gray-300 font-light uppercase tracking-wider">
+                        <span className="flex items-center gap-1.5">
+                            {item.type === 'video' ? (
+                                <><VideoIcon size={14} className="text-[#C9A05B]" /> Video</>
+                            ) : (
+                                <><ImageIcon size={14} className="text-[#C9A05B]" /> Image</>
+                            )}
+                        </span>
+                        <span className="flex items-center gap-1.5 hidden sm:flex">
+                            <Calendar size={14} className="text-[#C9A05B]" /> {uploadDate}
+                        </span>
+                    </div>
+
+                    <span className="flex items-center justify-center w-8 h-8 rounded-full bg-white/10 hover:bg-[#C9A05B] text-white transition-colors duration-300 backdrop-blur-md">
+                        <Maximize2 size={14} />
                     </span>
                 </div>
-                <span className="flex items-center gap-1 text-xs text-[#C9A05B] font-medium">
-                    <Maximize2 size={12} /> View
-                </span>
             </div>
         </motion.div>
     );
@@ -164,24 +167,27 @@ export default function GalleryPageClient({ items }: { items: MediaItem[] }) {
     const filtered = activeFilter === 'All' ? items : items.filter((i) => i.area === activeFilter);
 
     return (
-        <div className="min-h-screen pt-32 pb-20 bg-[#F5F0E6] px-6">
+        <div className="min-h-screen pt-32 pb-24 bg-[#F5F0E6] px-6">
             <div className="max-w-7xl mx-auto">
-                <h1 className="text-5xl md:text-6xl font-light text-[#0F2C23] text-center mb-4">
-                    Gallery
-                </h1>
-                <div className="w-24 h-1 bg-[#C9A05B] mx-auto mb-8" />
+                <header className="text-center max-w-4xl mx-auto mb-16 space-y-6">
+                    <span className="inline-block px-4 py-1.5 rounded-full border border-[#0F2C23]/20 bg-[#C9A05B]/5 text-[#C9A05B] text-xs font-bold tracking-[0.3em] uppercase mb-2 backdrop-blur-md">
+                        Visual Journey
+                    </span>
+                    <h1 className="text-5xl md:text-7xl font-light text-[#0F2C23] leading-tight mb-4">
+                        The <span className="italic font-serif text-[#C9A05B]">Gallery</span>
+                    </h1>
+                </header>
 
                 {/* Category Filter Tabs */}
-                <div className="flex overflow-x-auto gap-2 pb-2 mb-10 scrollbar-hide justify-center">
+                <div className="flex overflow-x-auto gap-3 pb-4 mb-16 scrollbar-hide justify-center">
                     {areas.map((area) => (
                         <button
                             key={area}
                             onClick={() => setActiveFilter(area)}
-                            className={`whitespace-nowrap px-4 py-1.5 text-sm font-medium rounded-full border transition-colors duration-200 ${
-                                activeFilter === area
-                                    ? 'border-[#C9A05B] bg-[#C9A05B] text-white'
-                                    : 'border-gray-300 text-gray-500 hover:border-[#C9A05B]/50 hover:text-[#C9A05B]'
-                            }`}
+                            className={`whitespace-nowrap px-6 py-2.5 text-xs font-bold uppercase tracking-widest rounded-full border transition-all duration-300 ${activeFilter === area
+                                ? 'border-[#0F2C23] bg-[#0F2C23] text-white shadow-md'
+                                : 'border-[#0F2C23]/20 text-[#0F2C23] hover:border-[#C9A05B] hover:text-[#C9A05B] bg-white/50 backdrop-blur-sm'
+                                }`}
                         >
                             {area}
                         </button>
@@ -197,7 +203,6 @@ export default function GalleryPageClient({ items }: { items: MediaItem[] }) {
                 ) : (
                     <div
                         className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
-                        style={{ gridAutoRows: '18rem' }}
                     >
                         {filtered.map((item, index) => (
                             <GalleryCard

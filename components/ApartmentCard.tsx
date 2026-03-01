@@ -39,7 +39,7 @@ export default function ApartmentCard({ apt, index }: { apt: Apartment; index: n
                 </div>
 
                 {/* Price Tag */}
-                <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-md px-4 py-2 rounded-full shadow-lg border border-white/50">
+                <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-md px-4 py-2 rounded-full shadow-lg border border-white/50 z-20">
                     <p className="text-[#0F2C23] font-semibold text-sm">
                         UGX {apt.price.toLocaleString()} <span className="text-[10px] opacity-70 uppercase tracking-tighter">/ month</span>
                     </p>
@@ -52,10 +52,10 @@ export default function ApartmentCard({ apt, index }: { apt: Apartment; index: n
             </div>
 
             {/* Content Section */}
-            <div className="relative flex-1 p-8 flex flex-col justify-between bg-white group-hover:bg-[#0F2C23] transition-colors duration-500 group-hover:text-white">
+            <div className="relative flex-1 p-8 flex flex-col justify-between bg-white group-hover:bg-[#0F2C23] transition-colors duration-500 group-hover:text-white z-20">
                 <div className="space-y-4">
                     <div className="flex justify-between items-start">
-                        <h3 className="text-2xl font-serif leading-tight transition-colors duration-500">
+                        <h3 className="text-2xl font-serif leading-tight transition-colors duration-500 text-[#0F2C23] group-hover:text-white">
                             {apt.title}
                         </h3>
                     </div>

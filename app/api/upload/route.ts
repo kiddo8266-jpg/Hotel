@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { writeFile, mkdir } from 'fs/promises';
 import { join } from 'path';
 import { randomUUID } from 'crypto';
+import sharp from 'sharp';
 
 const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'video/mp4', 'video/webm'];
 
@@ -30,7 +31,29 @@ export async function POST(req: NextRequest) {
         }
 
         const bytes = await file.arrayBuffer();
-        const buffer = Buffer.from(bytes);
+        let buffer = Buffer.from(bytes as ArrayBuffer);
+
+        // Auto upscale images to 1080px if they are smaller
+        if (file.type.startsWith('image/')) {
+            try {
+                const image = sharp(buffer);
+                const metadata = await image.metadata();
+
+                if (metadata.width && metadata.height && (metadata.width < 1080 || metadata.height < 1080)) {
+                    buffer = await image
+                        .resize({
+                            width: 1080,
+                            height: 1080,
+                            fit: 'outside',
+                            withoutEnlargement: false
+                        })
+                        .toBuffer();
+                }
+            } catch (imageError) {
+                console.error('Image processing error:', imageError);
+                // Continue with original buffer if sharp fails
+            }
+        }
 
         const ext = file.name.split('.').pop()?.replace(/[^a-zA-Z0-9]/g, '') || 'bin';
         const filename = `${randomUUID()}.${ext}`;

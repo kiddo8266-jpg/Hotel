@@ -55,13 +55,27 @@ model Media {
 }
 
 model SiteSetting {
-  id            String @id @default("main")
-  heroTitle     String
-  heroSubtitle  String
-  heroImage     String
-  aboutText     String
-  contactPhone  String
-  contactEmail  String
+  id               String @id @default("main")
+  heroTitle        String
+  heroSubtitle     String
+  heroImage        String
+  aboutText        String
+  contactPhone     String
+  contactEmail     String
+  aboutHero        String @default("More Than a Residence.\\nA Sanctuary.")
+  aboutVision      String @default("Born from a desire to blend uncompromising tranquility with modern luxury.")
+  aboutStory       String @default("Josephine Haven was designed as a retreat from the ordinary. We believe that a home is not just a place, but a feeling—a serene sanctuary where life's best moments unfold.\\n\\nEvery detail, from the grand architecture to the finest interior finishes, has been meticulously curated to foster an environment of peace, security, and absolute comfort for our residents.")
+}
+
+model Team {
+  id        String   @id @default(cuid())
+  name      String
+  role      String
+  bio       String?
+  image     String?
+  order     Int      @default(0)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
 }
 
 model HeroContent {

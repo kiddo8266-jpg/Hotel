@@ -7,15 +7,17 @@ export default async function ApartmentsPage() {
     });
 
     return (
-        <div className="min-h-screen pt-40 pb-20 bg-[#fdfbf7] px-6">
+        <div className="min-h-screen pt-32 pb-24 bg-[#F5F0E6] px-6">
             <div className="max-w-7xl mx-auto">
-                <header className="text-center max-w-3xl mx-auto mb-20 space-y-6">
-                    <h1 className="text-5xl md:text-7xl font-serif text-[#0F2C23]">
-                        Our Accommodations
+                <header className="text-center max-w-4xl mx-auto mb-20 space-y-6">
+                    <span className="inline-block px-4 py-1.5 rounded-full border border-[#0F2C23]/20 bg-[#C9A05B]/5 text-[#C9A05B] text-xs font-bold tracking-[0.3em] uppercase mb-4 backdrop-blur-md">
+                        The Collection
+                    </span>
+                    <h1 className="text-5xl md:text-7xl font-light text-[#0F2C23] leading-tight mb-8">
+                        Our <span className="italic font-serif text-[#C9A05B]">Accommodations</span>
                     </h1>
-                    <div className="w-24 h-1 bg-[#C9A05B] mx-auto" />
-                    <p className="text-xl text-gray-600 font-light leading-relaxed">
-                        Discover our collection of premium, fully-serviced apartments designed for ultimate comfort and tranquility in the heart of Seguku.
+                    <p className="text-lg md:text-xl text-gray-600 font-light leading-relaxed">
+                        Discover our exclusive collection of premium, fully-serviced apartments designed for ultimate comfort and tranquility in the heart of Seguku.
                     </p>
                 </header>
 

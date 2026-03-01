@@ -11,7 +11,7 @@ const navLinks = [
     { href: '/', label: 'Home' },
     { href: '/apartments', label: 'Apartments' },
     { href: '/gallery', label: 'Gallery' },
-    { href: '/blog', label: 'Journal' },
+    { href: '/journal', label: 'Journal' },
     { href: '/about', label: 'About' },
     { href: '/contact', label: 'Contact' },
 ];
@@ -22,7 +22,7 @@ export default function Navbar() {
     const pathname = usePathname();
 
     // Pages that have a light background by default and need a dark navbar immediately
-    const isLightPage = pathname.startsWith('/apartments') || pathname === '/about' || pathname === '/contact';
+    const isLightPage = pathname.startsWith('/apartments') || pathname === '/about' || pathname === '/contact' || pathname.startsWith('/journal');
     const isActuallyScrolled = scrolled || isLightPage;
 
     useEffect(() => {
@@ -50,8 +50,8 @@ export default function Navbar() {
             animate={{ y: 0 }}
             transition={{ duration: 0.6, ease: 'easeOut' }}
             className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${isActuallyScrolled
-                    ? 'bg-white/95 backdrop-blur-md border-b border-[#0F2C23]/10 shadow-sm'
-                    : 'bg-transparent border-b border-white/10'
+                ? 'bg-white/95 backdrop-blur-md border-b border-[#0F2C23]/10 shadow-sm'
+                : 'bg-transparent border-b border-white/10'
                 }`}
         >
             <div className="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
@@ -74,8 +74,8 @@ export default function Navbar() {
                                 key={link.href}
                                 href={link.href}
                                 className={`py-1 transition-colors duration-300 font-medium ${isActuallyScrolled
-                                        ? isActive ? 'text-[#C9A05B]' : 'text-[#0F2C23] hover:text-[#C9A05B]'
-                                        : isActive ? 'text-[#C9A05B]' : 'text-white hover:text-[#C9A05B]'
+                                    ? isActive ? 'text-[#C9A05B]' : 'text-[#0F2C23] hover:text-[#C9A05B]'
+                                    : isActive ? 'text-[#C9A05B]' : 'text-white hover:text-[#C9A05B]'
                                     }`}
                             >
                                 {link.label}

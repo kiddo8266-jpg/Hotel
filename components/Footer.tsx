@@ -3,63 +3,72 @@ import { Facebook, Instagram, Youtube, Phone, Mail, MapPin } from 'lucide-react'
 
 export default function Footer() {
     return (
-        <footer className="bg-[#0F2C23] text-gray-300 py-12 border-t border-[#C9A05B]/20">
-            <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8">
-                <div className="space-y-4">
-                    <h3 className="text-2xl font-serif text-[#C9A05B]">NL Josephine's</h3>
-                    <p className="text-sm leading-relaxed">
-                        Experience quiet luxury at NL Josephine’s Apartments. Your serene home away from home in Seguku.
+        <footer className="bg-[#0F2C23] text-gray-400 py-16 border-t border-[#C9A05B]/10">
+            <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-12 gap-12 lg:gap-20">
+                <div className="md:col-span-4 space-y-6">
+                    <span className="inline-block px-3 py-1 rounded-full border border-white/10 bg-white/5 text-white/60 text-[10px] font-bold tracking-[0.3em] uppercase mb-2 backdrop-blur-md">
+                        A Sanctuary
+                    </span>
+                    <h3 className="text-3xl font-light text-white font-serif italic mb-4">Josephine Haven</h3>
+                    <p className="text-sm font-light leading-relaxed text-gray-300 max-w-sm">
+                        Experience quiet luxury and uncompromising comfort. Your serene home away from home in the heart of Seguku.
                     </p>
                 </div>
 
-                <div className="space-y-4">
-                    <h4 className="text-lg font-semibold text-white">Quick Links</h4>
-                    <ul className="space-y-2">
-                        <li><Link href="/" className="hover:text-[#C9A05B] transition-colors">Home</Link></li>
-                        <li><Link href="/suites" className="hover:text-[#C9A05B] transition-colors">Suites</Link></li>
-                        <li><Link href="/services" className="hover:text-[#C9A05B] transition-colors">Services</Link></li>
-                        <li><Link href="/about" className="hover:text-[#C9A05B] transition-colors">About Us</Link></li>
-                        <li><Link href="/contact" className="hover:text-[#C9A05B] transition-colors">Contact</Link></li>
+                <div className="md:col-span-2 space-y-6">
+                    <h4 className="text-xs font-bold text-white uppercase tracking-widest">Navigation</h4>
+                    <ul className="space-y-4">
+                        <li><Link href="/" className="text-sm font-light hover:text-[#C9A05B] transition-colors">The Haven</Link></li>
+                        <li><Link href="/apartments" className="text-sm font-light hover:text-[#C9A05B] transition-colors">The Collection</Link></li>
+                        <li><Link href="/services" className="text-sm font-light hover:text-[#C9A05B] transition-colors">Services</Link></li>
+                        <li><Link href="/about" className="text-sm font-light hover:text-[#C9A05B] transition-colors">Our Heritage</Link></li>
+                        <li><Link href="/journal" className="text-sm font-light hover:text-[#C9A05B] transition-colors">The Journal</Link></li>
                     </ul>
                 </div>
 
-                <div className="space-y-4">
-                    <h4 className="text-lg font-semibold text-white">Contact Us</h4>
-                    <ul className="space-y-3">
-                        <li className="flex items-center gap-3">
-                            <Phone size={18} className="text-[#C9A05B]" />
-                            <span>0772560696</span>
+                <div className="md:col-span-3 space-y-6">
+                    <h4 className="text-xs font-bold text-white uppercase tracking-widest">Connect</h4>
+                    <ul className="space-y-4">
+                        <li className="flex items-center gap-4 group">
+                            <span className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-[#C9A05B] transition-colors duration-300">
+                                <Phone size={14} className="text-[#C9A05B] group-hover:text-[#0F2C23] transition-colors" />
+                            </span>
+                            <span className="text-sm font-light text-gray-300">+256 772 560 696</span>
                         </li>
-                        <li className="flex items-center gap-3">
-                            <Mail size={18} className="text-[#C9A05B]" />
-                            <span>info@josephinehaven.com</span>
+                        <li className="flex items-center gap-4 group">
+                            <span className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-[#C9A05B] transition-colors duration-300">
+                                <Mail size={14} className="text-[#C9A05B] group-hover:text-[#0F2C23] transition-colors" />
+                            </span>
+                            <span className="text-sm font-light text-gray-300">info@josephinehaven.com</span>
                         </li>
-                        <li className="flex items-start gap-3">
-                            <MapPin size={18} className="text-[#C9A05B] mt-1 shrink-0" />
-                            <span>Seguku, Entebbe Road<br />Kampala, Uganda</span>
+                        <li className="flex items-start gap-4 group mt-2">
+                            <span className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center shrink-0 group-hover:bg-[#C9A05B] transition-colors duration-300">
+                                <MapPin size={14} className="text-[#C9A05B] group-hover:text-[#0F2C23] transition-colors" />
+                            </span>
+                            <span className="text-sm font-light text-gray-300 leading-relaxed pt-1">Seguku, Entebbe Road<br />Kampala, Uganda</span>
                         </li>
                     </ul>
                 </div>
 
-                <div className="space-y-4">
-                    <h4 className="text-lg font-semibold text-white">Follow Us</h4>
-                    <div className="flex gap-4">
-                        <a href="#" aria-label="Facebook" className="p-2 bg-white/5 rounded-full hover:bg-[#C9A05B] hover:text-[#0F2C23] transition-all">
-                            <Facebook size={20} />
+                <div className="md:col-span-3 space-y-6">
+                    <h4 className="text-xs font-bold text-white uppercase tracking-widest">Social</h4>
+                    <div className="flex flex-wrap gap-3">
+                        <a href="#" aria-label="Facebook" className="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center hover:bg-[#C9A05B] hover:text-[#0F2C23] transition-all duration-300 group">
+                            <Facebook size={16} className="text-gray-400 group-hover:text-[#0F2C23] transition-colors" />
                         </a>
-                        <a href="#" aria-label="Instagram" className="p-2 bg-white/5 rounded-full hover:bg-[#C9A05B] hover:text-[#0F2C23] transition-all">
-                            <Instagram size={20} />
+                        <a href="#" aria-label="Instagram" className="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center hover:bg-[#C9A05B] hover:text-[#0F2C23] transition-all duration-300 group">
+                            <Instagram size={16} className="text-gray-400 group-hover:text-[#0F2C23] transition-colors" />
                         </a>
-                        <a href="#" aria-label="X (Twitter)" className="p-2 bg-white/5 rounded-full hover:bg-[#C9A05B] hover:text-[#0F2C23] transition-all">
-                            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true">
+                        <a href="#" aria-label="X (Twitter)" className="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center hover:bg-[#C9A05B] hover:text-[#0F2C23] transition-all duration-300 group">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true" className="text-gray-400 group-hover:text-[#0F2C23] transition-colors">
                                 <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
                             </svg>
                         </a>
-                        <a href="#" aria-label="YouTube" className="p-2 bg-white/5 rounded-full hover:bg-[#C9A05B] hover:text-[#0F2C23] transition-all">
-                            <Youtube size={20} />
+                        <a href="#" aria-label="YouTube" className="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center hover:bg-[#C9A05B] hover:text-[#0F2C23] transition-all duration-300 group">
+                            <Youtube size={16} className="text-gray-400 group-hover:text-[#0F2C23] transition-colors" />
                         </a>
-                        <a href="#" aria-label="TikTok" className="p-2 bg-white/5 rounded-full hover:bg-[#C9A05B] hover:text-[#0F2C23] transition-all">
-                            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true">
+                        <a href="#" aria-label="TikTok" className="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center hover:bg-[#C9A05B] hover:text-[#0F2C23] transition-all duration-300 group">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true" className="text-gray-400 group-hover:text-[#0F2C23] transition-colors">
                                 <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.75a4.85 4.85 0 0 1-1.01-.06z" />
                             </svg>
                         </a>

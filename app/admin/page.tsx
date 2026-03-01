@@ -268,6 +268,19 @@ export default function AdminDashboard() {
         {/* Quick Access Cards */}
         <h2 className="text-2xl font-light mb-6">Quick Actions</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <Link href="/admin/team">
+            <Card className="bg-gradient-to-br from-[#1a3a33] to-[#0F2C23] hover:from-[#2a4a43] hover:to-[#1a3a33] transition-all hover:-translate-y-1 hover:shadow-xl cursor-pointer border border-[#C9A05B]/20 h-full">
+              <CardContent className="p-8 flex flex-col items-center text-center h-full">
+                <Users className="h-10 w-10 text-[#C9A05B] mb-4" />
+                <h3 className="text-xl font-medium mb-1">Leadership Team</h3>
+                <p className="text-xs text-[#C9A05B] opacity-70 mb-2">Manage Profiles</p>
+                <p className="opacity-80 text-sm">
+                  Add, edit, or remove team members for the About page
+                </p>
+              </CardContent>
+            </Card>
+          </Link>
+
           <Link href="/admin/apartments">
             <Card className="bg-gradient-to-br from-[#1a3a33] to-[#0F2C23] hover:from-[#2a4a43] hover:to-[#1a3a33] transition-all hover:-translate-y-1 hover:shadow-xl cursor-pointer border border-[#C9A05B]/20 h-full">
               <CardContent className="p-8 flex flex-col items-center text-center h-full">
