@@ -40,7 +40,7 @@ export default function AdminDashboard() {
     // Clear the auth cookie
     document.cookie = 'admin_token=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
     toast.success('Logged out successfully');
-    window.location.href = '/admin/login';
+    window.location.href = '/login';
   };
 
   if (loading) {
