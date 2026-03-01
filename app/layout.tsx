@@ -7,8 +7,8 @@ import Footer from '@/components/Footer';
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 const playfair = Playfair_Display({ subsets: ['latin'], variable: '--font-playfair' });
 export const metadata: Metadata = {
-  title: 'Josephine Haven | Luxury Serviced Apartments Seguku',
-  description: 'Experience quiet luxury at NL Josephine’s Apartments — your serene home away from home.',
+  title: "NL Josephine's Hotel | Luxury Serviced Apartments Seguku",
+  description: "Experience quiet luxury at NL Josephine's Hotel — your serene home away from home.",
   icons: { icon: '/favicon.ico' },
 };
 

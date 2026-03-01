@@ -42,7 +42,7 @@ export default async function Home() {
                         <span className="text-[#C9A05B] font-medium tracking-widest uppercase text-sm mb-6 block">Our Heritage</span>
                         <h2 className="text-4xl md:text-5xl lg:text-6xl font-light text-[#0F2C23] mb-8 leading-tight">
                             The Spirit of <br />
-                            <span className="italic font-serif text-[#C9A05B]">Josephine Haven</span>
+                            <span className="italic font-serif text-[#C9A05B]">NL Josephine&apos;s Hotel</span>
                         </h2>
                         <p className="text-lg md:text-xl text-gray-600 font-light leading-relaxed whitespace-pre-wrap mb-10">
                             {settings.aboutText}

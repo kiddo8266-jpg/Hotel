@@ -19,6 +19,7 @@ const navLinks = [
     { href: '/admin', icon: LayoutDashboard, label: 'Dashboard', exact: true },
     { href: '/admin/apartments', icon: Building2, label: 'Apartments', exact: false },
     { href: '/admin/blog', icon: FileText, label: 'Blog / News', exact: false },
+    { href: '/admin/enquiries', icon: Menu, label: 'Enquiries', exact: false },
     { href: '/admin/gallery', icon: Image, label: 'Gallery', exact: false },
     { href: '/admin/settings', icon: Settings, label: 'Site Settings', exact: false },
 ];

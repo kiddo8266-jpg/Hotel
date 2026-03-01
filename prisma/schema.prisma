@@ -96,6 +96,7 @@ model Enquiry {
   phone     String?
   subject   String?
   message   String
+  isRead    Boolean  @default(false)
   status    String   @default("new") // new, read, replied, archived
   createdAt DateTime @default(now())
 }

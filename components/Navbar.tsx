@@ -39,9 +39,9 @@ export default function Navbar() {
     // Dynamic classes for the Book Now button
     const getButtonStyle = () => {
         if (isActuallyScrolled) {
-            return 'bg-[#0F2C23] text-[#C9A05B] border border-[#0F2C23] hover:bg-transparent hover:text-[#0F2C23]';
+            return 'bg-[#6D28D9] text-white border border-[#6D28D9] hover:bg-[#5B21B6]';
         }
-        return 'bg-gradient-to-r from-[#C9A05B] to-[#D4B06A] text-[#0F2C23] border border-transparent shadow-[0_0_20px_rgba(201,160,91,0.3)] hover:shadow-[0_0_30px_rgba(201,160,91,0.5)]';
+        return 'bg-gradient-to-r from-[#7C3AED] to-[#6D28D9] text-white border border-transparent shadow-[0_0_20px_rgba(109,40,217,0.3)] hover:shadow-[0_0_30px_rgba(109,40,217,0.5)]';
     };
 
     return (
@@ -129,7 +129,12 @@ export default function Navbar() {
                             className="fixed top-0 right-0 h-full w-72 z-50 bg-[#0F2C23] flex flex-col py-8 px-6 shadow-2xl md:hidden"
                         >
                             <div className="flex items-center justify-between mb-10 text-white">
-                                <span className="text-lg font-light tracking-tight">Josephine Haven</span>
+                                <div className="flex items-center gap-2">
+                                    <div className="w-8 h-8 bg-[#C9A05B] rounded-full flex items-center justify-center">
+                                        <span className="text-[#0F2C23] text-lg font-light">J</span>
+                                    </div>
+                                    <span className="text-lg font-light tracking-tight">NL Josephine&apos;s Hotel</span>
+                                </div>
                                 <button onClick={() => setIsOpen(false)}>
                                     <X size={22} />
                                 </button>
@@ -162,7 +167,7 @@ export default function Navbar() {
                                 <Link
                                     href="/contact"
                                     onClick={() => setIsOpen(false)}
-                                    className={`w-full justify-center ${bookNowBase} bg-[#C9A05B] text-[#0F2C23]`}
+                                    className={`w-full justify-center ${bookNowBase} bg-[#6D28D9] text-white`}
                                 >
                                     <Phone size={15} />
                                     Book Now

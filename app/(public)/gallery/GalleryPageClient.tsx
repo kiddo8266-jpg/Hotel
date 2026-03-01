@@ -12,7 +12,7 @@ type MediaItem = {
     section: string;
     area: string;
     // createdAt is serialized to ISO string by Next.js when passing from server to client component
-    createdAt: string;
+    createdAt: string | Date;
 };
 
 function GalleryCard({ item, index, onClick }: { item: MediaItem; index: number; onClick: () => void }) {

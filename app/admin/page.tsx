@@ -120,7 +120,7 @@ export default function AdminDashboard() {
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-6">
           <div>
             <h1 className="text-4xl md:text-5xl font-light tracking-tight">
-              Josephine Haven Admin
+              NL Josephine&apos;s Hotel Admin
             </h1>
             <p className="text-lg opacity-80 mt-2">
               Manage your luxury apartments website
@@ -358,7 +358,7 @@ export default function AdminDashboard() {
 
         {/* Footer note */}
         <div className="mt-8 text-center opacity-60 text-sm">
-          © {new Date().getFullYear()} Josephine Haven · Admin Panel · v1.0.0
+          © {new Date().getFullYear()} NL Josephine&apos;s Hotel · Admin Panel · v1.0.0
         </div>
       </div>
     </div>

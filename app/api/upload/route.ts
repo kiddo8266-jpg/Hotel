@@ -31,7 +31,7 @@ export async function POST(req: NextRequest) {
         }
 
         const bytes = await file.arrayBuffer();
-        let buffer = Buffer.from(bytes as ArrayBuffer);
+        let buffer = Buffer.from(bytes as ArrayBuffer) as any;
 
         // Auto upscale images to 1080px if they are smaller
         if (file.type.startsWith('image/')) {

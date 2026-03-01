@@ -29,6 +29,9 @@ export default function AdminSettingsPage() {
         aboutText: '',
         contactPhone: '',
         contactEmail: '',
+        aboutHero: '',
+        aboutVision: '',
+        aboutStory: '',
     });
 
     const [heroItems, setHeroItems] = useState<HeroItem[]>([]);
@@ -196,7 +199,7 @@ export default function AdminSettingsPage() {
                                 <div className="space-y-2">
                                     <Label>Title (Optional)</Label>
                                     <Input
-                                        placeholder="Welcome to Josephine Haven"
+                                        placeholder="Welcome to NL Josephine's Hotel"
                                         value={newHero.title}
                                         onChange={e => setNewHero(prev => ({ ...prev, title: e.target.value }))}
                                     />

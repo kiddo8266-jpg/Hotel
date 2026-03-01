@@ -1,4 +1,4 @@
-import JournalClient from './JournalClient';
+import JournalClient from '@/app/(public)/journal/JournalClient';
 import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
