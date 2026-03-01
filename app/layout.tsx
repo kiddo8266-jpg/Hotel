@@ -3,7 +3,7 @@ import { Inter, Playfair_Display } from 'next/font/google';
 import './globals.css';
 import { Toaster } from 'sonner';
 import Navbar from '@/components/Navbar';
-
+import Footer from '@/components/Footer';
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 const playfair = Playfair_Display({ subsets: ['latin'], variable: '--font-playfair' });
 export const metadata: Metadata = {
@@ -29,7 +29,10 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <Navbar />
-          {children}
+          <main className="min-h-screen flex flex-col">
+            {children}
+          </main>
+          <Footer />
           <Toaster position="top-center" richColors />
         </ThemeProvider>
       </body>

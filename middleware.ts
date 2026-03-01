@@ -2,7 +2,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { verify } from 'jsonwebtoken';
 
-const secret = process.env.JWT_SECRET || 'your-super-secret-key-change-this'; // ← change this!
+const secret = process.env.JWT_SECRET || 'supersecretjwtkeyforjosephinehaven';
 
 export async function middleware(request: NextRequest) {
     const url = request.nextUrl.pathname;
