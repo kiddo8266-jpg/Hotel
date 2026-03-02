@@ -18,6 +18,11 @@ export default async function Home() {
         orderBy: { createdAt: 'desc' },
     });
 
+    const amenities = await prisma.amenity.findMany({
+        where: { isActive: true },
+        orderBy: { order: 'asc' },
+    });
+
     if (!settings) {
         return (
             <div className="min-h-screen flex items-center justify-center">
@@ -72,7 +77,7 @@ export default async function Home() {
 
             <SuitesSection apartments={apartments} />
 
-            <AmenitiesSection />
+            <AmenitiesSection amenities={amenities} />
         </main>
     );
 }

@@ -1,52 +1,22 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Wifi, ShieldCheck, Car, Leaf, Wine, Zap, Tv, Sparkles } from 'lucide-react';
+import { Wifi, ShieldCheck, Car, Leaf, Wine, Zap, Tv, Sparkles, Home, Bath } from 'lucide-react';
 
-const amenities = [
-    {
-        icon: Wifi,
-        title: 'Free Fast WiFi',
-        desc: 'Seamless, high-speed connectivity throughout the sanctuary.',
-    },
-    {
-        icon: ShieldCheck,
-        title: '24/7 Security & CCTV',
-        desc: 'Uncompromising safety with round-the-clock surveillance.',
-    },
-    {
-        icon: Car,
-        title: 'Ample Free Parking',
-        desc: 'Secure and spacious private parking for all guests.',
-    },
-    {
-        icon: Leaf,
-        title: 'Tranquil Gardens',
-        desc: 'Lush outdoor spaces designed for relaxation and peace.',
-    },
-    {
-        icon: Wine,
-        title: 'Mini Bar',
-        desc: 'Curated refreshments ready in the comfort of your suite.',
-    },
-    {
-        icon: Zap,
-        title: 'Standby Generator',
-        desc: 'Guaranteed uninterrupted power supply at all times.',
-    },
-    {
-        icon: Tv,
-        title: 'DSTV & Smart TV',
-        desc: 'Premium global entertainment right at your fingertips.',
-    },
-    {
-        icon: Sparkles,
-        title: 'Laundry Services',
-        desc: 'Impeccable garment care to keep you looking your best.',
-    }
-];
+const iconMap: Record<string, any> = {
+    Wifi, ShieldCheck, Car, Leaf, Wine, Zap, Tv, Sparkles, Home, Bath
+};
 
-export default function AmenitiesSection() {
+type Amenity = {
+    id: string;
+    iconName: string;
+    title: string;
+    description: string;
+};
+
+export default function AmenitiesSection({ amenities }: { amenities: Amenity[] }) {
+    if (!amenities || amenities.length === 0) return null;
+
     return (
         <section className="py-24 md:py-32 bg-white relative overflow-hidden">
             <div className="max-w-7xl mx-auto px-6">
@@ -93,26 +63,29 @@ export default function AmenitiesSection() {
                         </motion.div>
 
                         <div className="grid sm:grid-cols-2 gap-x-8 gap-y-10">
-                            {amenities.map((amenity, index) => (
-                                <motion.div
-                                    key={amenity.title}
-                                    initial={{ opacity: 0, y: 20 }}
-                                    whileInView={{ opacity: 1, y: 0 }}
-                                    viewport={{ once: true }}
-                                    transition={{ duration: 0.5, delay: index * 0.1 }}
-                                    className="group"
-                                >
-                                    <div className="flex items-start gap-4">
-                                        <div className="w-12 h-12 rounded-2xl bg-[#F5F0E6] flex items-center justify-center shrink-0 group-hover:bg-[#0F2C23] transition-colors duration-500">
-                                            <amenity.icon size={20} className="text-[#0F2C23] group-hover:text-[#C9A05B] transition-colors duration-500" />
+                            {amenities.map((amenity, index) => {
+                                const Icon = iconMap[amenity.iconName] || Home;
+                                return (
+                                    <motion.div
+                                        key={amenity.id}
+                                        initial={{ opacity: 0, y: 20 }}
+                                        whileInView={{ opacity: 1, y: 0 }}
+                                        viewport={{ once: true }}
+                                        transition={{ duration: 0.5, delay: index * 0.1 }}
+                                        className="group"
+                                    >
+                                        <div className="flex items-start gap-4">
+                                            <div className="w-12 h-12 rounded-2xl bg-[#F5F0E6] flex items-center justify-center shrink-0 group-hover:bg-[#0F2C23] transition-colors duration-500">
+                                                <Icon size={20} className="text-[#0F2C23] group-hover:text-[#C9A05B] transition-colors duration-500" />
+                                            </div>
+                                            <div>
+                                                <h4 className="text-[#0F2C23] font-medium mb-1 group-hover:text-[#C9A05B] transition-colors duration-300">{amenity.title}</h4>
+                                                <p className="text-gray-500 text-sm font-light leading-relaxed">{amenity.description}</p>
+                                            </div>
                                         </div>
-                                        <div>
-                                            <h4 className="text-[#0F2C23] font-medium mb-1 group-hover:text-[#C9A05B] transition-colors duration-300">{amenity.title}</h4>
-                                            <p className="text-gray-500 text-sm font-light leading-relaxed">{amenity.desc}</p>
-                                        </div>
-                                    </div>
-                                </motion.div>
-                            ))}
+                                    </motion.div>
+                                );
+                            })}
                         </div>
                     </div>
 

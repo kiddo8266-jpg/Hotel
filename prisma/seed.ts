@@ -81,6 +81,69 @@ async function main() {
         }
     }
 
+    console.log('Seeding initial Amenities...');
+    const amenities = [
+        {
+            iconName: 'Wifi',
+            title: 'Free Fast WiFi',
+            description: 'Seamless, high-speed connectivity throughout the sanctuary.',
+            order: 1,
+        },
+        {
+            iconName: 'ShieldCheck',
+            title: '24/7 Security & CCTV',
+            description: 'Uncompromising safety with round-the-clock surveillance.',
+            order: 2,
+        },
+        {
+            iconName: 'Car',
+            title: 'Ample Free Parking',
+            description: 'Secure and spacious private parking for all guests.',
+            order: 3,
+        },
+        {
+            iconName: 'Leaf',
+            title: 'Tranquil Gardens',
+            description: 'Lush outdoor spaces designed for relaxation and peace.',
+            order: 4,
+        },
+        {
+            iconName: 'Wine',
+            title: 'Mini Bar',
+            description: 'Curated refreshments ready in the comfort of your suite.',
+            order: 5,
+        },
+        {
+            iconName: 'Zap',
+            title: 'Standby Generator',
+            description: 'Guaranteed uninterrupted power supply at all times.',
+            order: 6,
+        },
+        {
+            iconName: 'Tv',
+            title: 'DSTV & Smart TV',
+            description: 'Premium global entertainment right at your fingertips.',
+            order: 7,
+        },
+        {
+            iconName: 'Sparkles',
+            title: 'Laundry Services',
+            description: 'Impeccable garment care to keep you looking your best.',
+            order: 8,
+        }
+    ];
+
+    for (const amenity of amenities) {
+        const existing = await prisma.amenity.findFirst({
+            where: { title: amenity.title },
+        });
+        if (!existing) {
+            await prisma.amenity.create({
+                data: amenity,
+            });
+        }
+    }
+
     console.log('Seeding completed successfully.');
 }
 

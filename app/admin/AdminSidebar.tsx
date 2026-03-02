@@ -13,6 +13,7 @@ import {
     User,
     Menu,
     X,
+    Sparkles,
 } from 'lucide-react';
 
 const navLinks = [
@@ -21,6 +22,7 @@ const navLinks = [
     { href: '/admin/blog', icon: FileText, label: 'Blog / News', exact: false },
     { href: '/admin/enquiries', icon: Menu, label: 'Enquiries', exact: false },
     { href: '/admin/gallery', icon: Image, label: 'Gallery', exact: false },
+    { href: '/admin/amenities', icon: Sparkles, label: 'Amenities', exact: false },
     { href: '/admin/settings', icon: Settings, label: 'Site Settings', exact: false },
 ];
 
