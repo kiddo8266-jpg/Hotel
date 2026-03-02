@@ -143,7 +143,7 @@ export default function JournalClient({ initialPosts }: { initialPosts: Post[] }
                         <div className="w-14 h-14 bg-[#F5F0E6] rounded-[20px] flex items-center justify-center mb-6 text-[#0F2C23] group-hover:bg-[#C9A05B] group-hover:text-white transition-all duration-500 shrink-0">
                             <Utensils size={28} />
                         </div>
-                        <h3 className="text-2xl font-light text-[#0F2C23] mb-4 tracking-tight group-hover:text-[#C9A05B] transition-colors">Haven Gastronomy</h3>
+                        <h3 className="text-2xl font-light text-[#0F2C23] mb-4 tracking-tight group-hover:text-[#C9A05B] transition-colors">Hotel Gastronomy</h3>
                         <p className="text-gray-500 font-light text-sm md:text-base mb-8 leading-relaxed flex-1 overflow-hidden">
                             Discover the art of taste in our premium dining hall. From local organic secrets to global masterpieces.
                         </p>
@@ -167,7 +167,7 @@ export default function JournalClient({ initialPosts }: { initialPosts: Post[] }
                         <div className="absolute inset-0 z-20 p-10 flex flex-col justify-end pointer-events-none">
                             <Building2 size={36} className="text-[#C9A05B] mb-5" />
                             <h3 className="text-2xl md:text-3xl font-light text-white mb-3 leading-tight">Elevated<br />Workspaces</h3>
-                            <p className="text-gray-200 text-sm font-light mb-8 max-w-[200px] leading-relaxed">Luxury office suites to let in the heart of the haven.</p>
+                            <p className="text-gray-200 text-sm font-light mb-8 max-w-[200px] leading-relaxed">Luxury office suites to let in the heart of the hotel grounds.</p>
                             <button className="flex items-center justify-center gap-3 text-[#0F2C23] text-[10px] font-black uppercase tracking-[0.2em] bg-white px-6 py-3 rounded-full hover:bg-[#C9A05B] hover:text-white transition-all duration-500 self-start mt-auto shadow-xl group/btn pointer-events-auto">
                                 Send Enquiry <ArrowRight size={14} className="transition-transform group-hover/btn:translate-x-1" />
                             </button>

@@ -158,7 +158,7 @@ export default function AboutClient({ initialTeam, settings }: { initialTeam: Te
                             </div>
                             <h3 className="text-2xl font-medium text-[#0F2C23] mb-4 group-hover:text-white transition-colors duration-500">Culinary Excellence</h3>
                             <p className="text-gray-600 font-light leading-relaxed group-hover:text-white/90 transition-colors duration-500">
-                                Home to Haven Gastronomy, where we celebrate the art of taste with organic ingredients and masterful global cuisine.
+                                Home to NL Josephine's Gastronomy, where we celebrate the art of taste with organic ingredients and masterful global cuisine.
                             </p>
                         </motion.div>
 

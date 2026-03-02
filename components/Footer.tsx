@@ -18,7 +18,7 @@ export default function Footer() {
                 <div className="md:col-span-2 space-y-6">
                     <h4 className="text-xs font-bold text-white uppercase tracking-widest">Navigation</h4>
                     <ul className="space-y-4">
-                        <li><Link href="/" className="text-sm font-light hover:text-[#C9A05B] transition-colors">The Haven</Link></li>
+                        <li><Link href="/" className="text-sm font-light hover:text-[#C9A05B] transition-colors">The Sanctuary</Link></li>
                         <li><Link href="/apartments" className="text-sm font-light hover:text-[#C9A05B] transition-colors">The Collection</Link></li>
                         <li><Link href="/services" className="text-sm font-light hover:text-[#C9A05B] transition-colors">Services</Link></li>
                         <li><Link href="/about" className="text-sm font-light hover:text-[#C9A05B] transition-colors">Our Heritage</Link></li>
@@ -39,7 +39,7 @@ export default function Footer() {
                             <span className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-[#C9A05B] transition-colors duration-300">
                                 <Mail size={14} className="text-[#C9A05B] group-hover:text-[#0F2C23] transition-colors" />
                             </span>
-                            <span className="text-sm font-light text-gray-300">info@josephinehaven.com</span>
+                            <span className="text-sm font-light text-gray-300">info@josehotel.com</span>
                         </li>
                         <li className="flex items-start gap-4 group mt-2">
                             <span className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center shrink-0 group-hover:bg-[#C9A05B] transition-colors duration-300">

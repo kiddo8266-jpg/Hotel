@@ -3,7 +3,7 @@ import { redirect } from 'next/navigation';
 import jwt from 'jsonwebtoken';
 import AdminSidebar from './AdminSidebar';
 
-const JWT_SECRET = process.env.JWT_SECRET || 'supersecretjwtkeyforjosephinehaven';
+const JWT_SECRET = process.env.JWT_SECRET || 'supersecretjwtkeyforjosephinehotel';
 
 export default async function AdminLayout({
     children,

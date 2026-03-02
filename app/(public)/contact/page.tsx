@@ -14,7 +14,7 @@ const contactDetails = [
     {
         icon: Mail,
         label: 'Email',
-        value: 'info@josephinehaven.com',
+        value: 'info@josehotel.com',
         sub: 'We reply within 24 hours',
     },
     {

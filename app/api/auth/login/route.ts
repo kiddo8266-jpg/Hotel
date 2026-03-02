@@ -3,7 +3,7 @@ import { prisma } from '@/lib/prisma';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
-const JWT_SECRET = process.env.JWT_SECRET || 'supersecretjwtkeyforjosephinehaven';
+const JWT_SECRET = process.env.JWT_SECRET || 'supersecretjwtkeyforjosephinehotel';
 
 export async function POST(req: NextRequest) {
     try {

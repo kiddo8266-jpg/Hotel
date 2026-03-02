@@ -14,7 +14,7 @@ async function main() {
             heroImage: 'https://images.unsplash.com/photo-1542314831-c6a4d14d8343?q=80&w=2600&auto=format&fit=crop',
             aboutText: "NL Josephine's Hotel offers an unparalleled stay with top-tier amenities, exquisite dining, and breathtaking views. Whether you are here for business or leisure, our dedicated team ensures your experience is memorable and relaxing.",
             contactPhone: '0772560696',
-            contactEmail: 'info@josephinehaven.com',
+            contactEmail: 'info@josehotel.com',
         },
     });
 
@@ -22,10 +22,10 @@ async function main() {
     const bcrypt = require('bcryptjs');
     const hashedPassword = await bcrypt.hash('admin123', 10);
     await prisma.user.upsert({
-        where: { email: 'admin@josephinehaven.com' },
+        where: { email: 'admin@josehotel.com' },
         update: { password: hashedPassword },
         create: {
-            email: 'admin@josephinehaven.com',
+            email: 'admin@josehotel.com',
             password: hashedPassword,
             name: 'Admin',
             role: 'admin',

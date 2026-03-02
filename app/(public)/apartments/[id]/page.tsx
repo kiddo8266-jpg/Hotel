@@ -148,7 +148,7 @@ export default async function ApartmentDetailsPage({
                                     </div>
                                     <div className="flex items-center gap-3">
                                         <Mail size={18} className="text-[#C9A05B]" />
-                                        <span className="text-sm">info@josephinehaven.com</span>
+                                        <span className="text-sm">info@josephinehotel.com</span>
                                     </div>
                                 </div>
                             </div>
