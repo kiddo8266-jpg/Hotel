@@ -1,6 +1,7 @@
 import { prisma } from '@/lib/prisma';
 import HeroSection from '@/components/HeroSection';
 import SuitesSection from '@/components/SuitesSection';
+import AmenitiesSection from '@/components/AmenitiesSection';
 
 // This is a Server Component, meaning database calls happen securely on the server
 export default async function Home() {
@@ -70,6 +71,8 @@ export default async function Home() {
             </section>
 
             <SuitesSection apartments={apartments} />
+
+            <AmenitiesSection />
         </main>
     );
 }
