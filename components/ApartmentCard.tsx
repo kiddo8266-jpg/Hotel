@@ -67,9 +67,10 @@ export default function ApartmentCard({ apt, index }: { apt: Apartment; index: n
                         <span className="flex items-center gap-1.5"><Maximize size={16} className="text-[#C9A05B]" /> {apt.size} sqm</span>
                     </div>
 
-                    <p className="text-gray-600 group-hover:text-gray-400 text-sm font-light line-clamp-2 transition-colors duration-500">
-                        {apt.description}
-                    </p>
+                    <div
+                        className="text-gray-600 group-hover:text-gray-400 text-sm font-light line-clamp-2 transition-colors duration-500 prose-sm"
+                        dangerouslySetInnerHTML={{ __html: apt.description }}
+                    />
                 </div>
 
                 <div className="pt-6 flex gap-3">

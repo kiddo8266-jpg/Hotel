@@ -2,10 +2,12 @@
 // app/admin/apartments/page.tsx
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
+import { useEditor, EditorContent } from '@tiptap/react';
+import StarterKit from '@tiptap/starter-kit';
 import {
   Table,
   TableBody,
@@ -23,7 +25,54 @@ import {
   DialogFooter,
 } from '@/components/ui/dialog';
 import { toast } from 'sonner';
-import { Plus, Edit, Trash2 } from 'lucide-react';
+import { Plus, Edit, Trash2, Bold, Italic, List, ListOrdered } from 'lucide-react';
+
+const MenuBar = ({ editor }: { editor: any }) => {
+  if (!editor) {
+    return null;
+  }
+
+  return (
+    <div className="flex gap-2 p-2 bg-[#1a3a33] border border-[#C9A05B]/30 rounded-t-md">
+      <Button
+        type="button"
+        variant="ghost"
+        size="sm"
+        onClick={() => editor.chain().focus().toggleBold().run()}
+        className={editor.isActive('bold') ? 'bg-[#C9A05B]/20 text-[#C9A05B]' : 'text-gray-300'}
+      >
+        <Bold className="h-4 w-4" />
+      </Button>
+      <Button
+        type="button"
+        variant="ghost"
+        size="sm"
+        onClick={() => editor.chain().focus().toggleItalic().run()}
+        className={editor.isActive('italic') ? 'bg-[#C9A05B]/20 text-[#C9A05B]' : 'text-gray-300'}
+      >
+        <Italic className="h-4 w-4" />
+      </Button>
+      <Button
+        type="button"
+        variant="ghost"
+        size="sm"
+        onClick={() => editor.chain().focus().toggleBulletList().run()}
+        className={editor.isActive('bulletList') ? 'bg-[#C9A05B]/20 text-[#C9A05B]' : 'text-gray-300'}
+      >
+        <List className="h-4 w-4" />
+      </Button>
+      <Button
+        type="button"
+        variant="ghost"
+        size="sm"
+        onClick={() => editor.chain().focus().toggleOrderedList().run()}
+        className={editor.isActive('orderedList') ? 'bg-[#C9A05B]/20 text-[#C9A05B]' : 'text-gray-300'}
+      >
+        <ListOrdered className="h-4 w-4" />
+      </Button>
+    </div>
+  );
+};
 
 type Apartment = {
   id: string;
@@ -55,6 +104,36 @@ export default function AdminApartments() {
     size: '',
     features: '',
   });
+
+  const isProgrammaticUpdate = useRef(false);
+
+  const editor = useEditor({
+    extensions: [StarterKit],
+    content: '',
+    immediatelyRender: false,
+    editorProps: {
+      attributes: {
+        class: 'prose prose-invert max-w-none min-h-[150px] p-4 bg-[#0F2C23]/70 border border-t-0 border-[#C9A05B]/30 rounded-b-md focus:outline-none',
+      },
+    },
+    onUpdate: ({ editor }) => {
+      // Only update form if this is a real user edit, not a programmatic content set
+      if (!isProgrammaticUpdate.current) {
+        setForm(prev => ({ ...prev, description: editor.getHTML() }));
+      }
+    },
+  });
+
+  // Sync form.description → editor only when the dialog opens with an existing apartment
+  useEffect(() => {
+    if (editor) {
+      isProgrammaticUpdate.current = true;
+      editor.commands.setContent(form.description || '');
+      // Reset flag after the update cycle
+      setTimeout(() => { isProgrammaticUpdate.current = false; }, 0);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open]); // only sync when dialog opens/closes, not on every keystroke
 
   useEffect(() => {
     fetchApartments();
@@ -251,12 +330,8 @@ export default function AdminApartments() {
 
                 <div>
                   <label className="block text-sm mb-2">Description</label>
-                  <Textarea
-                    value={form.description}
-                    onChange={(e) => setForm({ ...form, description: e.target.value })}
-                    rows={4}
-                    className="bg-[#0F2C23]/70 border-[#C9A05B]/30"
-                  />
+                  <MenuBar editor={editor} />
+                  <EditorContent editor={editor} />
                 </div>
 
                 <div>
@@ -299,7 +374,11 @@ export default function AdminApartments() {
         </div>
 
         {loading ? (
-          <div className="text-center py-20">Loading apartments...</div>
+          <div className="space-y-4 animate-pulse">
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="h-16 rounded-lg bg-[#1a3a33]/70 border border-[#C9A05B]/10" />
+            ))}
+          </div>
         ) : apartments.length === 0 ? (
           <div className="text-center py-20 opacity-70">No apartments yet. Add one above.</div>
         ) : (

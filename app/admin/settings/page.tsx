@@ -7,7 +7,24 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { toast } from 'sonner';
-import { Trash2, Plus, Image as ImageIcon, Video, CheckCircle2, XCircle } from 'lucide-react';
+import { Trash2, Plus, Image as ImageIcon, Video, CheckCircle2, XCircle, GripVertical } from 'lucide-react';
+import {
+    DndContext,
+    closestCenter,
+    KeyboardSensor,
+    PointerSensor,
+    useSensor,
+    useSensors,
+    DragEndEvent
+} from '@dnd-kit/core';
+import {
+    arrayMove,
+    SortableContext,
+    sortableKeyboardCoordinates,
+    verticalListSortingStrategy,
+    useSortable,
+} from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 
 interface HeroItem {
     id: string;
@@ -17,6 +34,61 @@ interface HeroItem {
     mediaType: string;
     order: number;
     isActive: boolean;
+}
+
+function SortableHeroItem({ item, handleToggleHero, handleDeleteHero }: { item: HeroItem, handleToggleHero: any, handleDeleteHero: any }) {
+    const {
+        attributes,
+        listeners,
+        setNodeRef,
+        transform,
+        transition,
+    } = useSortable({ id: item.id });
+
+    const style = {
+        transform: CSS.Transform.toString(transform),
+        transition,
+    };
+
+    return (
+        <div ref={setNodeRef} style={style} className="w-full">
+            <Card className={!item.isActive ? 'opacity-50' : ''}>
+                <CardContent className="p-4 flex gap-4 items-center">
+                    <div {...attributes} {...listeners} className="cursor-grab hover:text-[#C9A05B]">
+                        <GripVertical size={20} />
+                    </div>
+                    <div className="h-20 w-32 bg-gray-100 rounded overflow-hidden flex items-center justify-center shrink-0">
+                        {item.mediaType === 'image' ? (
+                            <img src={item.mediaUrl} className="object-cover w-full h-full" alt="" />
+                        ) : (
+                            <div className="flex flex-col items-center text-gray-400">
+                                <Video size={24} />
+                                <span className="text-[10px]">Video</span>
+                            </div>
+                        )}
+                    </div>
+                    <div className="flex-1 space-y-1">
+                        <p className="font-semibold text-sm truncate">{item.title || 'No Title'}</p>
+                        <p className="text-xs text-gray-400 truncate">{item.mediaUrl}</p>
+                        <div className="flex gap-2 pt-2">
+                            <Button
+                                size="icon" variant="outline" className="h-8 w-8"
+                                onClick={() => handleToggleHero(item)}
+                            >
+                                {item.isActive ? <CheckCircle2 size={14} className="text-green-600" /> : <XCircle size={14} className="text-red-400" />}
+                            </Button>
+                            <Button
+                                size="icon" variant="outline" className="h-8 w-8 text-red-500"
+                                onClick={() => handleDeleteHero(item.id)}
+                            >
+                                <Trash2 size={14} />
+                            </Button>
+                        </div>
+                    </div>
+                </CardContent>
+            </Card>
+        </div>
+    );
 }
 
 export default function AdminSettingsPage() {
@@ -39,6 +111,8 @@ export default function AdminSettingsPage() {
         twitterUrl: '',
         youtubeUrl: '',
         tiktokUrl: '',
+        seoKeywords: '',
+        seoDescription: '',
     });
 
     const [heroItems, setHeroItems] = useState<HeroItem[]>([]);
@@ -63,7 +137,9 @@ export default function AdminSettingsPage() {
                 const heroData = await heroRes.json();
 
                 if (settingsData && !settingsData.error) setSettings(settingsData);
-                if (Array.isArray(heroData)) setHeroItems(heroData);
+                if (Array.isArray(heroData)) {
+                    setHeroItems(heroData.sort((a, b) => a.order - b.order));
+                }
             } catch (error) {
                 toast.error('Failed to load settings');
             } finally {
@@ -75,6 +151,37 @@ export default function AdminSettingsPage() {
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setSettings(prev => ({ ...prev, [e.target.name]: e.target.value }));
+    };
+
+    const sensors = useSensors(
+        useSensor(PointerSensor),
+        useSensor(KeyboardSensor, {
+            coordinateGetter: sortableKeyboardCoordinates,
+        })
+    );
+
+    const handleDragEnd = async (event: DragEndEvent) => {
+        const { active, over } = event;
+
+        if (over && active.id !== over.id) {
+            setHeroItems((items) => {
+                const oldIndex = items.findIndex((item) => item.id === active.id);
+                const newIndex = items.findIndex((item) => item.id === over.id);
+
+                const newItems = arrayMove(items, oldIndex, newIndex);
+
+                // Update order in database
+                fetch('/api/admin/hero/reorder', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        items: newItems.map((item, index) => ({ id: item.id, order: index }))
+                    }),
+                });
+
+                return newItems;
+            });
+        }
     };
 
     const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>, isHeroItem: boolean = false) => {
@@ -178,7 +285,14 @@ export default function AdminSettingsPage() {
         }
     };
 
-    if (loading) return <div>Loading settings...</div>;
+    if (loading) return (
+        <div className="flex flex-col gap-6 animate-pulse max-w-5xl mx-auto">
+            <div className="h-10 w-64 bg-gray-200 rounded-lg" />
+            {[1, 2, 3].map((i) => (
+                <div key={i} className="h-24 rounded-xl bg-gray-100 border border-gray-200" />
+            ))}
+        </div>
+    );
 
     return (
         <div className="max-w-5xl mx-auto space-y-8">
@@ -236,42 +350,27 @@ export default function AdminSettingsPage() {
                     </Card>
                 )}
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {heroItems.map((item) => (
-                        <Card key={item.id} className={!item.isActive ? 'opacity-50' : ''}>
-                            <CardContent className="p-4 flex gap-4">
-                                <div className="h-20 w-32 bg-gray-100 rounded overflow-hidden flex items-center justify-center shrink-0">
-                                    {item.mediaType === 'image' ? (
-                                        <img src={item.mediaUrl} className="object-cover w-full h-full" alt="" />
-                                    ) : (
-                                        <div className="flex flex-col items-center text-gray-400">
-                                            <Video size={24} />
-                                            <span className="text-[10px]">Video</span>
-                                        </div>
-                                    )}
-                                </div>
-                                <div className="flex-1 space-y-1">
-                                    <p className="font-semibold text-sm truncate">{item.title || 'No Title'}</p>
-                                    <p className="text-xs text-gray-400 truncate">{item.mediaUrl}</p>
-                                    <div className="flex gap-2 pt-2">
-                                        <Button
-                                            size="icon" variant="outline" className="h-8 w-8"
-                                            onClick={() => handleToggleHero(item)}
-                                        >
-                                            {item.isActive ? <CheckCircle2 size={14} className="text-green-600" /> : <XCircle size={14} className="text-red-400" />}
-                                        </Button>
-                                        <Button
-                                            size="icon" variant="outline" className="h-8 w-8 text-red-500"
-                                            onClick={() => handleDeleteHero(item.id)}
-                                        >
-                                            <Trash2 size={14} />
-                                        </Button>
-                                    </div>
-                                </div>
-                            </CardContent>
-                        </Card>
-                    ))}
-                </div>
+                <DndContext
+                    sensors={sensors}
+                    collisionDetection={closestCenter}
+                    onDragEnd={handleDragEnd}
+                >
+                    <SortableContext
+                        items={heroItems}
+                        strategy={verticalListSortingStrategy}
+                    >
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            {heroItems.map((item) => (
+                                <SortableHeroItem
+                                    key={item.id}
+                                    item={item}
+                                    handleToggleHero={handleToggleHero}
+                                    handleDeleteHero={handleDeleteHero}
+                                />
+                            ))}
+                        </div>
+                    </SortableContext>
+                </DndContext>
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-6">
@@ -366,6 +465,19 @@ export default function AdminSettingsPage() {
                                     <Label>TikTok URL</Label>
                                     <Input name="tiktokUrl" type="url" value={settings.tiktokUrl || ''} onChange={handleChange} placeholder="https://tiktok.com/..." />
                                 </div>
+                            </div>
+                        </div>
+
+                        <div className="space-y-4 pt-6 border-t border-gray-100 mt-6">
+                            <h3 className="font-semibold text-lg text-[#0F2C23]">Search Engine Optimization (SEO)</h3>
+                            <div className="space-y-2">
+                                <Label>SEO Keywords</Label>
+                                <Input name="seoKeywords" value={settings.seoKeywords || ''} onChange={handleChange} placeholder="e.g. hotel, luxury, entebbe, accommodation" />
+                                <p className="text-xs text-gray-400">Comma-separated list of keywords that help guests find your hotel.</p>
+                            </div>
+                            <div className="space-y-2">
+                                <Label>SEO Site Description</Label>
+                                <Textarea name="seoDescription" value={settings.seoDescription || ''} onChange={handleChange} placeholder="A short description of the hotel for search engines..." />
                             </div>
                         </div>
                     </CardContent>
