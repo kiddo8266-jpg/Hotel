@@ -16,7 +16,7 @@ const navLinks = [
     { href: '/contact', label: 'Contact' },
 ];
 
-export default function Navbar() {
+export default function Navbar({ hotelName = "NL Josephine's Hotel" }: { hotelName?: string }) {
     const [isOpen, setIsOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
     const pathname = usePathname();
@@ -61,7 +61,7 @@ export default function Navbar() {
                     </div>
                     <div>
                         <span className={`text-2xl font-light tracking-tight transition-colors duration-500 ${isActuallyScrolled ? 'text-[#0F2C23]' : 'text-white'}`}>
-                            NL Josephine&apos;s Hotel
+                            {hotelName}
                         </span>
                     </div>
                 </Link>
@@ -133,7 +133,7 @@ export default function Navbar() {
                                     <div className="w-8 h-8 bg-[#C9A05B] rounded-full flex items-center justify-center">
                                         <span className="text-[#0F2C23] text-lg font-light">J</span>
                                     </div>
-                                    <span className="text-lg font-light tracking-tight">NL Josephine&apos;s Hotel</span>
+                                    <span className="text-lg font-light tracking-tight">{hotelName}</span>
                                 </div>
                                 <button onClick={() => setIsOpen(false)}>
                                     <X size={22} />

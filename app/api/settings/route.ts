@@ -21,6 +21,8 @@ export async function POST(request: Request) {
         const settings = await prisma.siteSetting.upsert({
             where: { id: 'main' },
             update: {
+                hotelName: data.hotelName,
+                address: data.address,
                 heroTitle: data.heroTitle,
                 heroSubtitle: data.heroSubtitle,
                 heroImage: data.heroImage,
@@ -30,9 +32,16 @@ export async function POST(request: Request) {
                 aboutHero: data.aboutHero,
                 aboutVision: data.aboutVision,
                 aboutStory: data.aboutStory,
+                facebookUrl: data.facebookUrl,
+                instagramUrl: data.instagramUrl,
+                twitterUrl: data.twitterUrl,
+                youtubeUrl: data.youtubeUrl,
+                tiktokUrl: data.tiktokUrl,
             },
             create: {
                 id: 'main',
+                hotelName: data.hotelName || "NL Josephine's Hotel",
+                address: data.address || "Seguku, Entebbe Road\\nKampala, Uganda",
                 heroTitle: data.heroTitle || 'Welcome',
                 heroSubtitle: data.heroSubtitle || '',
                 heroImage: data.heroImage || '',
@@ -42,6 +51,11 @@ export async function POST(request: Request) {
                 aboutHero: data.aboutHero || "More Than a Residence.\\nNL Josephine's Hotel.",
                 aboutVision: data.aboutVision || 'Born from a desire to blend uncompromising tranquility with modern luxury.',
                 aboutStory: data.aboutStory || "NL Josephine's Hotel was designed as a retreat from the ordinary. We believe that a home is not just a place, but a feeling—a serene sanctuary where life's best moments unfold.\n\nEvery detail, from the grand architecture to the finest interior finishes, has been meticulously curated to foster an environment of peace, security, and absolute comfort for our residents.",
+                facebookUrl: data.facebookUrl || "https://facebook.com",
+                instagramUrl: data.instagramUrl || "https://instagram.com",
+                twitterUrl: data.twitterUrl || "https://twitter.com",
+                youtubeUrl: data.youtubeUrl || "https://youtube.com",
+                tiktokUrl: data.tiktokUrl || "https://tiktok.com",
             }
         });
 

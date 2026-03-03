@@ -23,6 +23,8 @@ export default function AdminSettingsPage() {
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
     const [settings, setSettings] = useState({
+        hotelName: '',
+        address: '',
         heroTitle: '',
         heroSubtitle: '',
         heroImage: '',
@@ -32,6 +34,11 @@ export default function AdminSettingsPage() {
         aboutHero: '',
         aboutVision: '',
         aboutStory: '',
+        facebookUrl: '',
+        instagramUrl: '',
+        twitterUrl: '',
+        youtubeUrl: '',
+        tiktokUrl: '',
     });
 
     const [heroItems, setHeroItems] = useState<HeroItem[]>([]);
@@ -325,6 +332,40 @@ export default function AdminSettingsPage() {
                             <div className="space-y-2">
                                 <Label>Contact Email</Label>
                                 <Input name="contactEmail" type="email" value={settings.contactEmail} onChange={handleChange} />
+                            </div>
+                            <div className="space-y-2 mt-4">
+                                <Label>Hotel Name</Label>
+                                <Input name="hotelName" value={settings.hotelName || ''} onChange={handleChange} />
+                            </div>
+                            <div className="space-y-2 mt-4">
+                                <Label>Physical Address</Label>
+                                <Textarea name="address" value={settings.address || ''} onChange={handleChange} placeholder="Seguku, Entebbe Road\nKampala, Uganda" />
+                            </div>
+                        </div>
+
+                        <div className="space-y-4 pt-6 border-t border-gray-100 mt-6">
+                            <h3 className="font-semibold text-lg text-[#0F2C23]">Social Media Links</h3>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div className="space-y-2">
+                                    <Label>Facebook URL</Label>
+                                    <Input name="facebookUrl" type="url" value={settings.facebookUrl || ''} onChange={handleChange} placeholder="https://facebook.com/..." />
+                                </div>
+                                <div className="space-y-2">
+                                    <Label>Instagram URL</Label>
+                                    <Input name="instagramUrl" type="url" value={settings.instagramUrl || ''} onChange={handleChange} placeholder="https://instagram.com/..." />
+                                </div>
+                                <div className="space-y-2">
+                                    <Label>Twitter/X URL</Label>
+                                    <Input name="twitterUrl" type="url" value={settings.twitterUrl || ''} onChange={handleChange} placeholder="https://twitter.com/..." />
+                                </div>
+                                <div className="space-y-2">
+                                    <Label>YouTube URL</Label>
+                                    <Input name="youtubeUrl" type="url" value={settings.youtubeUrl || ''} onChange={handleChange} placeholder="https://youtube.com/..." />
+                                </div>
+                                <div className="space-y-2">
+                                    <Label>TikTok URL</Label>
+                                    <Input name="tiktokUrl" type="url" value={settings.tiktokUrl || ''} onChange={handleChange} placeholder="https://tiktok.com/..." />
+                                </div>
                             </div>
                         </div>
                     </CardContent>
