@@ -37,7 +37,12 @@ export async function POST(request: Request) {
                 twitterUrl: data.twitterUrl,
                 youtubeUrl: data.youtubeUrl,
                 tiktokUrl: data.tiktokUrl,
-            },
+                seoKeywords: data.seoKeywords,
+                seoDescription: data.seoDescription,
+                spiritImage: data.spiritImage,
+                spiritHeading: data.spiritHeading,
+                spiritLabel: data.spiritLabel,
+            } as any,
             create: {
                 id: 'main',
                 hotelName: data.hotelName || "NL Josephine's Hotel",
@@ -56,7 +61,12 @@ export async function POST(request: Request) {
                 twitterUrl: data.twitterUrl || "https://twitter.com",
                 youtubeUrl: data.youtubeUrl || "https://youtube.com",
                 tiktokUrl: data.tiktokUrl || "https://tiktok.com",
-            }
+                seoKeywords: data.seoKeywords || "vacation rental, serviced apartments, luxury hotel, Entebbe, Uganda",
+                seoDescription: data.seoDescription || "NL Josephine's Hotel offers uncompromising tranquility with modern luxury in Seguku, Entebbe Road.",
+                spiritImage: data.spiritImage || "https://images.unsplash.com/photo-1582719508461-905c673771fd?q=80&w=2600&auto=format&fit=crop",
+                spiritHeading: data.spiritHeading || "The Spirit of NL Josephine's Hotel",
+                spiritLabel: data.spiritLabel || "Our Heritage",
+            } as any
         });
 
         return NextResponse.json({ message: 'Settings updated successfully', settings });

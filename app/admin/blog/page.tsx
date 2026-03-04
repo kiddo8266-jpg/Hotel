@@ -168,13 +168,13 @@ export default function AdminBlog() {
                 <Plus className="mr-2 h-4 w-4" /> Add Post
               </Button>
             </DialogTrigger>
-            <DialogContent className="max-w-3xl bg-[#1a3a33] text-white border-[#C9A05B]/30">
-              <DialogHeader>
+            <DialogContent className="max-w-3xl bg-[#1a3a33] text-white border-[#C9A05B]/30 max-h-[90vh] flex flex-col">
+              <DialogHeader className="shrink-0">
                 <DialogTitle className="text-2xl">
                   {editing ? 'Edit Post' : 'New Post'}
                 </DialogTitle>
               </DialogHeader>
-              <form onSubmit={handleSubmit} className="space-y-6 mt-6">
+              <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto pr-4 space-y-6 mt-6 custom-scrollbar">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <label className="block text-sm mb-2">Title *</label>
@@ -247,7 +247,7 @@ export default function AdminBlog() {
                   />
                 </div>
 
-                <DialogFooter>
+                <DialogFooter className="sticky bottom-0 bg-[#1a3a33] pt-4 border-t border-[#C9A05B]/10 shrink-0">
                   <Button type="button" variant="outline" onClick={() => setOpen(false)}>
                     Cancel
                   </Button>

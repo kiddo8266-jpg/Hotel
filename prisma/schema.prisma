@@ -76,6 +76,9 @@ model SiteSetting {
   tiktokUrl        String @default("https://tiktok.com")
   seoKeywords      String @default("vacation rental, serviced apartments, luxury hotel, Entebbe, Uganda")
   seoDescription   String @default("NL Josephine's Hotel offers uncompromising tranquility with modern luxury in Seguku, Entebbe Road.")
+  spiritImage      String @default("https://images.unsplash.com/photo-1582719508461-905c673771fd?q=80&w=2600&auto=format&fit=crop")
+  spiritHeading    String @default("The Spirit of NL Josephine's Hotel")
+  spiritLabel      String @default("Our Heritage")
 }
 
 model Team {
@@ -119,6 +122,7 @@ model Amenity {
   iconName    String
   title       String
   description String
+  image       String?  @default("")
   isActive    Boolean  @default(true)
   order       Int      @default(0)
   createdAt   DateTime @default(now())

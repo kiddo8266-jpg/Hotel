@@ -41,7 +41,7 @@ export default function Navbar({ hotelName = "NL Josephine's Hotel" }: { hotelNa
         if (isActuallyScrolled) {
             return 'bg-[#6D28D9] text-white border border-[#6D28D9] hover:bg-[#5B21B6]';
         }
-        return 'bg-gradient-to-r from-[#7C3AED] to-[#6D28D9] text-white border border-transparent shadow-[0_0_20px_rgba(109,40,217,0.3)] hover:shadow-[0_0_30px_rgba(109,40,217,0.5)]';
+        return 'bg-gradient-to-r from-[#7C3AED] to-[#6D28D9] text-white border border-transparent shadow-[0_0_20px_#6D28D94D] hover:shadow-[0_0_30px_#6D28D980]';
     };
 
     return (

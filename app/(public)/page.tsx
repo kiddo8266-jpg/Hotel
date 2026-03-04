@@ -45,10 +45,11 @@ export default async function Home() {
             <section className="py-24 md:py-32 bg-[#F5F0E6] relative overflow-hidden">
                 <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
                     <div className="relative z-10">
-                        <span className="text-[#C9A05B] font-medium tracking-widest uppercase text-sm mb-6 block">Our Heritage</span>
+                        <span className="text-[#C9A05B] font-medium tracking-widest uppercase text-sm mb-6 block">{(settings as any).spiritLabel || 'Our Heritage'}</span>
                         <h2 className="text-4xl md:text-5xl lg:text-6xl font-light text-[#0F2C23] mb-8 leading-tight">
-                            The Spirit of <br />
-                            <span className="italic font-serif text-[#C9A05B]">NL Josephine&apos;s Hotel</span>
+                            {((settings as any).spiritHeading || 'The Spirit of NL Josephine\'s Hotel').split('\n').map((line: string, i: number) => (
+                                <span key={i}>{i === 0 ? line : <><br /><span className="italic font-serif text-[#C9A05B]">{line}</span></>}</span>
+                            ))}
                         </h2>
                         <p className="text-lg md:text-xl text-gray-600 font-light leading-relaxed whitespace-pre-wrap mb-10">
                             {settings.aboutText}
@@ -61,10 +62,9 @@ export default async function Home() {
                     </div>
                     <div className="relative">
                         <div className="aspect-[4/5] rounded-[40px] overflow-hidden shadow-2xl relative z-10">
-                            {/* Optional secondary image for the about section, using hero image for now if no specific about image exists */}
                             <img
-                                src="https://images.unsplash.com/photo-1582719508461-905c673771fd?q=80&w=2600&auto=format&fit=crop"
-                                alt="Interior"
+                                src={(settings as any).spiritImage || 'https://images.unsplash.com/photo-1582719508461-905c673771fd?q=80&w=2600&auto=format&fit=crop'}
+                                alt={(settings as any).spiritHeading || 'The Spirit of NL Josephine\'s Hotel'}
                                 className="w-full h-full object-cover scale-105 hover:scale-100 transition-transform duration-1000"
                             />
                         </div>

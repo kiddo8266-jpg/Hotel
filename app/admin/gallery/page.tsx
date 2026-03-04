@@ -263,22 +263,20 @@ export default function AdminGallery() {
             <div className="flex gap-1 border border-[#C9A05B]/30 rounded p-0.5">
               <button
                 onClick={() => setViewMode('grid')}
-                className={`p-1.5 rounded transition-colors ${
-                  viewMode === 'grid'
+                className={`p-1.5 rounded transition-colors ${viewMode === 'grid'
                     ? 'bg-[#C9A05B]/20 text-[#C9A05B]'
                     : 'text-white/50 hover:text-white'
-                }`}
+                  }`}
                 aria-label="Grid view"
               >
                 <LayoutGrid className="h-4 w-4" />
               </button>
               <button
                 onClick={() => setViewMode('list')}
-                className={`p-1.5 rounded transition-colors ${
-                  viewMode === 'list'
+                className={`p-1.5 rounded transition-colors ${viewMode === 'list'
                     ? 'bg-[#C9A05B]/20 text-[#C9A05B]'
                     : 'text-white/50 hover:text-white'
-                }`}
+                  }`}
                 aria-label="List view"
               >
                 <List className="h-4 w-4" />
@@ -292,13 +290,13 @@ export default function AdminGallery() {
                   <Plus className="mr-2 h-4 w-4" /> Add Media
                 </Button>
               </DialogTrigger>
-              <DialogContent className="max-w-xl bg-[#1a3a33] text-white border-[#C9A05B]/30">
-                <DialogHeader>
+              <DialogContent className="max-w-xl bg-[#1a3a33] text-white border-[#C9A05B]/30 max-h-[90vh] flex flex-col">
+                <DialogHeader className="shrink-0">
                   <DialogTitle className="text-2xl">
                     {editing ? 'Edit Media Item' : 'New Media Item'}
                   </DialogTitle>
                 </DialogHeader>
-                <form onSubmit={handleSubmit} className="space-y-6 mt-6">
+                <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto pr-4 space-y-6 mt-6 custom-scrollbar">
                   <div>
                     <label className="block text-sm mb-2">Upload File (image or video)</label>
                     <Input
@@ -367,7 +365,7 @@ export default function AdminGallery() {
                     </select>
                   </div>
 
-                  <DialogFooter>
+                  <DialogFooter className="sticky bottom-0 bg-[#1a3a33] pt-4 border-t border-[#C9A05B]/10 shrink-0">
                     <Button type="button" variant="outline" onClick={() => setOpen(false)}>
                       Cancel
                     </Button>
@@ -482,11 +480,10 @@ export default function AdminGallery() {
                   return (
                     <div
                       key={item.id}
-                      className={`group relative rounded-lg overflow-hidden border bg-[#1a3a33] transition-all ${
-                        selected
+                      className={`group relative rounded-lg overflow-hidden border bg-[#1a3a33] transition-all ${selected
                           ? 'border-[#C9A05B] ring-2 ring-[#C9A05B]'
                           : 'border-[#C9A05B]/20'
-                      }`}
+                        }`}
                     >
                       {/* Checkbox */}
                       <div className="absolute top-2 left-2 z-10">
@@ -545,9 +542,8 @@ export default function AdminGallery() {
                   return (
                     <div
                       key={item.id}
-                      className={`flex items-center gap-4 bg-[#1a3a33] rounded px-4 py-3 border transition-all ${
-                        selected ? 'border-[#C9A05B]/60 ring-1 ring-[#C9A05B]' : 'border-[#C9A05B]/10'
-                      }`}
+                      className={`flex items-center gap-4 bg-[#1a3a33] rounded px-4 py-3 border transition-all ${selected ? 'border-[#C9A05B]/60 ring-1 ring-[#C9A05B]' : 'border-[#C9A05B]/10'
+                        }`}
                     >
                       <input
                         type="checkbox"

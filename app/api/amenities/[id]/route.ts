@@ -33,9 +33,10 @@ export async function PUT(req: NextRequest, props: { params: Promise<{ id: strin
                 iconName: data.iconName !== undefined ? data.iconName : undefined,
                 title: data.title !== undefined ? data.title : undefined,
                 description: data.description !== undefined ? data.description : undefined,
+                image: data.image !== undefined ? data.image : undefined,
                 isActive: data.isActive !== undefined ? data.isActive : undefined,
                 order: data.order !== undefined ? parseInt(data.order) : undefined,
-            }
+            } as any
         });
         return NextResponse.json(updated);
     } catch (error) {

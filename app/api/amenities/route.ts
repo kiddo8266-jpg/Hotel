@@ -42,9 +42,10 @@ export async function POST(req: NextRequest) {
                 iconName: data.iconName,
                 title: data.title,
                 description: data.description,
+                image: data.image || '',
                 isActive: data.isActive ?? true,
                 order: parseInt(data.order) || 0,
-            }
+            } as any
         });
         return NextResponse.json(amenity);
     } catch (error) {

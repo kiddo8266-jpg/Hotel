@@ -33,25 +33,77 @@ export async function POST(req: NextRequest) {
         const bytes = await file.arrayBuffer();
         let buffer = Buffer.from(bytes as ArrayBuffer) as any;
 
-        // Auto upscale images to 1080px if they are smaller
+        // Auto upscale/enhance images if they are considered "low resolution"
         if (file.type.startsWith('image/')) {
             try {
-                const image = sharp(buffer);
-                const metadata = await image.metadata();
+                const imageInfo = sharp(buffer);
+                const metadata = await imageInfo.metadata();
 
-                if (metadata.width && metadata.height && (metadata.width < 1080 || metadata.height < 1080)) {
-                    buffer = await image
-                        .resize({
-                            width: 1080,
-                            height: 1080,
-                            fit: 'outside',
-                            withoutEnlargement: false
-                        })
-                        .toBuffer();
+                // Define low resolution threshold (e.g., width or height < 1200px)
+                if (metadata.width && metadata.height && (metadata.width < 1200 || metadata.height < 1200)) {
+                    // Try to use Replicate to AI upscale if token is available
+                    if (process.env.REPLICATE_API_TOKEN) {
+                        try {
+                            const Replicate = (await import('replicate')).default;
+                            const replicate = new Replicate({
+                                auth: process.env.REPLICATE_API_TOKEN,
+                            });
+
+                            // Convert buffer to base64 data URI to send to Replicate
+                            const mimeType = metadata.format === 'jpeg' ? 'image/jpeg' :
+                                metadata.format === 'png' ? 'image/png' :
+                                    metadata.format === 'webp' ? 'image/webp' : file.type;
+                            const base64Data = buffer.toString('base64');
+                            const dataUri = `data:${mimeType};base64,${base64Data}`;
+
+                            console.log('Sending low-res image to Replicate ESRGAN for upscaling...');
+                            const output = (await replicate.run(
+                                "nightmareai/real-esrgan:42fed1c4974146d4d2414e2be2c5277c7fcf05fcc3a73abf41610695738c1d7b",
+                                {
+                                    input: {
+                                        image: dataUri,
+                                        scale: 2, // 2x upscale
+                                        face_enhance: false // usually false for room/hotel shots
+                                    }
+                                }
+                            )) as unknown as string;
+
+                            // Fetch the upscaled image from the returned Replicate URL
+                            if (output) {
+                                console.log('Successfully received upscaled image from Replicate.');
+                                const upscaledRes = await fetch(output);
+                                if (upscaledRes.ok) {
+                                    const upscaledArrayBuffer = await upscaledRes.arrayBuffer();
+                                    buffer = Buffer.from(upscaledArrayBuffer);
+                                }
+                            }
+                        } catch (repError) {
+                            console.error('Replicate API error, falling back to basic sharp resize:', repError);
+                            // Fallback to basic sharp resizing
+                            buffer = await imageInfo
+                                .resize({
+                                    width: 1200,
+                                    height: 1200,
+                                    fit: 'outside',
+                                    withoutEnlargement: false
+                                })
+                                .toBuffer();
+                        }
+                    } else {
+                        // Replicate token not present, do basic sharp upscale
+                        buffer = await imageInfo
+                            .resize({
+                                width: 1200,
+                                height: 1200,
+                                fit: 'outside',
+                                withoutEnlargement: false
+                            })
+                            .toBuffer();
+                    }
                 }
             } catch (imageError) {
                 console.error('Image processing error:', imageError);
-                // Continue with original buffer if sharp fails
+                // Continue with original buffer if processing fails
             }
         }
 

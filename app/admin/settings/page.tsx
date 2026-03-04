@@ -7,7 +7,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { toast } from 'sonner';
-import { Trash2, Plus, Image as ImageIcon, Video, CheckCircle2, XCircle, GripVertical } from 'lucide-react';
+import { Trash2, Plus, Image as ImageIcon, Video, CheckCircle2, XCircle, GripVertical, Upload } from 'lucide-react';
 import {
     DndContext,
     closestCenter,
@@ -73,13 +73,13 @@ function SortableHeroItem({ item, handleToggleHero, handleDeleteHero }: { item: 
                         <div className="flex gap-2 pt-2">
                             <Button
                                 size="icon" variant="outline" className="h-8 w-8"
-                                onClick={() => handleToggleHero(item)}
+                                onClick={(e) => { e.preventDefault(); handleToggleHero(item); }}
                             >
                                 {item.isActive ? <CheckCircle2 size={14} className="text-green-600" /> : <XCircle size={14} className="text-red-400" />}
                             </Button>
                             <Button
                                 size="icon" variant="outline" className="h-8 w-8 text-red-500"
-                                onClick={() => handleDeleteHero(item.id)}
+                                onClick={(e) => { e.preventDefault(); handleDeleteHero(item.id); }}
                             >
                                 <Trash2 size={14} />
                             </Button>
@@ -113,6 +113,9 @@ export default function AdminSettingsPage() {
         tiktokUrl: '',
         seoKeywords: '',
         seoDescription: '',
+        spiritImage: '',
+        spiritHeading: '',
+        spiritLabel: '',
     });
 
     const [heroItems, setHeroItems] = useState<HeroItem[]>([]);
@@ -136,7 +139,9 @@ export default function AdminSettingsPage() {
                 const settingsData = await settingsRes.json();
                 const heroData = await heroRes.json();
 
-                if (settingsData && !settingsData.error) setSettings(settingsData);
+                if (settingsData && !settingsData.error) {
+                    setSettings(prev => ({ ...prev, ...settingsData }));
+                }
                 if (Array.isArray(heroData)) {
                     setHeroItems(heroData.sort((a, b) => a.order - b.order));
                 }
@@ -184,7 +189,7 @@ export default function AdminSettingsPage() {
         }
     };
 
-    const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>, isHeroItem: boolean = false) => {
+    const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>, fieldName: string) => {
         if (!e.target.files?.[0]) return;
         const file = e.target.files[0];
         const formData = new FormData();
@@ -198,10 +203,10 @@ export default function AdminSettingsPage() {
             });
             const data = await res.json();
             if (res.ok) {
-                if (isHeroItem) {
+                if (fieldName === 'newHero') {
                     setNewHero(prev => ({ ...prev, mediaUrl: data.url, mediaType: file.type.startsWith('video') ? 'video' : 'image' }));
                 } else {
-                    setSettings(prev => ({ ...prev, heroImage: data.url }));
+                    setSettings(prev => ({ ...prev, [fieldName]: data.url }));
                 }
                 toast.success('File uploaded successfully');
             } else {
@@ -286,7 +291,7 @@ export default function AdminSettingsPage() {
     };
 
     if (loading) return (
-        <div className="flex flex-col gap-6 animate-pulse max-w-5xl mx-auto">
+        <div className="flex flex-col gap-6 animate-pulse max-w-5xl mx-auto p-8">
             <div className="h-10 w-64 bg-gray-200 rounded-lg" />
             {[1, 2, 3].map((i) => (
                 <div key={i} className="h-24 rounded-xl bg-gray-100 border border-gray-200" />
@@ -295,16 +300,16 @@ export default function AdminSettingsPage() {
     );
 
     return (
-        <div className="max-w-5xl mx-auto space-y-8">
+        <div className="max-w-5xl mx-auto space-y-8 p-8 pb-20">
             <div>
                 <h1 className="text-3xl font-serif text-[#0F2C23]">Global Site Settings</h1>
-                <p className="text-gray-600 mt-2">Manage your homepage text, Hero media (Images/Videos), and contact info.</p>
+                <p className="text-gray-600 mt-2">Manage your homepage text, Hero media (Images/Videos), and all website content.</p>
             </div>
 
             {/* Hero Manager Section */}
             <div className="space-y-4">
                 <div className="flex justify-between items-center">
-                    <h2 className="text-xl font-semibold">Hero Content Manager</h2>
+                    <h2 className="text-xl font-semibold text-[#0F2C23]">Multi-Hero Slider Manager</h2>
                     <Button
                         onClick={() => setShowAddHero(!showAddHero)}
                         className="bg-[#0F2C23] text-white gap-2"
@@ -314,7 +319,7 @@ export default function AdminSettingsPage() {
                 </div>
 
                 {showAddHero && (
-                    <Card className="border-dashed border-2">
+                    <Card className="border-dashed border-2 border-[#C9A05B]/30">
                         <CardContent className="pt-6 space-y-4">
                             <div className="grid grid-cols-2 gap-4">
                                 <div className="space-y-2">
@@ -337,7 +342,7 @@ export default function AdminSettingsPage() {
                             <div className="space-y-2">
                                 <Label>Upload Media (Image or Video)</Label>
                                 <div className="flex items-center gap-4">
-                                    <Input type="file" accept="image/*,video/*" onChange={e => handleFileUpload(e, true)} />
+                                    <Input type="file" accept="image/*,video/*" onChange={e => handleFileUpload(e, 'newHero')} />
                                     {newHero.mediaUrl && (
                                         <div className="text-sm text-green-600 flex items-center gap-1">
                                             <CheckCircle2 size={16} /> Ready
@@ -345,7 +350,7 @@ export default function AdminSettingsPage() {
                                     )}
                                 </div>
                             </div>
-                            <Button onClick={handleAddHero} color="primary" className="w-full">Save Hero Item</Button>
+                            <Button onClick={handleAddHero} className="w-full bg-[#C9A05B] text-[#0F2C23]">Save Hero Item</Button>
                         </CardContent>
                     </Card>
                 )}
@@ -374,6 +379,68 @@ export default function AdminSettingsPage() {
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-6">
+                {/* Spirit Section Configuration */}
+                <Card className="border-[#C9A05B]/20">
+                    <CardHeader className="bg-[#F5F0E6]/50">
+                        <CardTitle className="text-[#0F2C23]">Spirit Section Configuration</CardTitle>
+                        <p className="text-sm text-gray-500">The "Spirit of NL Josephine's Hotel" section on the homepage.</p>
+                    </CardHeader>
+                    <CardContent className="space-y-6 pt-6">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div className="space-y-4">
+                                <div className="space-y-2">
+                                    <Label>Section Label</Label>
+                                    <Input
+                                        name="spiritLabel"
+                                        value={settings.spiritLabel || ''}
+                                        onChange={handleChange}
+                                        placeholder="e.g. Our Heritage"
+                                    />
+                                </div>
+                                <div className="space-y-2">
+                                    <Label>Section Heading</Label>
+                                    <Textarea
+                                        name="spiritHeading"
+                                        value={settings.spiritHeading || ''}
+                                        onChange={handleChange}
+                                        placeholder="e.g. The Spirit of NL Josephine's Hotel"
+                                    />
+                                    <p className="text-xs text-gray-400">Use \n for line break (the part after \n will be italicized gold)</p>
+                                </div>
+                            </div>
+                            <div className="space-y-2">
+                                <Label>Section Image</Label>
+                                <div className="space-y-4">
+                                    <div className="aspect-[4/3] rounded-xl overflow-hidden bg-gray-100 border border-[#C9A05B]/20 relative group">
+                                        {settings.spiritImage ? (
+                                            <img src={settings.spiritImage} className="w-full h-full object-cover" alt="Spirit section" />
+                                        ) : (
+                                            <div className="w-full h-full flex flex-col items-center justify-center text-gray-400">
+                                                <ImageIcon size={48} strokeWidth={1} />
+                                                <span className="text-sm mt-2">No Image Set</span>
+                                            </div>
+                                        )}
+                                        <label className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center cursor-pointer">
+                                            <div className="flex flex-col items-center text-white">
+                                                <Upload size={32} />
+                                                <span className="text-sm font-medium mt-2">Change Image</span>
+                                            </div>
+                                            <input type="file" accept="image/*" className="hidden" onChange={(e) => handleFileUpload(e, 'spiritImage')} />
+                                        </label>
+                                    </div>
+                                    <Input
+                                        name="spiritImage"
+                                        value={settings.spiritImage || ''}
+                                        onChange={handleChange}
+                                        placeholder="Image URL"
+                                        className="text-xs text-gray-500 border-none bg-transparent h-auto p-0 focus-visible:ring-0"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    </CardContent>
+                </Card>
+
                 <Card>
                     <CardHeader>
                         <CardTitle>Global Site Settings</CardTitle>
@@ -414,7 +481,7 @@ export default function AdminSettingsPage() {
 
                         <div className="space-y-2">
                             <h3 className="font-semibold text-lg text-[#0F2C23] border-b pb-2 mt-6">Homepage / General</h3>
-                            <Label>Short About Text (Homepage)</Label>
+                            <Label>Spirit Section Description (under heading)</Label>
                             <Textarea
                                 name="aboutText"
                                 value={settings.aboutText}
@@ -483,13 +550,12 @@ export default function AdminSettingsPage() {
                     </CardContent>
                 </Card>
 
-                <div className="flex justify-end pt-4">
-                    <Button type="submit" className="bg-[#C9A05B] hover:bg-[#B38F4F] text-[#0F2C23]" disabled={saving}>
-                        {saving ? 'Saving...' : 'Save Global Settings'}
+                <div className="sticky bottom-0 bg-white/80 backdrop-blur-md border-t border-gray-100 p-4 -mx-6 mb-[-1.5rem] mt-10 flex justify-end z-10">
+                    <Button type="submit" className="bg-[#C9A05B] hover:bg-[#B38F4F] text-[#0F2C23] px-8 py-4 h-auto text-lg font-medium shadow-lg" disabled={saving}>
+                        {saving ? 'Saving...' : 'Save All Global Settings'}
                     </Button>
                 </div>
             </form>
         </div>
     );
 }
-

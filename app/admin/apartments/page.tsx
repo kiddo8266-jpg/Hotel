@@ -25,7 +25,7 @@ import {
   DialogFooter,
 } from '@/components/ui/dialog';
 import { toast } from 'sonner';
-import { Plus, Edit, Trash2, Bold, Italic, List, ListOrdered } from 'lucide-react';
+import { Plus, Edit, Trash2, Bold, Italic, List, ListOrdered, Sparkles, Loader2 } from 'lucide-react';
 
 const MenuBar = ({ editor }: { editor: any }) => {
   if (!editor) {
@@ -92,6 +92,7 @@ export default function AdminApartments() {
   const [loading, setLoading] = useState(true);
   const [open, setOpen] = useState(false);
   const [editing, setEditing] = useState<Apartment | null>(null);
+  const [isGenerating, setIsGenerating] = useState(false);
 
   const [form, setForm] = useState({
     title: '',
@@ -173,6 +174,45 @@ export default function AdminApartments() {
       }
     } catch {
       toast.error('Upload failed');
+    }
+  };
+
+  const handleGenerateDescription = async () => {
+    if (!form.title) {
+      toast.error('Please enter a Title first so the AI has context.');
+      return;
+    }
+
+    setIsGenerating(true);
+    toast.info('AI is crafting a description...');
+
+    try {
+      const res = await fetch('/api/admin/generate-description', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          title: form.title,
+          type: form.type,
+          features: form.features,
+          imageUrl: form.image
+        })
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || 'Failed to generate description');
+      }
+
+      // Update the editor content directly
+      editor?.commands.setContent(data.content);
+      setForm(prev => ({ ...prev, description: data.content }));
+      toast.success('Description generated!');
+    } catch (err: any) {
+      console.error(err);
+      toast.error(err.message || 'Error communicating with AI');
+    } finally {
+      setIsGenerating(false);
     }
   };
 
@@ -262,13 +302,13 @@ export default function AdminApartments() {
                 <Plus className="mr-2 h-4 w-4" /> Add Apartment
               </Button>
             </DialogTrigger>
-            <DialogContent className="max-w-3xl bg-[#1a3a33] text-white border-[#C9A05B]/30">
-              <DialogHeader>
+            <DialogContent className="max-w-3xl bg-[#1a3a33] text-white border-[#C9A05B]/30 max-h-[90vh] flex flex-col">
+              <DialogHeader className="shrink-0">
                 <DialogTitle className="text-2xl">
                   {editing ? 'Edit Apartment' : 'New Apartment'}
                 </DialogTitle>
               </DialogHeader>
-              <form onSubmit={handleSubmit} className="space-y-6 mt-6">
+              <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto pr-4 space-y-6 mt-6 custom-scrollbar">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <label className="block text-sm mb-2">Title *</label>
@@ -329,7 +369,24 @@ export default function AdminApartments() {
                 </div>
 
                 <div>
-                  <label className="block text-sm mb-2">Description</label>
+                  <div className="flex justify-between items-end mb-2">
+                    <label className="block text-sm">Description</label>
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleGenerateDescription}
+                      disabled={isGenerating}
+                      className="h-8 text-[11px] font-medium text-[#C9A05B] bg-[#C9A05B]/10 hover:bg-[#C9A05B]/20 border border-[#C9A05B]/20"
+                    >
+                      {isGenerating ? (
+                        <Loader2 className="w-3 h-3 mr-1.5 animate-spin" />
+                      ) : (
+                        <Sparkles className="w-3 h-3 mr-1.5" />
+                      )}
+                      {isGenerating ? 'Drafting...' : 'Auto-draft with AI'}
+                    </Button>
+                  </div>
                   <MenuBar editor={editor} />
                   <EditorContent editor={editor} />
                 </div>
@@ -360,7 +417,7 @@ export default function AdminApartments() {
                   />
                 </div>
 
-                <DialogFooter>
+                <DialogFooter className="sticky bottom-0 bg-[#1a3a33] pt-4 border-t border-[#C9A05B]/10 shrink-0">
                   <Button type="button" variant="outline" onClick={() => setOpen(false)}>
                     Cancel
                   </Button>

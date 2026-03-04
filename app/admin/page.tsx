@@ -107,14 +107,14 @@ export default function AdminDashboard() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#0F2C23] flex items-center justify-center text-white">
+      <div className="min-h-screen bg-[#163C2E] flex items-center justify-center text-white">
         <div className="text-xl">Loading dashboard...</div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#0F2C23] text-white p-6 md:p-10">
+    <div className="min-h-screen bg-[#163C2E] text-white p-6 md:p-10">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-6">
@@ -129,7 +129,7 @@ export default function AdminDashboard() {
 
           <Button
             variant="outline"
-            className="border-white/30 text-white hover:bg-white/10"
+            className="border-red-400/30 text-red-200 hover:bg-red-500/20 hover:text-red-100 transition-colors"
             onClick={handleLogout}
           >
             <LogOut className="mr-2 h-4 w-4" />
@@ -269,7 +269,7 @@ export default function AdminDashboard() {
         <h2 className="text-2xl font-light mb-6">Quick Actions</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           <Link href="/admin/team">
-            <Card className="bg-gradient-to-br from-[#1a3a33] to-[#0F2C23] hover:from-[#2a4a43] hover:to-[#1a3a33] transition-all hover:-translate-y-1 hover:shadow-xl cursor-pointer border border-[#C9A05B]/20 h-full">
+            <Card className="bg-gradient-to-br from-[#1a3a33] to-[#163C2E] hover:from-[#2a4a43] hover:to-[#1a3a33] transition-all hover:-translate-y-1 hover:shadow-xl cursor-pointer border border-[#C9A05B]/20 h-full">
               <CardContent className="p-8 flex flex-col items-center text-center h-full">
                 <Users className="h-10 w-10 text-[#C9A05B] mb-4" />
                 <h3 className="text-xl font-medium mb-1">Leadership Team</h3>
@@ -282,7 +282,7 @@ export default function AdminDashboard() {
           </Link>
 
           <Link href="/admin/apartments">
-            <Card className="bg-gradient-to-br from-[#1a3a33] to-[#0F2C23] hover:from-[#2a4a43] hover:to-[#1a3a33] transition-all hover:-translate-y-1 hover:shadow-xl cursor-pointer border border-[#C9A05B]/20 h-full">
+            <Card className="bg-gradient-to-br from-[#1a3a33] to-[#163C2E] hover:from-[#2a4a43] hover:to-[#1a3a33] transition-all hover:-translate-y-1 hover:shadow-xl cursor-pointer border border-[#C9A05B]/20 h-full">
               <CardContent className="p-8 flex flex-col items-center text-center h-full">
                 <Home className="h-10 w-10 text-[#C9A05B] mb-4" />
                 <h3 className="text-xl font-medium mb-1">Apartments</h3>
@@ -295,7 +295,7 @@ export default function AdminDashboard() {
           </Link>
 
           <Link href="/admin/blog">
-            <Card className="bg-gradient-to-br from-[#1a3a33] to-[#0F2C23] hover:from-[#2a4a43] hover:to-[#1a3a33] transition-all hover:-translate-y-1 hover:shadow-xl cursor-pointer border border-[#C9A05B]/20 h-full">
+            <Card className="bg-gradient-to-br from-[#1a3a33] to-[#163C2E] hover:from-[#2a4a43] hover:to-[#1a3a33] transition-all hover:-translate-y-1 hover:shadow-xl cursor-pointer border border-[#C9A05B]/20 h-full">
               <CardContent className="p-8 flex flex-col items-center text-center h-full">
                 <FileText className="h-10 w-10 text-[#C9A05B] mb-4" />
                 <h3 className="text-xl font-medium mb-1">Blog / News</h3>
@@ -308,7 +308,7 @@ export default function AdminDashboard() {
           </Link>
 
           <Link href="/admin/gallery">
-            <Card className="bg-gradient-to-br from-[#1a3a33] to-[#0F2C23] hover:from-[#2a4a43] hover:to-[#1a3a33] transition-all hover:-translate-y-1 hover:shadow-xl cursor-pointer border border-[#C9A05B]/20 h-full">
+            <Card className="bg-gradient-to-br from-[#1a3a33] to-[#163C2E] hover:from-[#2a4a43] hover:to-[#1a3a33] transition-all hover:-translate-y-1 hover:shadow-xl cursor-pointer border border-[#C9A05B]/20 h-full">
               <CardContent className="p-8 flex flex-col items-center text-center h-full">
                 <ImageIcon className="h-10 w-10 text-[#C9A05B] mb-4" />
                 <h3 className="text-xl font-medium mb-1">Gallery</h3>
@@ -321,7 +321,7 @@ export default function AdminDashboard() {
           </Link>
 
           <Link href="/admin/settings">
-            <Card className="bg-gradient-to-br from-[#1a3a33] to-[#0F2C23] hover:from-[#2a4a43] hover:to-[#1a3a33] transition-all hover:-translate-y-1 hover:shadow-xl cursor-pointer border border-[#C9A05B]/20 h-full">
+            <Card className="bg-gradient-to-br from-[#1a3a33] to-[#163C2E] hover:from-[#2a4a43] hover:to-[#1a3a33] transition-all hover:-translate-y-1 hover:shadow-xl cursor-pointer border border-[#C9A05B]/20 h-full">
               <CardContent className="p-8 flex flex-col items-center text-center h-full">
                 <Settings className="h-10 w-10 text-[#C9A05B] mb-4" />
                 <h3 className="text-xl font-medium mb-1">Site Settings</h3>

@@ -37,7 +37,7 @@ export default function AdminSidebar() {
         <>
             {/* Mobile hamburger button */}
             <button
-                className="md:hidden fixed top-4 left-4 z-50 p-2 rounded bg-[#0F2C23] text-white"
+                className="md:hidden fixed top-4 left-4 z-50 p-2 rounded bg-[#163C2E] text-white"
                 onClick={() => setSidebarOpen(true)}
                 aria-label="Open sidebar"
             >
@@ -54,7 +54,7 @@ export default function AdminSidebar() {
 
             {/* Sidebar */}
             <aside
-                className={`w-64 bg-[#0F2C23] text-white fixed h-full flex flex-col z-40 transition-transform duration-300
+                className={`w-64 bg-[#163C2E] text-white fixed h-full flex flex-col z-40 transition-transform duration-300
                     ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0`}
             >
                 {/* Close button (mobile only) */}

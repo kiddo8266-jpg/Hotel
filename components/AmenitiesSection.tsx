@@ -12,6 +12,7 @@ type Amenity = {
     iconName: string;
     title: string;
     description: string;
+    image?: string | null;
 };
 
 export default function AmenitiesSection({ amenities }: { amenities: Amenity[] }) {
@@ -75,9 +76,19 @@ export default function AmenitiesSection({ amenities }: { amenities: Amenity[] }
                                         className="group"
                                     >
                                         <div className="flex items-start gap-4">
-                                            <div className="w-12 h-12 rounded-2xl bg-[#F5F0E6] flex items-center justify-center shrink-0 group-hover:bg-[#0F2C23] transition-colors duration-500">
-                                                <Icon size={20} className="text-[#0F2C23] group-hover:text-[#C9A05B] transition-colors duration-500" />
-                                            </div>
+                                            {amenity.image ? (
+                                                <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-[#C9A05B]/30 shrink-0 shadow-md group-hover:ring-2 group-hover:ring-[#C9A05B] transition-all duration-500">
+                                                    <img
+                                                        src={amenity.image}
+                                                        alt={amenity.title}
+                                                        className="w-full h-full object-cover scale-105 group-hover:scale-110 transition-transform duration-700"
+                                                    />
+                                                </div>
+                                            ) : (
+                                                <div className="w-12 h-12 rounded-full bg-[#F5F0E6] flex items-center justify-center shrink-0 group-hover:bg-[#0F2C23] transition-colors duration-500">
+                                                    <Icon size={20} className="text-[#0F2C23] group-hover:text-[#C9A05B] transition-colors duration-500" />
+                                                </div>
+                                            )}
                                             <div>
                                                 <h4 className="text-[#0F2C23] font-medium mb-1 group-hover:text-[#C9A05B] transition-colors duration-300">{amenity.title}</h4>
                                                 <p className="text-gray-500 text-sm font-light leading-relaxed">{amenity.description}</p>
