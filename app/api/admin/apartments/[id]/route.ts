@@ -11,12 +11,16 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
                 title: body.title,
                 description: body.description,
                 price: Number(body.price),
+                priceDuration: body.priceDuration || "per month",
                 image: body.image,
                 type: body.type,
                 bedrooms: Number(body.bedrooms),
                 bathrooms: Number(body.bathrooms),
                 size: Number(body.size),
                 features: body.features,
+                amenities: body.amenities ? {
+                    set: body.amenities.map((id: string) => ({ id }))
+                } : undefined,
             },
         });
         return NextResponse.json(apartment);

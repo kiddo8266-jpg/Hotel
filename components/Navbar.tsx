@@ -7,16 +7,15 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 const bookNowBase = 'flex items-center gap-2 relative overflow-hidden font-semibold text-sm uppercase tracking-widest py-2.5 px-6 rounded-full transition-all duration-300 group shadow-lg hover:scale-105 active:scale-95';
 
-const navLinks = [
-    { href: '/', label: 'Home' },
-    { href: '/apartments', label: 'Apartments' },
-    { href: '/gallery', label: 'Gallery' },
-    { href: '/journal', label: 'Journal' },
-    { href: '/about', label: 'About' },
-    { href: '/contact', label: 'Contact' },
-];
+type NavLink = { href: string; label: string; };
 
-export default function Navbar({ hotelName = "NL Josephine's Hotel" }: { hotelName?: string }) {
+export default function Navbar({
+    hotelName = "NL Josephine's Hotel",
+    navLinks = []
+}: {
+    hotelName?: string;
+    navLinks?: NavLink[];
+}) {
     const [isOpen, setIsOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
     const pathname = usePathname();

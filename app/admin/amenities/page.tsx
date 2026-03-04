@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Plus, Edit2, Trash2, Check, X, ShieldCheck, Wifi, Car, Leaf, Wine, Zap, Tv, Sparkles, Home, Bath, Upload, Image as ImageIcon } from 'lucide-react';
+import { Plus, Edit2, Trash2, Check, X, ShieldCheck, Wifi, Car, Leaf, Wine, Zap, Tv, Sparkles, Home, Bath, Upload, Image as ImageIcon, LucideIcon } from 'lucide-react';
 import { toast } from 'sonner';
 
 type Amenity = {
@@ -15,7 +15,7 @@ type Amenity = {
 };
 
 // Map string names to actual Lucide icons for preview
-const iconMap: Record<string, any> = {
+const iconMap: Record<string, LucideIcon> = {
     Wifi, ShieldCheck, Car, Leaf, Wine, Zap, Tv, Sparkles, Home, Bath
 };
 

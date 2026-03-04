@@ -5,6 +5,7 @@ export async function GET() {
   try {
     const apartments = await prisma.apartment.findMany({
       orderBy: { createdAt: 'desc' },
+      include: { amenities: true },
     });
     return NextResponse.json(apartments);
   } catch (error) {
@@ -21,12 +22,16 @@ export async function POST(req: NextRequest) {
         title: body.title,
         description: body.description,
         price: Number(body.price),
+        priceDuration: body.priceDuration || "per month",
         image: body.image || '',
         type: body.type,
         bedrooms: Number(body.bedrooms),
         bathrooms: Number(body.bathrooms),
         size: Number(body.size),
         features: body.features,
+        amenities: body.amenities?.length ? {
+          connect: body.amenities.map((id: string) => ({ id }))
+        } : undefined,
       },
     });
     return NextResponse.json(apartment, { status: 201 });

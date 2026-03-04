@@ -27,9 +27,9 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({ error: 'Title is required for context.' }, { status: 400 });
         }
 
-        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+        const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
 
-        let imageParts: Array<{ inlineData: { data: string, mimeType: string } }> = [];
+        const imageParts: Array<{ inlineData: { data: string, mimeType: string } }> = [];
 
         if (imageUrl) {
             try {
@@ -81,8 +81,8 @@ export async function POST(req: NextRequest) {
         htmlContent = htmlContent.replace(/^```html|```$/gm, '').trim();
 
         return NextResponse.json({ content: htmlContent });
-    } catch (error: any) {
+    } catch (error) {
         console.error('AI Generation Error:', error);
-        return NextResponse.json({ error: error.message || 'Failed to generate description' }, { status: 500 });
+        return NextResponse.json({ error: (error as Error).message || 'Failed to generate description' }, { status: 500 });
     }
 }

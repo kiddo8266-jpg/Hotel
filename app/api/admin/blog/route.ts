@@ -40,9 +40,9 @@ export async function POST(req: NextRequest) {
       },
     });
     return NextResponse.json(post, { status: 201 });
-  } catch (error: any) {
+  } catch (error) {
     console.error(error);
-    if (error?.code === 'P2002') {
+    if ((error as any)?.code === 'P2002') {
       return NextResponse.json({ error: 'Slug already exists' }, { status: 409 });
     }
     return NextResponse.json({ error: 'Failed to create blog post' }, { status: 500 });

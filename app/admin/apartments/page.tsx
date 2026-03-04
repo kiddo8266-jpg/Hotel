@@ -5,8 +5,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { useEditor, EditorContent } from '@tiptap/react';
+import { useEditor, EditorContent, Editor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import {
   Table,
@@ -27,7 +26,7 @@ import {
 import { toast } from 'sonner';
 import { Plus, Edit, Trash2, Bold, Italic, List, ListOrdered, Sparkles, Loader2 } from 'lucide-react';
 
-const MenuBar = ({ editor }: { editor: any }) => {
+const MenuBar = ({ editor }: { editor: Editor | null }) => {
   if (!editor) {
     return null;
   }
@@ -74,17 +73,25 @@ const MenuBar = ({ editor }: { editor: any }) => {
   );
 };
 
+type Amenity = {
+  id: string;
+  title: string;
+  iconName: string;
+};
+
 type Apartment = {
   id: string;
   title: string;
   description: string;
   price: number;
+  priceDuration: string;
   image: string;
   type: string;
   bedrooms: number;
   bathrooms: number;
   size: number;
   features: string; // comma-separated for simplicity
+  amenities?: Amenity[];
 };
 
 export default function AdminApartments() {
@@ -94,16 +101,19 @@ export default function AdminApartments() {
   const [editing, setEditing] = useState<Apartment | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
 
+  const [allAmenities, setAllAmenities] = useState<Amenity[]>([]);
   const [form, setForm] = useState({
     title: '',
     description: '',
     price: '',
+    priceDuration: 'per month',
     image: '',
     type: '',
     bedrooms: '',
     bathrooms: '',
     size: '',
     features: '',
+    amenities: [] as string[],
   });
 
   const isProgrammaticUpdate = useRef(false);
@@ -138,7 +148,19 @@ export default function AdminApartments() {
 
   useEffect(() => {
     fetchApartments();
+    fetchAmenities();
   }, []);
+
+  const fetchAmenities = async () => {
+    try {
+      const res = await fetch('/api/amenities');
+      if (res.ok) {
+        setAllAmenities(await res.json());
+      }
+    } catch {
+      toast.error('Could not load amenities');
+    }
+  };
 
   const fetchApartments = async () => {
     try {
@@ -146,7 +168,7 @@ export default function AdminApartments() {
       if (!res.ok) throw new Error('Failed to fetch');
       const data = await res.json();
       setApartments(data);
-    } catch (err) {
+    } catch {
       toast.error('Could not load apartments');
     } finally {
       setLoading(false);
@@ -208,12 +230,21 @@ export default function AdminApartments() {
       editor?.commands.setContent(data.content);
       setForm(prev => ({ ...prev, description: data.content }));
       toast.success('Description generated!');
-    } catch (err: any) {
+    } catch (err) {
       console.error(err);
-      toast.error(err.message || 'Error communicating with AI');
+      toast.error((err as Error).message || 'Error communicating with AI');
     } finally {
       setIsGenerating(false);
     }
+  };
+
+  const toggleAmenity = (id: string) => {
+    setForm(prev => ({
+      ...prev,
+      amenities: prev.amenities.includes(id)
+        ? prev.amenities.filter(a => a !== id)
+        : [...prev.amenities, id]
+    }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -243,8 +274,8 @@ export default function AdminApartments() {
       setOpen(false);
       resetForm();
       fetchApartments();
-    } catch (err: any) {
-      toast.error(err.message);
+    } catch (err) {
+      toast.error((err as Error).message);
     }
   };
 
@@ -255,7 +286,7 @@ export default function AdminApartments() {
       if (!res.ok) throw new Error('Delete failed');
       toast.success('Apartment deleted');
       fetchApartments();
-    } catch (err) {
+    } catch {
       toast.error('Could not delete');
     }
   };
@@ -266,12 +297,14 @@ export default function AdminApartments() {
       title: apt.title,
       description: apt.description,
       price: apt.price.toString(),
+      priceDuration: apt.priceDuration || 'per month',
       image: apt.image,
       type: apt.type,
       bedrooms: apt.bedrooms.toString(),
       bathrooms: apt.bathrooms.toString(),
       size: apt.size.toString(),
       features: apt.features,
+      amenities: apt.amenities ? apt.amenities.map(a => a.id) : [],
     });
     setOpen(true);
   };
@@ -281,12 +314,14 @@ export default function AdminApartments() {
       title: '',
       description: '',
       price: '',
+      priceDuration: 'per month',
       image: '',
       type: '',
       bedrooms: '',
       bathrooms: '',
       size: '',
       features: '',
+      amenities: [],
     });
     setEditing(null);
   };
@@ -328,14 +363,26 @@ export default function AdminApartments() {
                     />
                   </div>
                   <div>
-                    <label className="block text-sm mb-2">Price (UGX) *</label>
-                    <Input
-                      type="number"
-                      value={form.price}
-                      onChange={(e) => setForm({ ...form, price: e.target.value })}
-                      required
-                      className="bg-[#0F2C23]/70 border-[#C9A05B]/30"
-                    />
+                    <label className="block text-sm mb-2">Price (UGX) & Duration *</label>
+                    <div className="flex gap-2">
+                      <Input
+                        type="number"
+                        value={form.price}
+                        onChange={(e) => setForm({ ...form, price: e.target.value })}
+                        required
+                        className="bg-[#0F2C23]/70 border-[#C9A05B]/30 flex-1"
+                      />
+                      <select
+                        value={form.priceDuration}
+                        onChange={(e) => setForm({ ...form, priceDuration: e.target.value })}
+                        className="bg-[#0F2C23]/70 border border-[#C9A05B]/30 rounded-md text-white text-sm px-3 w-[140px] h-10 focus:outline-none focus:ring-1 focus:ring-[#C9A05B]"
+                      >
+                        <option value="per night">per night</option>
+                        <option value="per week">per week</option>
+                        <option value="per month">per month</option>
+                        <option value="per year">per year</option>
+                      </select>
+                    </div>
                   </div>
                   <div className="grid grid-cols-3 gap-4">
                     <div>
@@ -392,13 +439,30 @@ export default function AdminApartments() {
                 </div>
 
                 <div>
-                  <label className="block text-sm mb-2">Features (comma separated)</label>
+                  <label className="block text-sm mb-2">Legacy Features (Text-based fallback)</label>
                   <Input
                     value={form.features}
                     onChange={(e) => setForm({ ...form, features: e.target.value })}
                     placeholder="e.g. Balcony, WiFi, Parking, Fully furnished"
                     className="bg-[#0F2C23]/70 border-[#C9A05B]/30"
                   />
+                </div>
+
+                <div>
+                  <label className="block text-sm mb-2">Dynamic Amenities</label>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                    {allAmenities.map((amenity) => (
+                      <label key={amenity.id} className="flex items-center space-x-2 cursor-pointer p-2 rounded border border-[#C9A05B]/20 hover:bg-[#C9A05B]/10 transition-colors">
+                        <input
+                          type="checkbox"
+                          checked={form.amenities.includes(amenity.id)}
+                          onChange={() => toggleAmenity(amenity.id)}
+                          className="rounded border-[#C9A05B]/30 text-[#C9A05B] focus:ring-[#C9A05B]"
+                        />
+                        <span className="text-sm">{amenity.title}</span>
+                      </label>
+                    ))}
+                  </div>
                 </div>
 
                 <div>
@@ -456,7 +520,7 @@ export default function AdminApartments() {
                   <TableRow key={apt.id} className="hover:bg-[#1a3a33]/50">
                     <TableCell className="font-medium">{apt.title}</TableCell>
                     <TableCell>{apt.type}</TableCell>
-                    <TableCell>{apt.price.toLocaleString()}</TableCell>
+                    <TableCell>{apt.price.toLocaleString()} <span className="text-xs text-gray-400 block">{apt.priceDuration}</span></TableCell>
                     <TableCell>{apt.bedrooms} / {apt.bathrooms}</TableCell>
                     <TableCell>{apt.size}</TableCell>
                     <TableCell className="text-right space-x-2">

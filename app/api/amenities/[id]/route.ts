@@ -36,7 +36,7 @@ export async function PUT(req: NextRequest, props: { params: Promise<{ id: strin
                 image: data.image !== undefined ? data.image : undefined,
                 isActive: data.isActive !== undefined ? data.isActive : undefined,
                 order: data.order !== undefined ? parseInt(data.order) : undefined,
-            } as any
+            }
         });
         return NextResponse.json(updated);
     } catch (error) {

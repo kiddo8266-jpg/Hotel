@@ -29,9 +29,9 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
       },
     });
     return NextResponse.json(post);
-  } catch (error: any) {
+  } catch (error) {
     console.error(error);
-    if (error?.code === 'P2002') {
+    if ((error as any)?.code === 'P2002') {
       return NextResponse.json({ error: 'Slug already exists' }, { status: 409 });
     }
     return NextResponse.json({ error: 'Failed to update blog post' }, { status: 500 });

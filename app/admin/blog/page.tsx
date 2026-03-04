@@ -122,8 +122,8 @@ export default function AdminBlog() {
       setOpen(false);
       resetForm();
       fetchPosts();
-    } catch (err: any) {
-      toast.error(err.message);
+    } catch (err) {
+      toast.error((err as Error).message);
     }
   };
 

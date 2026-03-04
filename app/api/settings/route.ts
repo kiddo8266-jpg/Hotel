@@ -42,7 +42,9 @@ export async function POST(request: Request) {
                 spiritImage: data.spiritImage,
                 spiritHeading: data.spiritHeading,
                 spiritLabel: data.spiritLabel,
-            } as any,
+                footerBadge: data.footerBadge,
+                footerDescription: data.footerDescription,
+            },
             create: {
                 id: 'main',
                 hotelName: data.hotelName || "NL Josephine's Hotel",
@@ -66,7 +68,9 @@ export async function POST(request: Request) {
                 spiritImage: data.spiritImage || "https://images.unsplash.com/photo-1582719508461-905c673771fd?q=80&w=2600&auto=format&fit=crop",
                 spiritHeading: data.spiritHeading || "The Spirit of NL Josephine's Hotel",
                 spiritLabel: data.spiritLabel || "Our Heritage",
-            } as any
+                footerBadge: data.footerBadge || "A Sanctuary",
+                footerDescription: data.footerDescription || "Experience quiet luxury and uncompromising comfort. Your serene home away from home in the heart of Seguku.",
+            }
         });
 
         return NextResponse.json({ message: 'Settings updated successfully', settings });

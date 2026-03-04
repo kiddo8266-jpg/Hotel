@@ -22,12 +22,14 @@ model Apartment {
   title       String
   description String
   price       Float
+  priceDuration String @default("per month")
   image       String
   type        String
   bedrooms    Int
   bathrooms   Int
   size        Int
-  features    String   // comma-separated for simplicity
+  features    String   // comma-separated fallback/legacy
+  amenities   Amenity[]
   createdAt   DateTime @default(now())
 
   @@index([type])
@@ -79,6 +81,8 @@ model SiteSetting {
   spiritImage      String @default("https://images.unsplash.com/photo-1582719508461-905c673771fd?q=80&w=2600&auto=format&fit=crop")
   spiritHeading    String @default("The Spirit of NL Josephine's Hotel")
   spiritLabel      String @default("Our Heritage")
+  footerBadge      String @default("A Sanctuary")
+  footerDescription String @default("Experience quiet luxury and uncompromising comfort. Your serene home away from home in the heart of Seguku.")
 }
 
 model Team {
@@ -126,4 +130,15 @@ model Amenity {
   isActive    Boolean  @default(true)
   order       Int      @default(0)
   createdAt   DateTime @default(now())
+  apartments  Apartment[]
+}
+
+model NavigationLink {
+  id        String   @id @default(cuid())
+  label     String
+  href      String
+  order     Int      @default(0)
+  isHeader  Boolean  @default(true)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
 }

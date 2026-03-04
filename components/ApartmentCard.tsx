@@ -10,6 +10,7 @@ export type Apartment = {
     title: string;
     description: string;
     price: number;
+    priceDuration: string;
     image: string;
     type: string;
     bedrooms: number;
@@ -41,7 +42,7 @@ export default function ApartmentCard({ apt, index }: { apt: Apartment; index: n
                 {/* Price Tag */}
                 <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-md px-4 py-2 rounded-full shadow-lg border border-white/50 z-20">
                     <p className="text-[#0F2C23] font-semibold text-sm">
-                        UGX {apt.price.toLocaleString()} <span className="text-[10px] opacity-70 uppercase tracking-tighter">/ month</span>
+                        UGX {apt.price.toLocaleString()} <span className="text-[10px] opacity-70 uppercase tracking-tighter">/ {apt.priceDuration || 'month'}</span>
                     </p>
                 </div>
 

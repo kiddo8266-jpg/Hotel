@@ -3,11 +3,18 @@ import { Facebook, Instagram, Youtube, Phone, Mail, MapPin } from 'lucide-react'
 import { prisma } from '@/lib/prisma';
 
 export default async function Footer() {
-    const settings = await prisma.siteSetting.findUnique({ where: { id: 'main' } });
+    const [settings, footerLinks] = await Promise.all([
+        prisma.siteSetting.findUnique({ where: { id: 'main' } }),
+        prisma.navigationLink.findMany({
+            where: { isHeader: false, isActive: true },
+            orderBy: { order: 'asc' },
+            select: { href: true, label: true }
+        })
+    ]);
 
     const hotelName = settings?.hotelName || "NL Josephine's Hotel";
     const phone = settings?.contactPhone || '0772560696';
-    const email = settings?.contactEmail || 'info@josehotel.com';
+    const email = settings?.contactEmail || 'nljosephine2025@gmail.com';
     const address = settings?.address || 'Seguku, Entebbe Road\nKampala, Uganda';
     const facebookUrl = settings?.facebookUrl || 'https://facebook.com';
     const instagramUrl = settings?.instagramUrl || 'https://instagram.com';
@@ -21,23 +28,27 @@ export default async function Footer() {
         <footer className="bg-[#163C2E] text-gray-400 py-16 border-t border-[#C9A05B]/10">
             <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-12 gap-12 lg:gap-20">
                 <div className="md:col-span-4 space-y-6">
-                    <span className="inline-block px-3 py-1 rounded-full border border-white/10 bg-white/5 text-white/60 text-[10px] font-bold tracking-[0.3em] uppercase mb-2 backdrop-blur-md">
-                        A Sanctuary
-                    </span>
+                    {settings?.footerBadge && (
+                        <span className="inline-block px-3 py-1 rounded-full border border-white/10 bg-white/5 text-white/60 text-[10px] font-bold tracking-[0.3em] uppercase mb-2 backdrop-blur-md">
+                            {settings.footerBadge}
+                        </span>
+                    )}
                     <h3 className="text-3xl font-light text-white font-serif italic mb-4">{hotelName}</h3>
-                    <p className="text-sm font-light leading-relaxed text-gray-300 max-w-sm">
-                        Experience quiet luxury and uncompromising comfort. Your serene home away from home in the heart of Seguku.
+                    <p className="text-sm font-light leading-relaxed text-gray-300 max-w-sm whitespace-pre-line">
+                        {settings?.footerDescription || 'Experience quiet luxury and uncompromising comfort. Your serene home away from home.'}
                     </p>
                 </div>
 
                 <div className="md:col-span-2 space-y-6">
                     <h4 className="text-xs font-bold text-white uppercase tracking-widest">Navigation</h4>
                     <ul className="space-y-4">
-                        <li><Link href="/" className="text-sm font-light hover:text-[#C9A05B] transition-colors">The Sanctuary</Link></li>
-                        <li><Link href="/apartments" className="text-sm font-light hover:text-[#C9A05B] transition-colors">The Collection</Link></li>
-                        <li><Link href="/services" className="text-sm font-light hover:text-[#C9A05B] transition-colors">Services</Link></li>
-                        <li><Link href="/about" className="text-sm font-light hover:text-[#C9A05B] transition-colors">Our Heritage</Link></li>
-                        <li><Link href="/journal" className="text-sm font-light hover:text-[#C9A05B] transition-colors">The Journal</Link></li>
+                        {footerLinks.map((link: { href: string; label: string }) => (
+                            <li key={link.href}>
+                                <Link href={link.href} className="text-sm font-light hover:text-[#C9A05B] transition-colors">
+                                    {link.label}
+                                </Link>
+                            </li>
+                        ))}
                     </ul>
                 </div>
 
@@ -61,7 +72,7 @@ export default async function Footer() {
                                 <MapPin size={14} className="text-[#C9A05B] group-hover:text-[#163C2E] transition-colors" />
                             </span>
                             <span className="text-sm font-light text-gray-300 leading-relaxed pt-1">
-                                {addressLines.map((line, i) => (
+                                {addressLines.map((line: string, i: number) => (
                                     <span key={i}>{line}{i < addressLines.length - 1 && <br />}</span>
                                 ))}
                             </span>

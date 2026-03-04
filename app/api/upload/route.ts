@@ -31,7 +31,7 @@ export async function POST(req: NextRequest) {
         }
 
         const bytes = await file.arrayBuffer();
-        let buffer = Buffer.from(bytes as ArrayBuffer) as any;
+        let buffer = Buffer.from(bytes as ArrayBuffer) as unknown as Buffer;
 
         // Auto upscale/enhance images if they are considered "low resolution"
         if (file.type.startsWith('image/')) {
@@ -74,7 +74,7 @@ export async function POST(req: NextRequest) {
                                 const upscaledRes = await fetch(output);
                                 if (upscaledRes.ok) {
                                     const upscaledArrayBuffer = await upscaledRes.arrayBuffer();
-                                    buffer = Buffer.from(upscaledArrayBuffer);
+                                    buffer = Buffer.from(upscaledArrayBuffer) as unknown as Buffer;
                                 }
                             }
                         } catch (repError) {

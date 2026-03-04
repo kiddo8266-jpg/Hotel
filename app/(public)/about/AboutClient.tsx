@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Shield, Sparkles, Utensils, Building2 } from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 type TeamMember = {
     id: string;
@@ -63,7 +64,7 @@ export default function AboutClient({ initialTeam, settings }: { initialTeam: Te
                         transition={{ duration: 1, delay: 0.4 }}
                         className="text-gray-200 text-lg md:text-xl font-light leading-relaxed max-w-2xl mx-auto"
                     >
-                        Discover the story, vision, and uncompromising dedication behind NL Josephine's Hotel's premier luxury living experience.
+                        Discover the story, vision, and uncompromising dedication behind NL Josephine&apos;s Hotel&apos;s premier luxury living experience.
                     </motion.p>
                 </div>
             </section>
@@ -158,7 +159,7 @@ export default function AboutClient({ initialTeam, settings }: { initialTeam: Te
                             </div>
                             <h3 className="text-2xl font-medium text-[#0F2C23] mb-4 group-hover:text-white transition-colors duration-500">Culinary Excellence</h3>
                             <p className="text-gray-600 font-light leading-relaxed group-hover:text-white/90 transition-colors duration-500">
-                                Home to NL Josephine's Gastronomy, where we celebrate the art of taste with organic ingredients and masterful global cuisine.
+                                Home to NL Josephine&apos;s Gastronomy, where we celebrate the art of taste with organic ingredients and masterful global cuisine.
                             </p>
                         </motion.div>
 
@@ -242,12 +243,12 @@ export default function AboutClient({ initialTeam, settings }: { initialTeam: Te
                     <h2 className="text-4xl md:text-5xl lg:text-6xl font-light text-white mb-8 leading-tight">
                         Experience the <span className="italic font-serif text-[#C9A05B]">Sanctuary</span>
                     </h2>
-                    <a href="/apartments" className="inline-flex items-center gap-3 bg-white text-[#0F2C23] px-8 py-4 rounded-full font-bold text-xs uppercase tracking-[0.2em] hover:bg-[#C9A05B] hover:text-white transition-all duration-500 group">
+                    <Link href="/apartments" className="inline-flex items-center gap-3 bg-white text-[#0F2C23] px-8 py-4 rounded-full font-bold text-xs uppercase tracking-[0.2em] hover:bg-[#C9A05B] hover:text-white transition-all duration-500 group">
                         Discover Apartments
                         <div className="w-6 h-6 rounded-full bg-[#0F2C23]/10 flex items-center justify-center group-hover:bg-white/20 transition-colors">
                             <span className="text-lg leading-none transform group-hover:translate-x-1 transition-transform">→</span>
                         </div>
-                    </a>
+                    </Link>
                 </div>
             </section>
         </div>

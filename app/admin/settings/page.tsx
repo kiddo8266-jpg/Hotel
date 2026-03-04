@@ -7,7 +7,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { toast } from 'sonner';
-import { Trash2, Plus, Image as ImageIcon, Video, CheckCircle2, XCircle, GripVertical, Upload } from 'lucide-react';
+import { Trash2, Plus, Image as ImageIcon, Video, CheckCircle2, XCircle, GripVertical, Upload, Link as LinkIcon } from 'lucide-react';
 import {
     DndContext,
     closestCenter,
@@ -36,7 +36,7 @@ interface HeroItem {
     isActive: boolean;
 }
 
-function SortableHeroItem({ item, handleToggleHero, handleDeleteHero }: { item: HeroItem, handleToggleHero: any, handleDeleteHero: any }) {
+function SortableHeroItem({ item, handleToggleHero, handleDeleteHero }: { item: HeroItem, handleToggleHero: (item: HeroItem) => void, handleDeleteHero: (id: string) => void }) {
     const {
         attributes,
         listeners,
@@ -91,6 +91,64 @@ function SortableHeroItem({ item, handleToggleHero, handleDeleteHero }: { item: 
     );
 }
 
+interface NavItem {
+    id: string;
+    label: string;
+    href: string;
+    order: number;
+    isHeader: boolean;
+    isActive: boolean;
+}
+
+function SortableNavItem({ item, handleToggleNav, handleDeleteNav }: { item: NavItem, handleToggleNav: (item: NavItem) => void, handleDeleteNav: (id: string) => void }) {
+    const {
+        attributes,
+        listeners,
+        setNodeRef,
+        transform,
+        transition,
+    } = useSortable({ id: item.id });
+
+    const style = {
+        transform: CSS.Transform.toString(transform),
+        transition,
+    };
+
+    return (
+        <div ref={setNodeRef} style={style} className="w-full">
+            <Card className={!item.isActive ? 'opacity-50' : ''}>
+                <CardContent className="p-4 flex gap-4 items-center">
+                    <div {...attributes} {...listeners} className="cursor-grab hover:text-[#C9A05B]">
+                        <GripVertical size={20} />
+                    </div>
+                    <div className="flex-1 space-y-1">
+                        <div className="flex items-center gap-2">
+                            <p className="font-semibold text-sm">{item.label}</p>
+                            {item.isHeader && <span className="text-[10px] bg-[#C9A05B]/10 text-[#C9A05B] px-2 py-0.5 rounded-full">Header</span>}
+                            {!item.isHeader && <span className="text-[10px] bg-gray-100 text-gray-500 px-2 py-0.5 rounded-full">Footer</span>}
+                        </div>
+                        <p className="text-xs text-gray-400 font-mono">{item.href}</p>
+                    </div>
+                    <div className="flex gap-2">
+                        <Button
+                            size="icon" variant="outline" className="h-8 w-8"
+                            onClick={(e) => { e.preventDefault(); handleToggleNav(item); }}
+                        >
+                            {item.isActive ? <CheckCircle2 size={14} className="text-green-600" /> : <XCircle size={14} className="text-red-400" />}
+                        </Button>
+                        <Button
+                            size="icon" variant="outline" className="h-8 w-8 text-red-500"
+                            onClick={(e) => { e.preventDefault(); handleDeleteNav(item.id); }}
+                        >
+                            <Trash2 size={14} />
+                        </Button>
+                    </div>
+                </CardContent>
+            </Card>
+        </div>
+    );
+}
+
 export default function AdminSettingsPage() {
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
@@ -116,10 +174,14 @@ export default function AdminSettingsPage() {
         spiritImage: '',
         spiritHeading: '',
         spiritLabel: '',
+        footerBadge: '',
+        footerDescription: '',
     });
 
     const [heroItems, setHeroItems] = useState<HeroItem[]>([]);
+    const [navItems, setNavItems] = useState<NavItem[]>([]);
     const [showAddHero, setShowAddHero] = useState(false);
+    const [showAddNav, setShowAddNav] = useState(false);
     const [newHero, setNewHero] = useState({
         title: '',
         subtitle: '',
@@ -128,22 +190,34 @@ export default function AdminSettingsPage() {
         order: 0
     });
 
+    const [newNav, setNewNav] = useState({
+        label: '',
+        href: '',
+        isHeader: true,
+        order: 0
+    });
+
     useEffect(() => {
         const loadData = async () => {
             try {
-                const [settingsRes, heroRes] = await Promise.all([
+                const [settingsRes, heroRes, navRes] = await Promise.all([
                     fetch('/api/settings'),
-                    fetch('/api/admin/hero')
+                    fetch('/api/admin/hero'),
+                    fetch('/api/admin/navigation')
                 ]);
 
                 const settingsData = await settingsRes.json();
                 const heroData = await heroRes.json();
+                const navData = await navRes.json();
 
                 if (settingsData && !settingsData.error) {
                     setSettings(prev => ({ ...prev, ...settingsData }));
                 }
                 if (Array.isArray(heroData)) {
                     setHeroItems(heroData.sort((a, b) => a.order - b.order));
+                }
+                if (Array.isArray(navData)) {
+                    setNavItems(navData.sort((a: NavItem, b: NavItem) => a.order - b.order));
                 }
             } catch (error) {
                 toast.error('Failed to load settings');
@@ -177,6 +251,29 @@ export default function AdminSettingsPage() {
 
                 // Update order in database
                 fetch('/api/admin/hero/reorder', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        items: newItems.map((item, index) => ({ id: item.id, order: index }))
+                    }),
+                });
+
+                return newItems;
+            });
+        }
+    };
+
+    const handleNavDragEnd = async (event: DragEndEvent) => {
+        const { active, over } = event;
+
+        if (over && active.id !== over.id) {
+            setNavItems((items) => {
+                const oldIndex = items.findIndex((item) => item.id === active.id);
+                const newIndex = items.findIndex((item) => item.id === over.id);
+
+                const newItems = arrayMove(items, oldIndex, newIndex);
+
+                fetch('/api/admin/navigation/reorder', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -263,6 +360,58 @@ export default function AdminSettingsPage() {
             });
             if (res.ok) {
                 setHeroItems(prev => prev.map(h => h.id === item.id ? { ...h, isActive: !h.isActive } : h));
+            }
+        } catch {
+            toast.error('Toggle failed');
+        }
+    };
+
+    const handleAddNav = async () => {
+        if (!newNav.label || !newNav.href) {
+            toast.error('Please provide a label and href (URL)');
+            return;
+        }
+
+        try {
+            const res = await fetch('/api/admin/navigation', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(newNav),
+            });
+            const data = await res.json();
+            if (res.ok) {
+                setNavItems(prev => [...prev, data]);
+                setNewNav({ label: '', href: '', isHeader: true, order: 0 });
+                setShowAddNav(false);
+                toast.success('Navigation link added');
+            }
+        } catch {
+            toast.error('Failed to add navigation link');
+        }
+    };
+
+    const handleDeleteNav = async (id: string) => {
+        if (!confirm('Delete this navigation link?')) return;
+        try {
+            const res = await fetch(`/api/admin/navigation/${id}`, { method: 'DELETE' });
+            if (res.ok) {
+                setNavItems(prev => prev.filter(item => item.id !== id));
+                toast.success('Deleted successfully');
+            }
+        } catch {
+            toast.error('Delete failed');
+        }
+    };
+
+    const handleToggleNav = async (item: NavItem) => {
+        try {
+            const res = await fetch(`/api/admin/navigation/${item.id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ ...item, isActive: !item.isActive }),
+            });
+            if (res.ok) {
+                setNavItems(prev => prev.map(n => n.id === item.id ? { ...n, isActive: !n.isActive } : n));
             }
         } catch {
             toast.error('Toggle failed');
@@ -378,12 +527,102 @@ export default function AdminSettingsPage() {
                 </DndContext>
             </div>
 
+            {/* Navigation Manager Section */}
+            <div className="space-y-4 pt-6 border-t border-[#0F2C23]/10">
+                <div className="flex justify-between items-center">
+                    <div>
+                        <h2 className="text-xl font-semibold text-[#0F2C23]">Navigation Links Manager</h2>
+                        <p className="text-sm text-gray-500">Manage all website header and footer menu links.</p>
+                    </div>
+                    <Button
+                        onClick={() => setShowAddNav(!showAddNav)}
+                        className="bg-[#0F2C23] text-white gap-2"
+                    >
+                        {showAddNav ? 'Cancel' : <><LinkIcon size={16} /> Add Link</>}
+                    </Button>
+                </div>
+
+                {showAddNav && (
+                    <Card className="border-dashed border-2 border-[#C9A05B]/30">
+                        <CardContent className="pt-6 space-y-4">
+                            <div className="grid grid-cols-2 gap-4">
+                                <div className="space-y-2">
+                                    <Label>Button Label</Label>
+                                    <Input
+                                        placeholder="e.g. The Sanctuary"
+                                        value={newNav.label}
+                                        onChange={e => setNewNav(prev => ({ ...prev, label: e.target.value }))}
+                                    />
+                                </div>
+                                <div className="space-y-2">
+                                    <Label>URL Destination (href)</Label>
+                                    <Input
+                                        placeholder="e.g. /apartments"
+                                        value={newNav.href}
+                                        onChange={e => setNewNav(prev => ({ ...prev, href: e.target.value }))}
+                                    />
+                                    <p className="text-xs text-gray-400">Use relative paths (like /about) for internal pages.</p>
+                                </div>
+                            </div>
+                            <div className="space-y-2 pb-2">
+                                <Label>Where should this link appear?</Label>
+                                <div className="flex items-center gap-4 mt-2">
+                                    <label className="flex items-center gap-2 text-sm cursor-pointer">
+                                        <input
+                                            type="radio"
+                                            name="isHeader"
+                                            checked={newNav.isHeader}
+                                            onChange={() => setNewNav(prev => ({ ...prev, isHeader: true }))}
+                                            className="text-[#C9A05B] focus:ring-[#C9A05B]"
+                                        />
+                                        Main Header Bar
+                                    </label>
+                                    <label className="flex items-center gap-2 text-sm cursor-pointer">
+                                        <input
+                                            type="radio"
+                                            name="isHeader"
+                                            checked={!newNav.isHeader}
+                                            onChange={() => setNewNav(prev => ({ ...prev, isHeader: false }))}
+                                            className="text-[#C9A05B] focus:ring-[#C9A05B]"
+                                        />
+                                        Footer Column Only
+                                    </label>
+                                </div>
+                            </div>
+                            <Button onClick={handleAddNav} className="w-full bg-[#C9A05B] text-[#0F2C23]">Save Navigation Link</Button>
+                        </CardContent>
+                    </Card>
+                )}
+
+                <DndContext
+                    sensors={sensors}
+                    collisionDetection={closestCenter}
+                    onDragEnd={handleNavDragEnd}
+                >
+                    <SortableContext
+                        items={navItems}
+                        strategy={verticalListSortingStrategy}
+                    >
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                            {navItems.map((item) => (
+                                <SortableNavItem
+                                    key={item.id}
+                                    item={item}
+                                    handleToggleNav={handleToggleNav}
+                                    handleDeleteNav={handleDeleteNav}
+                                />
+                            ))}
+                        </div>
+                    </SortableContext>
+                </DndContext>
+            </div>
+
             <form onSubmit={handleSubmit} className="space-y-6">
                 {/* Spirit Section Configuration */}
                 <Card className="border-[#C9A05B]/20">
                     <CardHeader className="bg-[#F5F0E6]/50">
                         <CardTitle className="text-[#0F2C23]">Spirit Section Configuration</CardTitle>
-                        <p className="text-sm text-gray-500">The "Spirit of NL Josephine's Hotel" section on the homepage.</p>
+                        <p className="text-sm text-gray-500">The &quot;Spirit of NL Josephine&apos;s Hotel&quot; section on the homepage.</p>
                     </CardHeader>
                     <CardContent className="space-y-6 pt-6">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -488,6 +727,31 @@ export default function AdminSettingsPage() {
                                 onChange={handleChange}
                                 className="min-h-[100px]"
                             />
+                            <div className="space-y-2 mt-4">
+                                <h3 className="font-semibold text-lg text-[#0F2C23] border-b pb-2 mt-6">Footer Configuration</h3>
+
+                                <div className="grid gap-4 mt-4">
+                                    <div className="space-y-2">
+                                        <Label>Footer Branding Badge (Uppercase style)</Label>
+                                        <Input
+                                            name="footerBadge"
+                                            value={settings.footerBadge || ''}
+                                            onChange={handleChange}
+                                            placeholder="e.g. A Sanctuary"
+                                        />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <Label>Footer Branding Description</Label>
+                                        <Textarea
+                                            name="footerDescription"
+                                            value={settings.footerDescription || ''}
+                                            onChange={handleChange}
+                                            className="min-h-[80px]"
+                                            placeholder="Experience quiet luxury and uncompromising comfort..."
+                                        />
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                         <div className="grid grid-cols-2 gap-4">
