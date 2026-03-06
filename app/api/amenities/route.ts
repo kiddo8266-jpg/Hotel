@@ -3,7 +3,7 @@ import { prisma } from '@/lib/prisma';
 import { cookies } from 'next/headers';
 import jwt from 'jsonwebtoken';
 
-const JWT_SECRET = process.env.JWT_SECRET || 'supersecretjwtkeyforjosephinehotel';
+const JWT_SECRET = process.env.JWT_SECRET!;
 
 async function verifyAdmin() {
     const cookieStore = await cookies();

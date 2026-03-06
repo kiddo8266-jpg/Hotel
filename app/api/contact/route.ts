@@ -13,7 +13,12 @@ export async function POST(request: Request) {
 
         // Fetch the official hotel contact email from the database
         const settings = await prisma.siteSetting.findUnique({ where: { id: 'main' }, select: { contactEmail: true } });
-        const officialEmail = settings?.contactEmail || process.env.SMTP_USER || 'nljosephine2025@gmail.com';
+        const officialEmail = settings?.contactEmail || process.env.SMTP_USER;
+
+        if (!officialEmail || !process.env.SMTP_USER || !process.env.SMTP_PASSWORD) {
+            console.error('SMTP configuration missing');
+            return NextResponse.json({ error: 'Mail server configuration missing' }, { status: 500 });
+        }
         const resolvedSubject = apartmentName ? `Room Viewing Request – ${apartmentName}` : (subject || 'New Enquiry');
 
         // 1. Save to Database
