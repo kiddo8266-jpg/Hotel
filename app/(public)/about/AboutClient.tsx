@@ -18,6 +18,9 @@ type AboutSettings = {
     heroHeadline: string;
     visionHeadline: string;
     visionStory: string;
+    heroImage: string;
+    visionImage1: string;
+    visionImage2: string;
 };
 
 export default function AboutClient({ initialTeam, settings }: { initialTeam: TeamMember[], settings: AboutSettings }) {
@@ -34,7 +37,7 @@ export default function AboutClient({ initialTeam, settings }: { initialTeam: Te
             <section className="relative h-[80vh] min-h-[600px] flex items-center justify-center overflow-hidden">
                 <div className="absolute inset-0 z-0">
                     <img
-                        src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&q=80"
+                        src={settings.heroImage}
                         alt="NL Josephine's Hotel Interior"
                         className="w-full h-full object-cover object-center scale-105 transform origin-center"
                     />
@@ -97,14 +100,14 @@ export default function AboutClient({ initialTeam, settings }: { initialTeam: Te
                         >
                             <div className="aspect-[4/5] rounded-[40px] overflow-hidden shadow-2xl relative z-10">
                                 <img
-                                    src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&q=80"
+                                    src={settings.visionImage1}
                                     alt="Architecture details"
                                     className="w-full h-full object-cover"
                                 />
                             </div>
                             <div className="absolute -bottom-10 -left-10 w-2/3 aspect-square rounded-[40px] overflow-hidden shadow-xl border-8 border-[#F5F0E6] z-20">
                                 <img
-                                    src="https://images.unsplash.com/photo-1512918728675-ed5a9ecdebfd?auto=format&fit=crop&q=80"
+                                    src={settings.visionImage2}
                                     alt="Luxury interior"
                                     className="w-full h-full object-cover"
                                 />

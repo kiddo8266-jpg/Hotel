@@ -3,6 +3,9 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Calendar, User, ArrowRight, Utensils, Building2, Ticket, Sparkles, X } from 'lucide-react';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { toast } from 'sonner';
 
 type Post = {
     id: string;
@@ -17,33 +20,161 @@ type Post = {
     };
 };
 
-export default function JournalClient({ initialPosts }: { initialPosts: Post[] }) {
+type MarketingCard = {
+    id: string;
+    tag: string;
+    title: string;
+    description: string;
+    image: string;
+    buttonLabel: string;
+    subject: string;
+    order: number;
+    isActive: boolean;
+};
+
+type HeroContent = {
+    label: string;
+    title: string;
+    description: string;
+    backgroundImage?: string;
+};
+
+// Default hardcoded cards used when no cards are stored in DB yet
+const DEFAULT_MARKETING_CARDS: MarketingCard[] = [
+    {
+        id: '__default_1',
+        tag: 'The Highlight',
+        title: 'Saturday\nOldies Night',
+        description: 'A curated nostalgic journey through sound and soul. Every Saturday at 7:00 PM.',
+        image: '',
+        buttonLabel: 'Reserve Seat',
+        subject: 'Seat Reservation: Oldies Night',
+        order: 0,
+        isActive: true,
+    },
+    {
+        id: '__default_2',
+        tag: '',
+        title: 'Hotel Gastronomy',
+        description: 'Discover the art of taste in our premium dining hall. From local organic secrets to global masterpieces.',
+        image: '',
+        buttonLabel: 'Reserve Table',
+        subject: 'Table Reservation: Hotel Gastronomy',
+        order: 1,
+        isActive: true,
+    },
+    {
+        id: '__default_3',
+        tag: '',
+        title: 'Elevated\nWorkspaces',
+        description: 'Luxury office suites to let in the heart of the hotel grounds.',
+        image: 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=1000',
+        buttonLabel: 'Send Enquiry',
+        subject: 'Viewing Request: Elevated Workspaces',
+        order: 2,
+        isActive: true,
+    },
+];
+
+export default function JournalClient({
+    initialPosts,
+    hero,
+    marketingCards: marketingCardsProp,
+}: {
+    initialPosts: Post[];
+    hero?: HeroContent;
+    marketingCards?: MarketingCard[];
+}) {
+    const heroLabel = hero?.label || 'Our Stories';
+    const heroTitle = hero?.title || 'The Journal';
+    const heroDescription = hero?.description || 'Stay updated with the latest happenings, exclusive offers, and stories from our sanctuary.';
+    // Fall back to hardcoded defaults when no cards are stored in the DB
+    const marketingCards = (marketingCardsProp && marketingCardsProp.length > 0) ? marketingCardsProp : DEFAULT_MARKETING_CARDS;
     const [posts] = useState(initialPosts);
     const [selectedPost, setSelectedPost] = useState<Post | null>(null);
 
+    // Form states
+    const [isFormOpen, setIsFormOpen] = useState(false);
+    const [formContext, setFormContext] = useState<{ subject: string, title: string, subtitle: string } | null>(null);
+    const [form, setForm] = useState({ name: '', email: '', phone: '', message: '' });
+    const [submitting, setSubmitting] = useState(false);
+
     useEffect(() => {
-        if (selectedPost) {
+        if (selectedPost || isFormOpen) {
             document.body.style.overflow = 'hidden';
         } else {
             document.body.style.overflow = '';
         }
         return () => { document.body.style.overflow = ''; };
-    }, [selectedPost]);
+    }, [selectedPost, isFormOpen]);
+
+    const handleOpenForm = (context: { subject: string, title: string, subtitle: string }) => {
+        setFormContext(context);
+        setIsFormOpen(true);
+    };
+
+    const handleCloseForm = () => {
+        setIsFormOpen(false);
+        setTimeout(() => setFormContext(null), 300); // Clear after animation
+    };
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!form.name || !form.email || !form.message) {
+            toast.error('Please fill in your name, email, and message.');
+            return;
+        }
+        setSubmitting(true);
+        try {
+            const res = await fetch('/api/contact', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    ...form,
+                    apartmentName: 'Journal Page', // Fallback identifier
+                    subject: formContext?.subject || 'New Enquiry',
+                }),
+            });
+            if (res.ok) {
+                toast.success('Request sent! We will contact you shortly.');
+                setForm({ name: '', email: '', phone: '', message: '' });
+                handleCloseForm();
+            } else {
+                const data = await res.json();
+                toast.error(data.error || 'Failed to send. Please try again.');
+            }
+        } catch {
+            toast.error('Network error. Please try again.');
+        } finally {
+            setSubmitting(false);
+        }
+    };
+
 
     return (
         <div className="min-h-screen pt-32 pb-20 bg-[#F5F0E6]">
             {/* Hero Section */}
-            <section className="px-6 mb-20 text-center">
+            <section className="relative px-6 pt-24 pb-32 mb-20 overflow-hidden bg-[#0F2C23]">
+                {/* Background Image with Overlay */}
+                <div className="absolute inset-0 z-0 opacity-40">
+                    <img
+                        src={hero?.backgroundImage || 'https://images.unsplash.com/photo-1455391704245-2376bb74b358?auto=format&fit=crop&q=80'}
+                        alt="Journal Hero"
+                        className="w-full h-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-b from-[#0F2C23]/80 via-[#0F2C23]/60 to-[#F5F0E6]" />
+                </div>
+
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8 }}
-                    className="max-w-4xl mx-auto"
+                    className="max-w-4xl mx-auto relative z-10 text-center"
                 >
-                    <span className="text-[#C9A05B] font-medium tracking-widest uppercase text-sm mb-4 block">Our Stories</span>
-                    <h1 className="text-5xl md:text-7xl font-light text-[#0F2C23] mb-6">The Journal</h1>
-                    <p className="text-gray-600 text-lg md:text-xl font-light leading-relaxed max-w-2xl mx-auto">
-                        Stay updated with the latest happenings, exclusive offers, and stories from our sanctuary.
+                    <span className="text-[#C9A05B] font-medium tracking-widest uppercase text-sm mb-4 block">{heroLabel}</span>
+                    <h1 className="text-5xl md:text-7xl font-light text-white mb-6">{heroTitle}</h1>
+                    <p className="text-gray-200 text-lg md:text-xl font-light leading-relaxed max-w-2xl mx-auto">
+                        {heroDescription}
                     </p>
                     <div className="w-24 h-1 bg-[#C9A05B] mx-auto mt-8" />
                 </motion.div>
@@ -101,78 +232,109 @@ export default function JournalClient({ initialPosts }: { initialPosts: Post[] }
                                         }`}>
                                         {post.content}
                                     </p>
-                                    <button
-                                        onClick={() => setSelectedPost(post)}
-                                        className={`flex items-center justify-center gap-3 font-bold text-[10px] mt-auto uppercase tracking-[0.2em] transition-all duration-500 px-6 py-3 rounded-full self-start group/btn ${isDark
-                                            ? 'bg-white text-[#0F2C23] hover:bg-[#C9A05B] hover:text-white'
-                                            : 'bg-[#0F2C23] text-white hover:bg-[#C9A05B]'
-                                            }`}
-                                    >
-                                        Explore Story <ArrowRight size={14} className="transition-transform group-hover/btn:translate-x-1" />
-                                    </button>
+                                    {/* Button — centered below content */}
+                                    <div className="mt-auto flex justify-center">
+                                        <button
+                                            onClick={() => setSelectedPost(post)}
+                                            className={`flex items-center justify-center gap-3 font-bold text-[10px] uppercase tracking-[0.2em] transition-all duration-500 px-6 py-3 rounded-full group/btn ${isDark
+                                                ? 'bg-white text-[#0F2C23] hover:bg-[#C9A05B] hover:text-white'
+                                                : 'bg-[#0F2C23] text-white hover:bg-[#C9A05B]'
+                                                }`}
+                                        >
+                                            Explore Story <ArrowRight size={14} className="transition-transform group-hover/btn:translate-x-1" />
+                                        </button>
+                                    </div>
                                 </div>
                             </motion.article>
                         );
                     })}
 
-                    {/* Marketing Blocks Integrated into Grid */}
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.95 }}
-                        whileInView={{ opacity: 1, scale: 1 }}
-                        viewport={{ once: true }}
-                        className="bg-[#0F2C23] text-white p-10 rounded-[40px] relative overflow-hidden group shadow-xl flex flex-col justify-center aspect-square"
-                    >
-                        <div className="absolute top-0 right-0 w-64 h-64 bg-[#C9A05B]/20 rounded-full -mr-32 -mt-32 blur-[80px] group-hover:bg-[#C9A05B]/30 transition-all duration-700" />
-                        <Ticket size={40} className="text-[#C9A05B] mb-6" />
-                        <span className="text-[#C9A05B] text-[10px] uppercase tracking-[0.3em] font-black block mb-3">The Highlight</span>
-                        <h3 className="text-2xl md:text-3xl font-light mb-4 text-white leading-tight">Saturday<br />Oldies Night</h3>
-                        <p className="text-gray-300 font-light text-sm md:text-base mb-8 leading-relaxed max-w-[280px]">
-                            A curated nostalgic journey through sound and soul. Every Saturday at 7:00 PM.
-                        </p>
-                        <div className="flex items-center gap-3 text-[#0F2C23] font-bold text-[10px] uppercase tracking-widest mt-auto bg-white hover:bg-[#C9A05B] hover:text-white transition-colors duration-500 w-fit px-6 py-3 rounded-full shadow-lg cursor-pointer">
-                            <Sparkles size={12} /> Reserve Seat
-                        </div>
-                    </motion.div>
-
-                    <motion.div
-                        initial={{ opacity: 0, y: 40 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        className="bg-white p-10 rounded-[40px] group shadow-sm hover:shadow-2xl transition-all duration-700 border border-gray-100 flex flex-col aspect-square"
-                    >
-                        <div className="w-14 h-14 bg-[#F5F0E6] rounded-[20px] flex items-center justify-center mb-6 text-[#0F2C23] group-hover:bg-[#C9A05B] group-hover:text-white transition-all duration-500 shrink-0">
-                            <Utensils size={28} />
-                        </div>
-                        <h3 className="text-2xl font-light text-[#0F2C23] mb-4 tracking-tight group-hover:text-[#C9A05B] transition-colors">Hotel Gastronomy</h3>
-                        <p className="text-gray-500 font-light text-sm md:text-base mb-8 leading-relaxed flex-1 overflow-hidden">
-                            Discover the art of taste in our premium dining hall. From local organic secrets to global masterpieces.
-                        </p>
-                        <button className="flex items-center gap-3 text-white text-[10px] font-black uppercase tracking-[0.2em] bg-[#0F2C23] px-6 py-3 rounded-full hover:bg-[#C9A05B] transition-all duration-500 self-start mt-auto shadow-sm group/btn">
-                            Reserve Table <ArrowRight size={14} className="transition-transform group-hover/btn:translate-x-1" />
-                        </button>
-                    </motion.div>
-
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.95 }}
-                        whileInView={{ opacity: 1, scale: 1 }}
-                        viewport={{ once: true }}
-                        className="relative rounded-[40px] overflow-hidden shadow-xl group aspect-square"
-                    >
-                        <div className="absolute inset-0 bg-gradient-to-br from-[#0F2C23]/90 to-transparent z-10 transition-all duration-700" />
-                        <img
-                            src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=1000"
-                            alt="Luxury Office"
-                            className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000"
-                        />
-                        <div className="absolute inset-0 z-20 p-10 flex flex-col justify-end pointer-events-none">
-                            <Building2 size={36} className="text-[#C9A05B] mb-5" />
-                            <h3 className="text-2xl md:text-3xl font-light text-white mb-3 leading-tight">Elevated<br />Workspaces</h3>
-                            <p className="text-gray-200 text-sm font-light mb-8 max-w-[200px] leading-relaxed">Luxury office suites to let in the heart of the hotel grounds.</p>
-                            <button className="flex items-center justify-center gap-3 text-[#0F2C23] text-[10px] font-black uppercase tracking-[0.2em] bg-white px-6 py-3 rounded-full hover:bg-[#C9A05B] hover:text-white transition-all duration-500 self-start mt-auto shadow-xl group/btn pointer-events-auto">
-                                Send Enquiry <ArrowRight size={14} className="transition-transform group-hover/btn:translate-x-1" />
-                            </button>
-                        </div>
-                    </motion.div>
+                    {/* Marketing Cards – rendered dynamically from admin */}
+                    {marketingCards.map((card, idx) => {
+                        const hasImage = !!card.image;
+                        const isFirstCard = idx === 0;
+                        return (
+                            <motion.div
+                                key={card.id}
+                                initial={{ opacity: 0, scale: 0.95 }}
+                                whileInView={{ opacity: 1, scale: 1 }}
+                                viewport={{ once: true }}
+                                className={`rounded-[40px] overflow-hidden shadow-xl group aspect-square ${hasImage ? 'relative' : isFirstCard
+                                    ? 'bg-[#0F2C23] text-white p-10 relative flex flex-col justify-center'
+                                    : 'bg-white p-10 flex flex-col border border-gray-100 hover:shadow-2xl transition-all duration-700'
+                                    }`}
+                            >
+                                {hasImage ? (
+                                    /* Photo background card (like Workspaces) */
+                                    <>
+                                        <div className="absolute inset-0 bg-gradient-to-br from-[#0F2C23]/90 to-transparent z-10 transition-all duration-700" />
+                                        <img src={card.image} alt={card.title} className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" />
+                                        <div className="absolute inset-0 z-20 p-10 flex flex-col justify-end pointer-events-none">
+                                            <Building2 size={36} className="text-[#C9A05B] mb-5" />
+                                            {card.tag && <span className="text-[#C9A05B] text-[10px] uppercase tracking-[0.3em] font-black block mb-2">{card.tag}</span>}
+                                            <h3 className="text-2xl md:text-3xl font-light text-white mb-3 leading-tight">
+                                                {card.title.split('\n').map((line, i, arr) => (
+                                                    <span key={i}>{line}{i < arr.length - 1 && <br />}</span>
+                                                ))}
+                                            </h3>
+                                            <p className="text-gray-200 text-sm font-light mb-8 max-w-[200px] leading-relaxed">{card.description}</p>
+                                            <div className="mt-auto flex justify-center pointer-events-auto">
+                                                <button
+                                                    onClick={() => handleOpenForm({ subject: card.subject, title: card.buttonLabel, subtitle: card.title.replace(/\n/g, ' ') })}
+                                                    className="flex items-center justify-center gap-3 text-[#0F2C23] text-[10px] font-black uppercase tracking-[0.2em] bg-white px-6 py-3 rounded-full hover:bg-[#C9A05B] hover:text-white transition-all duration-500 shadow-xl group/btn"
+                                                >
+                                                    {card.buttonLabel} <ArrowRight size={14} className="transition-transform group-hover/btn:translate-x-1" />
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </>
+                                ) : isFirstCard ? (
+                                    /* Dark highlight card (like Oldies Night) */
+                                    <>
+                                        <div className="absolute top-0 right-0 w-64 h-64 bg-[#C9A05B]/20 rounded-full -mr-32 -mt-32 blur-[80px] group-hover:bg-[#C9A05B]/30 transition-all duration-700" />
+                                        <Ticket size={40} className="text-[#C9A05B] mb-6" />
+                                        {card.tag && <span className="text-[#C9A05B] text-[10px] uppercase tracking-[0.3em] font-black block mb-3">{card.tag}</span>}
+                                        <h3 className="text-2xl md:text-3xl font-light mb-4 text-white leading-tight">
+                                            {card.title.split('\n').map((line, i, arr) => (
+                                                <span key={i}>{line}{i < arr.length - 1 && <br />}</span>
+                                            ))}
+                                        </h3>
+                                        <p className="text-gray-300 font-light text-sm md:text-base mb-8 leading-relaxed max-w-[280px]">{card.description}</p>
+                                        <div className="mt-auto flex justify-center">
+                                            <button
+                                                onClick={() => handleOpenForm({ subject: card.subject, title: card.buttonLabel, subtitle: card.title.replace(/\n/g, ' ') })}
+                                                className="flex items-center gap-3 text-[#0F2C23] font-bold text-[10px] uppercase tracking-widest bg-white hover:bg-[#C9A05B] hover:text-white transition-colors duration-500 px-6 py-3 rounded-full shadow-lg"
+                                            >
+                                                <Sparkles size={12} /> {card.buttonLabel}
+                                            </button>
+                                        </div>
+                                    </>
+                                ) : (
+                                    /* Light card (like Gastronomy) */
+                                    <>
+                                        <div className="w-14 h-14 bg-[#F5F0E6] rounded-[20px] flex items-center justify-center mb-6 text-[#0F2C23] group-hover:bg-[#C9A05B] group-hover:text-white transition-all duration-500 shrink-0">
+                                            <Utensils size={28} />
+                                        </div>
+                                        {card.tag && <span className="text-[#C9A05B] text-[10px] uppercase tracking-[0.2em] font-black block mb-2">{card.tag}</span>}
+                                        <h3 className="text-2xl font-light text-[#0F2C23] mb-4 tracking-tight group-hover:text-[#C9A05B] transition-colors">
+                                            {card.title.split('\n').map((line, i, arr) => (
+                                                <span key={i}>{line}{i < arr.length - 1 && <br />}</span>
+                                            ))}
+                                        </h3>
+                                        <p className="text-gray-500 font-light text-sm md:text-base mb-8 leading-relaxed flex-1 overflow-hidden">{card.description}</p>
+                                        <div className="mt-auto flex justify-center">
+                                            <button
+                                                onClick={() => handleOpenForm({ subject: card.subject, title: card.buttonLabel, subtitle: card.title.replace(/\n/g, ' ') })}
+                                                className="flex items-center gap-3 text-white text-[10px] font-black uppercase tracking-[0.2em] bg-[#0F2C23] px-6 py-3 rounded-full hover:bg-[#C9A05B] transition-all duration-500 shadow-sm group/btn"
+                                            >
+                                                {card.buttonLabel} <ArrowRight size={14} className="transition-transform group-hover/btn:translate-x-1" />
+                                            </button>
+                                        </div>
+                                    </>
+                                )}
+                            </motion.div>
+                        );
+                    })}
                 </div>
 
                 {posts.length === 0 && (
@@ -242,6 +404,107 @@ export default function JournalClient({ initialPosts }: { initialPosts: Post[] }
                             </div>
                         </motion.div>
                     </motion.div>
+                )}
+
+                {/* Sliding Form Canvas */}
+                {isFormOpen && formContext && (
+                    <>
+                        {/* Backdrop */}
+                        <motion.div
+                            key="form-backdrop"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            className="fixed inset-0 z-[60] bg-black/60 backdrop-blur-sm"
+                            onClick={handleCloseForm}
+                        />
+                        {/* Sliding Canvas */}
+                        <motion.div
+                            key="form-canvas"
+                            initial={{ x: '100%' }}
+                            animate={{ x: 0 }}
+                            exit={{ x: '100%' }}
+                            transition={{ type: 'tween', duration: 0.4, ease: 'easeInOut' }}
+                            className="fixed top-0 right-0 h-full w-full max-w-md z-[70] bg-[#0F2C23] shadow-2xl flex flex-col overflow-y-auto"
+                        >
+                            {/* Header */}
+                            <div className="p-8 border-b border-white/10 flex items-center justify-between sticky top-0 bg-[#0F2C23] z-10">
+                                <div>
+                                    <p className="text-[#C9A05B] text-xs font-bold uppercase tracking-widest">{formContext.subtitle}</p>
+                                    <h2 className="text-2xl font-light text-white">{formContext.title}</h2>
+                                </div>
+                                <button
+                                    onClick={handleCloseForm}
+                                    className="p-2 bg-white/5 hover:bg-white/10 rounded-full transition-colors text-white"
+                                >
+                                    <X size={20} />
+                                </button>
+                            </div>
+
+                            {/* Form Content */}
+                            <div className="p-8 flex-1 flex flex-col">
+                                <form onSubmit={handleSubmit} className="space-y-6 flex-1 flex flex-col">
+                                    <div className="space-y-4 flex-1">
+                                        <div className="space-y-2">
+                                            <label className="text-xs text-gray-400 uppercase tracking-widest">Full Name *</label>
+                                            <Input
+                                                placeholder="John Doe"
+                                                value={form.name}
+                                                onChange={e => setForm({ ...form, name: e.target.value })}
+                                                required
+                                                suppressHydrationWarning
+                                                className="bg-white/5 border-white/10 text-white placeholder:text-gray-500 h-12 rounded-xl focus:border-[#C9A05B]"
+                                            />
+                                        </div>
+                                        <div className="space-y-2">
+                                            <label className="text-xs text-gray-400 uppercase tracking-widest">Email Address *</label>
+                                            <Input
+                                                type="email"
+                                                placeholder="john@example.com"
+                                                value={form.email}
+                                                onChange={e => setForm({ ...form, email: e.target.value })}
+                                                required
+                                                suppressHydrationWarning
+                                                className="bg-white/5 border-white/10 text-white placeholder:text-gray-500 h-12 rounded-xl focus:border-[#C9A05B]"
+                                            />
+                                        </div>
+                                        <div className="space-y-2">
+                                            <label className="text-xs text-gray-400 uppercase tracking-widest">Phone Number</label>
+                                            <Input
+                                                placeholder="+256 000 000 000"
+                                                value={form.phone}
+                                                onChange={e => setForm({ ...form, phone: e.target.value })}
+                                                suppressHydrationWarning
+                                                className="bg-white/5 border-white/10 text-white placeholder:text-gray-500 h-12 rounded-xl focus:border-[#C9A05B]"
+                                            />
+                                        </div>
+                                        <div className="space-y-2">
+                                            <label className="text-xs text-gray-400 uppercase tracking-widest">Message / Notes *</label>
+                                            <Textarea
+                                                placeholder="Tell us what you're interested in..."
+                                                value={form.message}
+                                                onChange={e => setForm({ ...form, message: e.target.value })}
+                                                rows={4}
+                                                required
+                                                suppressHydrationWarning
+                                                className="bg-white/5 border-white/10 text-white placeholder:text-gray-500 rounded-xl focus:border-[#C9A05B] resize-none"
+                                            />
+                                        </div>
+                                    </div>
+                                    <button
+                                        type="submit"
+                                        disabled={submitting}
+                                        className="w-full bg-[#C9A05B] hover:bg-white disabled:opacity-60 text-[#0F2C23] h-14 rounded-full text-sm font-bold uppercase tracking-widest transition-colors duration-500 mt-auto shadow-lg"
+                                    >
+                                        {submitting ? 'Sending Request…' : 'Submit Request'}
+                                    </button>
+                                </form>
+                                <p className="text-[11px] text-center text-gray-400 mt-6 font-light leading-relaxed">
+                                    Your enquiry will be sent to our official desk. You will hear back from us typically within 2 hours.
+                                </p>
+                            </div>
+                        </motion.div>
+                    </>
                 )}
             </AnimatePresence>
         </div>

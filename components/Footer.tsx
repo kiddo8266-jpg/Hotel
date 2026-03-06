@@ -21,6 +21,8 @@ export default async function Footer() {
     const twitterUrl = settings?.twitterUrl || 'https://twitter.com';
     const youtubeUrl = settings?.youtubeUrl || 'https://youtube.com';
     const tiktokUrl = settings?.tiktokUrl || 'https://tiktok.com';
+    const logoUrl = settings?.logoUrl || '';
+    const logoAlt = settings?.logoAlt || "NL Josephine's Hotel Logo";
 
     const addressLines = address.replace(/\\n/g, '\n').split('\n');
 
@@ -33,7 +35,18 @@ export default async function Footer() {
                             {settings.footerBadge}
                         </span>
                     )}
-                    <h3 className="text-3xl font-light text-white font-serif italic mb-4">{hotelName}</h3>
+                    <div className="flex flex-col items-start gap-2 mb-6">
+                        {logoUrl ? (
+                            <>
+                                <img src={logoUrl} alt={logoAlt} className="h-12 w-auto object-contain mb-1" />
+                                <span className="text-xs font-bold text-[#C9A05B] uppercase tracking-[0.3em] font-serif">
+                                    {hotelName}
+                                </span>
+                            </>
+                        ) : (
+                            <h3 className="text-3xl font-light text-white font-serif italic">{hotelName}</h3>
+                        )}
+                    </div>
                     <p className="text-sm font-light leading-relaxed text-gray-300 max-w-sm whitespace-pre-line">
                         {settings?.footerDescription || 'Experience quiet luxury and uncompromising comfort. Your serene home away from home.'}
                     </p>

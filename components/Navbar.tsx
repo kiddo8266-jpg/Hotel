@@ -11,10 +11,16 @@ type NavLink = { href: string; label: string; };
 
 export default function Navbar({
     hotelName = "NL Josephine's Hotel",
-    navLinks = []
+    navLinks = [],
+    bookingLink,
+    logoUrl,
+    logoAlt = "NL Josephine's Hotel Logo"
 }: {
     hotelName?: string;
     navLinks?: NavLink[];
+    bookingLink?: string;
+    logoUrl?: string;
+    logoAlt?: string;
 }) {
     const [isOpen, setIsOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
@@ -54,15 +60,26 @@ export default function Navbar({
                 }`}
         >
             <div className="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
-                <Link href="/" className="group flex items-center gap-3">
-                    <div className={`w-9 h-9 rounded-full flex items-center justify-center shadow-lg transition-all duration-300 group-hover:scale-110 ${isActuallyScrolled ? 'bg-[#0F2C23]' : 'bg-white/20 backdrop-blur-sm'}`}>
-                        <span className="text-[#C9A05B] text-xl font-light">J</span>
-                    </div>
-                    <div>
-                        <span className={`text-2xl font-light tracking-tight transition-colors duration-500 ${isActuallyScrolled ? 'text-[#0F2C23]' : 'text-white'}`}>
-                            {hotelName}
-                        </span>
-                    </div>
+                <Link href="/" className="group flex flex-col items-center gap-1">
+                    {logoUrl ? (
+                        <>
+                            <img src={logoUrl} alt={logoAlt} className="h-10 w-auto object-contain transition-all duration-300 group-hover:scale-105" />
+                            <span className={`text-[10px] font-bold uppercase tracking-[0.3em] font-serif transition-colors duration-500 whitespace-nowrap ${isActuallyScrolled ? 'text-[#C9A05B]' : 'text-[#C9A05B]'}`}>
+                                {hotelName}
+                            </span>
+                        </>
+                    ) : (
+                        <div className="flex items-center gap-3">
+                            <div className={`w-9 h-9 rounded-full flex items-center justify-center shadow-lg transition-all duration-300 group-hover:scale-110 ${isActuallyScrolled ? 'bg-[#0F2C23]' : 'bg-white/20 backdrop-blur-sm'}`}>
+                                <span className="text-[#C9A05B] text-xl font-light">J</span>
+                            </div>
+                            <div>
+                                <span className={`text-2xl font-light tracking-tight transition-colors duration-500 ${isActuallyScrolled ? 'text-[#0F2C23]' : 'text-white'}`}>
+                                    {hotelName}
+                                </span>
+                            </div>
+                        </div>
+                    )}
                 </Link>
 
                 <div className="hidden md:flex items-center gap-10 text-sm uppercase tracking-widest">
@@ -85,7 +102,8 @@ export default function Navbar({
 
                 <div className="flex items-center gap-4">
                     <Link
-                        href="/contact"
+                        href={bookingLink ? (bookingLink.startsWith('http') ? bookingLink : `https://${bookingLink}`) : '/contact'}
+                        target={bookingLink ? '_blank' : undefined}
                         className={`hidden md:flex ${bookNowBase} ${getButtonStyle()}`}
                     >
                         <span className="absolute inset-0 translate-x-[-100%] bg-gradient-to-r from-transparent via-white/30 to-transparent group-hover:translate-x-[100%] transition-transform duration-500 ease-in-out" />
@@ -128,11 +146,22 @@ export default function Navbar({
                             className="fixed top-0 right-0 h-full w-72 z-50 bg-[#0F2C23] flex flex-col py-8 px-6 shadow-2xl md:hidden"
                         >
                             <div className="flex items-center justify-between mb-10 text-white">
-                                <div className="flex items-center gap-2">
-                                    <div className="w-8 h-8 bg-[#C9A05B] rounded-full flex items-center justify-center">
-                                        <span className="text-[#0F2C23] text-lg font-light">J</span>
-                                    </div>
-                                    <span className="text-lg font-light tracking-tight">{hotelName}</span>
+                                <div className="flex flex-col items-center gap-1">
+                                    {logoUrl ? (
+                                        <>
+                                            <img src={logoUrl} alt={logoAlt} className="h-10 w-auto object-contain" />
+                                            <span className="text-[9px] font-bold text-[#C9A05B] uppercase tracking-[0.2em] font-serif whitespace-nowrap">
+                                                {hotelName}
+                                            </span>
+                                        </>
+                                    ) : (
+                                        <div className="flex items-center gap-2">
+                                            <div className="w-8 h-8 bg-[#C9A05B] rounded-full flex items-center justify-center">
+                                                <span className="text-[#0F2C23] text-lg font-light">J</span>
+                                            </div>
+                                            <span className="text-lg font-light tracking-tight">{hotelName}</span>
+                                        </div>
+                                    )}
                                 </div>
                                 <button onClick={() => setIsOpen(false)}>
                                     <X size={22} />
@@ -164,8 +193,9 @@ export default function Navbar({
 
                             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35 }}>
                                 <Link
-                                    href="/contact"
-                                    onClick={() => setIsOpen(false)}
+                                    href={bookingLink ? (bookingLink.startsWith('http') ? bookingLink : `https://${bookingLink}`) : '/contact'}
+                                    target={bookingLink ? '_blank' : undefined}
+                                    onClick={() => !bookingLink && setIsOpen(false)}
                                     className={`w-full justify-center ${bookNowBase} bg-[#6D28D9] text-white`}
                                 >
                                     <Phone size={15} />

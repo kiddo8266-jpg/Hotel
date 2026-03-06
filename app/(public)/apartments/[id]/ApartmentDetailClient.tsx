@@ -30,9 +30,10 @@ type ApartmentProps = {
     };
     contactEmail: string;
     contactPhone: string;
+    bookingLink?: string;
 };
 
-export default function ApartmentDetailClient({ apartment, contactEmail, contactPhone }: ApartmentProps) {
+export default function ApartmentDetailClient({ apartment, contactEmail, contactPhone, bookingLink }: ApartmentProps) {
     const featuresList = apartment.features ? apartment.features.split(',').map(f => f.trim()).filter(Boolean) : [];
     const linkedAmenities = apartment.amenities ?? [];
 
@@ -175,7 +176,18 @@ export default function ApartmentDetailClient({ apartment, contactEmail, contact
                             <div className="bg-[#0F2C23] p-10 rounded-[32px] shadow-2xl relative overflow-hidden">
                                 <div className="absolute top-0 right-0 w-64 h-64 bg-[#C9A05B]/10 rounded-full blur-[80px]" />
                                 <div className="relative z-10">
-                                    <p className="text-[#C9A05B] text-xs font-bold uppercase tracking-widest mb-4">Book a Viewing</p>
+                                    {bookingLink ? (
+                                        <a
+                                            href={bookingLink.startsWith('http') ? bookingLink : `https://${bookingLink}`}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="inline-block bg-[#C9A05B] text-[#0F2C23] px-4 py-2 rounded-full text-xs font-bold uppercase tracking-widest mb-4 hover:bg-white transition-colors"
+                                        >
+                                            Book Room Now
+                                        </a>
+                                    ) : (
+                                        <p className="text-[#C9A05B] text-xs font-bold uppercase tracking-widest mb-4">Pricing</p>
+                                    )}
                                     <p className="text-4xl font-light text-white mb-8 border-b border-white/10 pb-8">
                                         UGX {apartment.price.toLocaleString()}
                                         <span className="text-sm font-sans font-normal text-gray-400 block mt-2">{apartment.priceDuration}</span>
@@ -188,6 +200,7 @@ export default function ApartmentDetailClient({ apartment, contactEmail, contact
                                                 value={form.name}
                                                 onChange={e => setForm({ ...form, name: e.target.value })}
                                                 required
+                                                suppressHydrationWarning
                                                 className="bg-white/5 border-white/10 text-white placeholder:text-gray-400 h-12 rounded-xl focus:border-[#C9A05B]"
                                             />
                                             <Input
@@ -196,12 +209,14 @@ export default function ApartmentDetailClient({ apartment, contactEmail, contact
                                                 value={form.email}
                                                 onChange={e => setForm({ ...form, email: e.target.value })}
                                                 required
+                                                suppressHydrationWarning
                                                 className="bg-white/5 border-white/10 text-white placeholder:text-gray-400 h-12 rounded-xl focus:border-[#C9A05B]"
                                             />
                                             <Input
                                                 placeholder="Phone Number"
                                                 value={form.phone}
                                                 onChange={e => setForm({ ...form, phone: e.target.value })}
+                                                suppressHydrationWarning
                                                 className="bg-white/5 border-white/10 text-white placeholder:text-gray-400 h-12 rounded-xl focus:border-[#C9A05B]"
                                             />
                                             <Textarea
@@ -209,6 +224,7 @@ export default function ApartmentDetailClient({ apartment, contactEmail, contact
                                                 value={form.message}
                                                 onChange={e => setForm({ ...form, message: e.target.value })}
                                                 required
+                                                suppressHydrationWarning
                                                 className="h-32 bg-white/5 border-white/10 text-white placeholder:text-gray-400 rounded-xl focus:border-[#C9A05B] resize-none"
                                             />
                                         </div>
@@ -217,7 +233,7 @@ export default function ApartmentDetailClient({ apartment, contactEmail, contact
                                             disabled={submitting}
                                             className="w-full bg-[#C9A05B] hover:bg-white disabled:opacity-60 text-[#0F2C23] h-14 rounded-full text-sm font-bold uppercase tracking-widest mt-8 transition-colors duration-500"
                                         >
-                                            {submitting ? 'Sending…' : 'Request Viewing'}
+                                            {submitting ? 'Sending…' : 'Send Inquiry'}
                                         </button>
                                     </form>
 

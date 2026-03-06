@@ -16,7 +16,7 @@ export default async function ApartmentDetailsPage({
         }),
         prisma.siteSetting.findUnique({
             where: { id: 'main' },
-            select: { contactEmail: true, contactPhone: true },
+            select: { contactEmail: true, contactPhone: true, bookingLink: true },
         }),
     ]);
 
@@ -29,6 +29,7 @@ export default async function ApartmentDetailsPage({
             apartment={apartment}
             contactEmail={settings?.contactEmail || 'info@josehotel.com'}
             contactPhone={settings?.contactPhone || '0772560696'}
+            bookingLink={settings?.bookingLink || ''}
         />
     );
 }

@@ -17,10 +17,12 @@ export default async function PublicLayout({
     ]);
 
     const hotelName = settings?.hotelName || "NL Josephine's Hotel";
+    const logoUrl = settings?.logoUrl || '';
+    const logoAlt = settings?.logoAlt || "NL Josephine's Hotel Logo";
 
     return (
         <>
-            <Navbar hotelName={hotelName} navLinks={headerLinks} />
+            <Navbar hotelName={hotelName} navLinks={headerLinks} bookingLink={settings?.bookingLink || ''} logoUrl={logoUrl} logoAlt={logoAlt} />
             <main className="min-h-screen flex flex-col">
                 {children}
             </main>

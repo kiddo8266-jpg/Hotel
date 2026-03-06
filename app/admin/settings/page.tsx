@@ -36,7 +36,7 @@ interface HeroItem {
     isActive: boolean;
 }
 
-function SortableHeroItem({ item, handleToggleHero, handleDeleteHero }: { item: HeroItem, handleToggleHero: (item: HeroItem) => void, handleDeleteHero: (id: string) => void }) {
+function SortableHeroItem({ item, handleToggleHero, handleDeleteHero, onUpdateMedia }: { item: HeroItem, handleToggleHero: (item: HeroItem) => void, handleDeleteHero: (id: string) => void, onUpdateMedia: (e: React.ChangeEvent<HTMLInputElement>, id: string) => void }) {
     const {
         attributes,
         listeners,
@@ -57,7 +57,7 @@ function SortableHeroItem({ item, handleToggleHero, handleDeleteHero }: { item: 
                     <div {...attributes} {...listeners} className="cursor-grab hover:text-[#C9A05B]">
                         <GripVertical size={20} />
                     </div>
-                    <div className="h-20 w-32 bg-gray-100 rounded overflow-hidden flex items-center justify-center shrink-0">
+                    <div className="h-20 w-32 bg-gray-100 rounded overflow-hidden flex items-center justify-center shrink-0 relative group/hero-img">
                         {item.mediaType === 'image' ? (
                             <img src={item.mediaUrl} className="object-cover w-full h-full" alt="" />
                         ) : (
@@ -66,6 +66,16 @@ function SortableHeroItem({ item, handleToggleHero, handleDeleteHero }: { item: 
                                 <span className="text-[10px]">Video</span>
                             </div>
                         )}
+                        <label className="absolute inset-0 bg-black/40 opacity-0 group-hover/hero-img:opacity-100 transition-opacity flex flex-col items-center justify-center cursor-pointer">
+                            <Upload size={16} className="text-white" />
+                            <span className="text-[8px] text-white font-medium mt-1">Replace</span>
+                            <input
+                                type="file"
+                                accept="image/*,video/*"
+                                className="hidden"
+                                onChange={(e) => onUpdateMedia(e, item.id)}
+                            />
+                        </label>
                     </div>
                     <div className="flex-1 space-y-1">
                         <p className="font-semibold text-sm truncate">{item.title || 'No Title'}</p>
@@ -176,6 +186,15 @@ export default function AdminSettingsPage() {
         spiritLabel: '',
         footerBadge: '',
         footerDescription: '',
+        bookingLink: '',
+        logoUrl: '',
+        logoAlt: '',
+        aboutHeroImage: '',
+        aboutVisionImage1: '',
+        aboutVisionImage2: '',
+        apartmentsHeroImage: '',
+        contactHeroImage: '',
+        journalHeroImage: '',
     });
 
     const [heroItems, setHeroItems] = useState<HeroItem[]>([]);
@@ -366,6 +385,48 @@ export default function AdminSettingsPage() {
         }
     };
 
+    const handleUpdateHeroMedia = async (e: React.ChangeEvent<HTMLInputElement>, id: string) => {
+        if (!e.target.files?.[0]) return;
+        const file = e.target.files[0];
+        const formData = new FormData();
+        formData.append('file', file);
+
+        try {
+            toast.info('Uploading replacement...');
+            const res = await fetch('/api/upload', {
+                method: 'POST',
+                body: formData,
+            });
+            const data = await res.json();
+            if (res.ok) {
+                const heroItem = heroItems.find(h => h.id === id);
+                if (!heroItem) return;
+
+                const updateRes = await fetch(`/api/admin/hero/${id}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        ...heroItem,
+                        mediaUrl: data.url,
+                        mediaType: file.type.startsWith('video') ? 'video' : 'image'
+                    }),
+                });
+
+                if (updateRes.ok) {
+                    const updated = await updateRes.json();
+                    setHeroItems(prev => prev.map(h => h.id === id ? updated : h));
+                    toast.success('Hero media updated successfully');
+                } else {
+                    toast.error('Failed to update hero details');
+                }
+            } else {
+                toast.error(data.error);
+            }
+        } catch {
+            toast.error('Replacement failed');
+        }
+    };
+
     const handleAddNav = async () => {
         if (!newNav.label || !newNav.href) {
             toast.error('Please provide a label and href (URL)');
@@ -455,6 +516,70 @@ export default function AdminSettingsPage() {
                 <p className="text-gray-600 mt-2">Manage your homepage text, Hero media (Images/Videos), and all website content.</p>
             </div>
 
+            {/* Logo Manager Section */}
+            <Card className="border-[#C9A05B]/20">
+                <CardHeader className="bg-[#F5F0E6]/50">
+                    <CardTitle className="text-[#0F2C23]">Site Logo</CardTitle>
+                    <p className="text-sm text-gray-500">Upload your site logo. It appears in the navigation bar and mobile menu. If empty, a text logo is shown instead.</p>
+                </CardHeader>
+                <CardContent className="space-y-6 pt-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div className="space-y-4">
+                            <Label>Logo Image</Label>
+                            <label className="group relative block w-full h-32 rounded-2xl overflow-hidden border-2 border-dashed border-[#C9A05B]/30 hover:border-[#C9A05B] cursor-pointer transition-colors bg-gray-50">
+                                {settings.logoUrl ? (
+                                    <>
+                                        <div className="w-full h-full flex items-center justify-center p-4">
+                                            <img src={settings.logoUrl} alt={settings.logoAlt || 'Logo preview'} className="max-h-full max-w-full object-contain" />
+                                        </div>
+                                        <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center gap-2">
+                                            <Upload size={24} className="text-white" />
+                                            <span className="text-white text-xs font-medium">Click to change logo</span>
+                                        </div>
+                                    </>
+                                ) : (
+                                    <div className="w-full h-full flex flex-col items-center justify-center gap-2">
+                                        <ImageIcon size={32} strokeWidth={1} className="text-[#C9A05B]/50" />
+                                        <span className="text-sm text-gray-400">Click to upload logo</span>
+                                        <span className="text-[10px] text-gray-400">PNG with transparency recommended</span>
+                                    </div>
+                                )}
+                                <input type="file" accept="image/*" className="absolute inset-0 opacity-0 cursor-pointer w-full h-full" onChange={(e) => handleFileUpload(e, 'logoUrl')} />
+                            </label>
+                            <Input
+                                name="logoUrl"
+                                value={settings.logoUrl || ''}
+                                onChange={handleChange}
+                                placeholder="Or paste a logo URL"
+                                className="text-xs text-gray-500"
+                            />
+                        </div>
+                        <div className="space-y-4">
+                            <div className="space-y-2">
+                                <Label>Logo Alt Text</Label>
+                                <Input
+                                    name="logoAlt"
+                                    value={settings.logoAlt || ''}
+                                    onChange={handleChange}
+                                    placeholder="NL Josephine's Hotel Logo"
+                                />
+                                <p className="text-xs text-gray-400">Describes the logo for accessibility and SEO. Shown when the image can&apos;t load.</p>
+                            </div>
+                            {settings.logoUrl && (
+                                <div className="p-4 rounded-xl bg-[#0F2C23] flex items-center justify-center">
+                                    <img src={settings.logoUrl} alt={settings.logoAlt || 'Logo'} className="h-10 w-auto object-contain" />
+                                </div>
+                            )}
+                            {!settings.logoUrl && (
+                                <div className="p-4 rounded-xl bg-gray-100 text-center">
+                                    <p className="text-xs text-gray-500">No logo uploaded — the site will use <strong>&quot;J&quot; circle + hotel name</strong> as the logo.</p>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                </CardContent>
+            </Card>
+
             {/* Hero Manager Section */}
             <div className="space-y-4">
                 <div className="flex justify-between items-center">
@@ -520,6 +645,7 @@ export default function AdminSettingsPage() {
                                     item={item}
                                     handleToggleHero={handleToggleHero}
                                     handleDeleteHero={handleDeleteHero}
+                                    onUpdateMedia={handleUpdateHeroMedia}
                                 />
                             ))}
                         </div>
@@ -680,6 +806,113 @@ export default function AdminSettingsPage() {
                     </CardContent>
                 </Card>
 
+                {/* Page Hero & Background Images */}
+                <Card className="border-[#C9A05B]/20">
+                    <CardHeader className="bg-[#F5F0E6]/50">
+                        <CardTitle className="text-[#0F2C23]">Page Hero & Background Images</CardTitle>
+                        <p className="text-sm text-gray-500">Manage the main high-impact images for different pages of your website.</p>
+                    </CardHeader>
+                    <CardContent className="space-y-8 pt-6">
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                            {/* About Page Hero */}
+                            <div className="space-y-3">
+                                <Label className="text-[#0F2C23] font-semibold">About Page: Main Hero</Label>
+                                <div className="aspect-video rounded-xl overflow-hidden bg-gray-100 border border-[#C9A05B]/20 relative group">
+                                    <img src={settings.aboutHeroImage || 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&q=80'} className="w-full h-full object-cover" alt="About Hero" />
+                                    <label className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center cursor-pointer">
+                                        <div className="flex flex-col items-center text-white">
+                                            <Upload size={24} />
+                                            <span className="text-xs font-medium mt-2">Change Hero</span>
+                                        </div>
+                                        <input type="file" accept="image/*" className="hidden" onChange={(e) => handleFileUpload(e, 'aboutHeroImage')} />
+                                    </label>
+                                </div>
+                                <Input name="aboutHeroImage" value={settings.aboutHeroImage || ''} onChange={handleChange} placeholder="Image URL" className="text-[10px] h-7" />
+                            </div>
+
+                            {/* About Vision 1 */}
+                            <div className="space-y-3">
+                                <Label className="text-[#0F2C23] font-semibold">About Page: Vision Detail 1</Label>
+                                <div className="aspect-video rounded-xl overflow-hidden bg-gray-100 border border-[#C9A05B]/20 relative group">
+                                    <img src={settings.aboutVisionImage1 || 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&q=80'} className="w-full h-full object-cover" alt="Vision 1" />
+                                    <label className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center cursor-pointer">
+                                        <div className="flex flex-col items-center text-white">
+                                            <Upload size={24} />
+                                            <span className="text-xs font-medium mt-2">Change Image</span>
+                                        </div>
+                                        <input type="file" accept="image/*" className="hidden" onChange={(e) => handleFileUpload(e, 'aboutVisionImage1')} />
+                                    </label>
+                                </div>
+                                <Input name="aboutVisionImage1" value={settings.aboutVisionImage1 || ''} onChange={handleChange} placeholder="Image URL" className="text-[10px] h-7" />
+                            </div>
+
+                            {/* About Vision 2 */}
+                            <div className="space-y-3">
+                                <Label className="text-[#0F2C23] font-semibold">About Page: Vision Detail 2</Label>
+                                <div className="aspect-video rounded-xl overflow-hidden bg-gray-100 border border-[#C9A05B]/20 relative group">
+                                    <img src={settings.aboutVisionImage2 || 'https://images.unsplash.com/photo-1512918728675-ed5a9ecdebfd?auto=format&fit=crop&q=80'} className="w-full h-full object-cover" alt="Vision 2" />
+                                    <label className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center cursor-pointer">
+                                        <div className="flex flex-col items-center text-white">
+                                            <Upload size={24} />
+                                            <span className="text-xs font-medium mt-2">Change Image</span>
+                                        </div>
+                                        <input type="file" accept="image/*" className="hidden" onChange={(e) => handleFileUpload(e, 'aboutVisionImage2')} />
+                                    </label>
+                                </div>
+                                <Input name="aboutVisionImage2" value={settings.aboutVisionImage2 || ''} onChange={handleChange} placeholder="Image URL" className="text-[10px] h-7" />
+                            </div>
+
+                            {/* Apartments Hero */}
+                            <div className="space-y-3">
+                                <Label className="text-[#0F2C23] font-semibold">Apartments Page Hero</Label>
+                                <div className="aspect-video rounded-xl overflow-hidden bg-gray-100 border border-[#C9A05B]/20 relative group">
+                                    <img src={settings.apartmentsHeroImage || 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&q=80'} className="w-full h-full object-cover" alt="Apartments Hero" />
+                                    <label className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center cursor-pointer">
+                                        <div className="flex flex-col items-center text-white">
+                                            <Upload size={24} />
+                                            <span className="text-xs font-medium mt-2">Change Image</span>
+                                        </div>
+                                        <input type="file" accept="image/*" className="hidden" onChange={(e) => handleFileUpload(e, 'apartmentsHeroImage')} />
+                                    </label>
+                                </div>
+                                <Input name="apartmentsHeroImage" value={settings.apartmentsHeroImage || ''} onChange={handleChange} placeholder="Image URL" className="text-[10px] h-7" />
+                            </div>
+
+                            {/* Contact Hero */}
+                            <div className="space-y-3">
+                                <Label className="text-[#0F2C23] font-semibold">Contact Page Hero Bg</Label>
+                                <div className="aspect-video rounded-xl overflow-hidden bg-gray-100 border border-[#C9A05B]/20 relative group">
+                                    <img src={settings.contactHeroImage || 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80'} className="w-full h-full object-cover" alt="Contact Hero" />
+                                    <label className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center cursor-pointer">
+                                        <div className="flex flex-col items-center text-white">
+                                            <Upload size={24} />
+                                            <span className="text-xs font-medium mt-2">Change Image</span>
+                                        </div>
+                                        <input type="file" accept="image/*" className="hidden" onChange={(e) => handleFileUpload(e, 'contactHeroImage')} />
+                                    </label>
+                                </div>
+                                <Input name="contactHeroImage" value={settings.contactHeroImage || ''} onChange={handleChange} placeholder="Image URL" className="text-[10px] h-7" />
+                            </div>
+
+                            {/* Journal Hero */}
+                            <div className="space-y-3">
+                                <Label className="text-[#0F2C23] font-semibold">Journal Page Hero Bg</Label>
+                                <div className="aspect-video rounded-xl overflow-hidden bg-gray-100 border border-[#C9A05B]/20 relative group">
+                                    <img src={settings.journalHeroImage || 'https://images.unsplash.com/photo-1455391704245-2376bb74b358?auto=format&fit=crop&q=80'} className="w-full h-full object-cover" alt="Journal Hero" />
+                                    <label className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center cursor-pointer">
+                                        <div className="flex flex-col items-center text-white">
+                                            <Upload size={24} />
+                                            <span className="text-xs font-medium mt-2">Change Image</span>
+                                        </div>
+                                        <input type="file" accept="image/*" className="hidden" onChange={(e) => handleFileUpload(e, 'journalHeroImage')} />
+                                    </label>
+                                </div>
+                                <Input name="journalHeroImage" value={settings.journalHeroImage || ''} onChange={handleChange} placeholder="Image URL" className="text-[10px] h-7" />
+                            </div>
+                        </div>
+                    </CardContent>
+                </Card>
+
                 <Card>
                     <CardHeader>
                         <CardTitle>Global Site Settings</CardTitle>
@@ -770,6 +1003,11 @@ export default function AdminSettingsPage() {
                             <div className="space-y-2 mt-4">
                                 <Label>Physical Address</Label>
                                 <Textarea name="address" value={settings.address || ''} onChange={handleChange} placeholder="Seguku, Entebbe Road\nKampala, Uganda" />
+                            </div>
+                            <div className="space-y-2 mt-4 col-span-2">
+                                <Label>Global Booking / Payment Gateway Link</Label>
+                                <Input name="bookingLink" value={settings.bookingLink || ''} onChange={handleChange} placeholder="https://..." />
+                                <p className="text-xs text-gray-400">If provided, guests will be redirected here after submitting a viewing/booking request.</p>
                             </div>
                         </div>
 
