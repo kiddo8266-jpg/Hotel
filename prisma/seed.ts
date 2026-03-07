@@ -145,6 +145,26 @@ async function main() {
         }
     }
 
+    console.log('Seeding initial Navigation Links...');
+    const navLinks = [
+        { label: 'Home', href: '/', order: 1, isHeader: true },
+        { label: 'About', href: '/about', order: 2, isHeader: true },
+        { label: 'Apartments', href: '/apartments', order: 3, isHeader: true },
+        { label: 'Journal', href: '/journal', order: 4, isHeader: true },
+        { label: 'Contact', href: '/contact', order: 5, isHeader: true },
+    ];
+
+    for (const link of navLinks) {
+        const existing = await prisma.navigationLink.findFirst({
+            where: { label: link.label },
+        });
+        if (!existing) {
+            await prisma.navigationLink.create({
+                data: link,
+            });
+        }
+    }
+
     console.log('Seeding completed successfully.');
 }
 

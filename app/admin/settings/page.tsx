@@ -195,16 +195,37 @@ export default function AdminSettingsPage() {
         apartmentsHeroImage: '',
         contactHeroImage: '',
         journalHeroImage: '',
+        apartmentsHeroLabel: '',
+        apartmentsHeroTitle: '',
+        apartmentsHeroDescription: '',
+        contactHeroLabel: '',
+        contactHeroTitle: '',
+        contactHeroDescription: '',
+        contactFormHeading: '',
+        contactFormDescription: '',
+        aboutHeroLabel: '',
+        aboutPillarsLabel: '',
+        aboutPillarsHeading: '',
+        amenitiesImage: '',
+        seoImage: '',
         suitesHeading: '',
         suitesDescription: '',
         amenitiesHeading: '',
         amenitiesDescription: '',
         amenitiesSubtitle: '',
         experienceTitle: '',
-        experienceSubtitle: '',
         experienceLabel: '',
         aboutLeadershipHeading: '',
         aboutLeadershipDescription: '',
+        contactMapUrl: '',
+        contactHoursWeekday: '',
+        contactHoursSaturday: '',
+        contactHoursSunday: '',
+        contactHoursReception: '',
+        contactCallHeading: '',
+        contactCallDescription: '',
+        contactCallButtonText: '',
+        contactCallButtonLink: '',
     });
 
     const [heroItems, setHeroItems] = useState<HeroItem[]>([]);
@@ -544,7 +565,7 @@ export default function AdminSettingsPage() {
                                         </div>
                                         <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center gap-2">
                                             <Upload size={24} className="text-white" />
-                                            <span className="text-white text-xs font-medium">Click to change logo</span>
+                                            <span className="text-white text-xs font-medium mt-2">Click to change logo</span>
                                         </div>
                                     </>
                                 ) : (
@@ -929,6 +950,15 @@ export default function AdminSettingsPage() {
                             <h3 className="font-semibold text-lg text-[#0F2C23] border-b pb-2">About Us Page Content</h3>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div className="space-y-2">
+                                    <Label>Hero Label</Label>
+                                    <Input
+                                        name="aboutHeroLabel"
+                                        value={settings.aboutHeroLabel || ''}
+                                        onChange={handleChange}
+                                        placeholder="e.g. Our Heritage"
+                                    />
+                                </div>
+                                <div className="space-y-2">
                                     <Label>Hero Headline</Label>
                                     <Input
                                         name="aboutHero"
@@ -988,13 +1018,40 @@ export default function AdminSettingsPage() {
                                     <Label>Amenity Highlight: Label</Label>
                                     <Input name="experienceLabel" value={settings.experienceLabel || ''} onChange={handleChange} placeholder="e.g. Unparalleled Comfort" />
                                 </div>
-                                <div className="space-y-2">
-                                    <Label>Amenity Highlight: Title</Label>
-                                    <Input name="experienceTitle" value={settings.experienceTitle || ''} onChange={handleChange} placeholder="e.g. Everything you need," />
-                                </div>
                                 <div className="space-y-2 md:col-span-2">
-                                    <Label>Amenity Highlight: Subtitle (Italicized)</Label>
-                                    <Input name="experienceSubtitle" value={settings.experienceSubtitle || ''} onChange={handleChange} placeholder="e.g. beautifully anticipated." />
+                                    <Label>Amenity Highlight: Title</Label>
+                                    <Input name="experienceTitle" value={settings.experienceTitle || ''} onChange={handleChange} placeholder="e.g. Everything you need." />
+                                </div>
+                                <div className="space-y-4 md:col-span-2 relative p-4 border rounded-xl overflow-hidden bg-gray-50/50">
+                                    <div className="flex justify-between items-center mb-2 z-10 relative">
+                                        <h4 className="font-medium text-sm text-gray-700">Amenities Section Image</h4>
+                                    </div>
+                                    <label className="group relative block w-full h-48 rounded-2xl overflow-hidden border-2 border-dashed border-[#C9A05B]/30 hover:border-[#C9A05B] cursor-pointer transition-colors bg-white">
+                                        {settings.amenitiesImage ? (
+                                            <>
+                                                <div className="w-full h-full flex items-center justify-center">
+                                                    <img src={settings.amenitiesImage} alt="Amenities preview" className="w-full h-full object-cover" />
+                                                </div>
+                                                <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center gap-2">
+                                                    <Upload size={24} className="text-white" />
+                                                    <span className="text-white text-xs font-medium mt-2">Click to change image</span>
+                                                </div>
+                                            </>
+                                        ) : (
+                                            <div className="w-full h-full flex flex-col items-center justify-center gap-2">
+                                                <ImageIcon size={32} strokeWidth={1} className="text-[#C9A05B]/50" />
+                                                <span className="text-sm text-gray-400">Click to upload image</span>
+                                            </div>
+                                        )}
+                                        <input type="file" accept="image/*" className="absolute inset-0 opacity-0 cursor-pointer w-full h-full" onChange={(e) => handleFileUpload(e, 'amenitiesImage')} />
+                                    </label>
+                                    <Input
+                                        name="amenitiesImage"
+                                        value={settings.amenitiesImage || ''}
+                                        onChange={handleChange}
+                                        placeholder="Or paste an image URL"
+                                        className="text-xs text-gray-500 mt-2"
+                                    />
                                 </div>
                             </div>
                         </div>
@@ -1067,6 +1124,48 @@ export default function AdminSettingsPage() {
                                 </div>
                             </div>
                         </div>
+                        {/* Contact Page Sidebar */}
+                        <div className="space-y-4 pt-6 border-t border-gray-100">
+                            <h3 className="font-semibold text-lg text-[#0F2C23] border-b pb-2">Contact Page Sidebar (Map, Hours & CTA)</h3>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div className="space-y-2 md:col-span-2">
+                                    <Label>Google Maps Embed URL</Label>
+                                    <Input name="contactMapUrl" value={settings.contactMapUrl || ''} onChange={handleChange} placeholder="https://www.google.com/maps/embed?pb=..." />
+                                </div>
+                                <div className="space-y-2">
+                                    <Label>Concierge Hours: Monday - Friday</Label>
+                                    <Input name="contactHoursWeekday" value={settings.contactHoursWeekday || ''} onChange={handleChange} placeholder="e.g. 8:00 AM – 9:00 PM" />
+                                </div>
+                                <div className="space-y-2">
+                                    <Label>Concierge Hours: Saturday</Label>
+                                    <Input name="contactHoursSaturday" value={settings.contactHoursSaturday || ''} onChange={handleChange} placeholder="e.g. 9:00 AM – 8:00 PM" />
+                                </div>
+                                <div className="space-y-2">
+                                    <Label>Concierge Hours: Sunday</Label>
+                                    <Input name="contactHoursSunday" value={settings.contactHoursSunday || ''} onChange={handleChange} placeholder="e.g. 10:00 AM – 6:00 PM" />
+                                </div>
+                                <div className="space-y-2">
+                                    <Label>Concierge Hours: Reception / Security</Label>
+                                    <Input name="contactHoursReception" value={settings.contactHoursReception || ''} onChange={handleChange} placeholder="e.g. Open 24 / 7" />
+                                </div>
+                                <div className="space-y-2">
+                                    <Label>Call CTA Heading</Label>
+                                    <Input name="contactCallHeading" value={settings.contactCallHeading || ''} onChange={handleChange} placeholder="e.g. Prefer to call?" />
+                                </div>
+                                <div className="space-y-2">
+                                    <Label>Call CTA Description</Label>
+                                    <Input name="contactCallDescription" value={settings.contactCallDescription || ''} onChange={handleChange} placeholder="Our team is always delighted to assist..." />
+                                </div>
+                                <div className="space-y-2">
+                                    <Label>Call CTA Button Text</Label>
+                                    <Input name="contactCallButtonText" value={settings.contactCallButtonText || ''} onChange={handleChange} placeholder="e.g. 0772560696 or WhatsApp Us" />
+                                </div>
+                                <div className="space-y-2">
+                                    <Label>Call CTA Button Link</Label>
+                                    <Input name="contactCallButtonLink" value={settings.contactCallButtonLink || ''} onChange={handleChange} placeholder="e.g. tel:+256772560696 or https://wa.me/..." />
+                                </div>
+                            </div>
+                        </div>
 
                         {/* Social Media Links */}
                         <div className="space-y-4 pt-6 border-t border-gray-100">
@@ -1101,11 +1200,43 @@ export default function AdminSettingsPage() {
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div className="space-y-2">
                                     <Label>SEO Keywords</Label>
-                                    <Input name="seoKeywords" value={settings.seoKeywords || ''} onChange={handleChange} placeholder="hotel, luxury, etc." />
+                                    <Input name="seoKeywords" value={settings.seoKeywords || ''} onChange={handleChange} placeholder="Comma separated keywords..." />
                                 </div>
                                 <div className="space-y-2">
-                                    <Label>SEO Site Description</Label>
-                                    <Textarea name="seoDescription" value={settings.seoDescription || ''} onChange={handleChange} />
+                                    <Label>SEO Description</Label>
+                                    <Textarea name="seoDescription" value={settings.seoDescription || ''} onChange={handleChange} placeholder="Description for search engines..." />
+                                </div>
+                                <div className="space-y-4 md:col-span-2 relative p-4 border rounded-xl overflow-hidden bg-gray-50/50">
+                                    <div className="flex justify-between items-center mb-2 z-10 relative">
+                                        <h4 className="font-medium text-sm text-gray-700">SEO Default Share Image (OpenGraph/Twitter)</h4>
+                                    </div>
+                                    <label className="group relative block w-full h-48 rounded-2xl overflow-hidden border-2 border-dashed border-[#C9A05B]/30 hover:border-[#C9A05B] cursor-pointer transition-colors bg-white">
+                                        {settings.seoImage ? (
+                                            <>
+                                                <div className="w-full h-full flex items-center justify-center">
+                                                    <img src={settings.seoImage} alt="SEO Share Image preview" className="w-full h-full object-cover" />
+                                                </div>
+                                                <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center gap-2">
+                                                    <Upload size={24} className="text-white" />
+                                                    <span className="text-white text-xs font-medium mt-2">Click to change image</span>
+                                                </div>
+                                            </>
+                                        ) : (
+                                            <div className="w-full h-full flex flex-col items-center justify-center gap-2">
+                                                <ImageIcon size={32} strokeWidth={1} className="text-[#C9A05B]/50" />
+                                                <span className="text-sm text-gray-400">Click to upload image</span>
+                                            </div>
+                                        )}
+                                        <input type="file" accept="image/*" className="absolute inset-0 opacity-0 cursor-pointer w-full h-full" onChange={(e) => handleFileUpload(e, 'seoImage')} />
+                                    </label>
+                                    <Input
+                                        name="seoImage"
+                                        value={settings.seoImage || ''}
+                                        onChange={handleChange}
+                                        placeholder="Or paste an image URL"
+                                        className="text-xs text-gray-500 mt-2"
+                                    />
+                                    <p className="text-xs text-gray-400 mt-2">Recommended resolution: 1200x630px. This image is shown when links to the website are shared on social platforms or messaging apps.</p>
                                 </div>
                             </div>
                         </div>

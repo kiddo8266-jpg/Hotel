@@ -98,8 +98,8 @@ export default async function Home() {
                 description={settings.amenitiesDescription}
                 subtitle={settings.amenitiesSubtitle}
                 experienceTitle={settings.experienceTitle}
-                experienceSubtitle={settings.experienceSubtitle}
                 experienceLabel={settings.experienceLabel}
+                amenitiesImage={settings.amenitiesImage || undefined}
             />
         </main>
     );

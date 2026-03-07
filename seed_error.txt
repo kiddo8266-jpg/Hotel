@@ -1,0 +1,35 @@
+Seeding initial SiteSettings...
+Seeding Admin User...
+Seeding initial Apartments...
+Seeding initial Amenities...
+Seeding initial Navigation Links...
+PrismaClientValidationError: 
+Invalid `prisma.navigationLink.create()` invocation in
+E:\josephine-haven\prisma\seed.ts:162:41
+
+  159     where: { label: link.label },
+  160 });
+  161 if (!existing) {
+ΓåÆ 162     await prisma.navigationLink.create({
+            data: {
+              label: "Home",
+              href: "/",
+              order: 1,
+              isHeader: true,
+              isFooter: true,
+              ~~~~~~~~
+          ?   id?: String,
+          ?   isActive?: Boolean,
+          ?   createdAt?: DateTime
+            }
+          })
+
+Unknown argument `isFooter`. Available options are marked with ?.
+    at Tn (E:\josephine-haven\node_modules\@prisma\client\runtime\library.js:115:6855)
+    at In.handleRequestError (E:\josephine-haven\node_modules\@prisma\client\runtime\library.js:122:6533)
+    at In.handleAndLogRequestError (E:\josephine-haven\node_modules\@prisma\client\runtime\library.js:122:6211)
+    at In.request (E:\josephine-haven\node_modules\@prisma\client\runtime\library.js:122:5919)
+    at async l (E:\josephine-haven\node_modules\@prisma\client\runtime\library.js:127:11167)
+    at async main (E:\josephine-haven\prisma\seed.ts:162:13) {
+  clientVersion: '5.15.0'
+}

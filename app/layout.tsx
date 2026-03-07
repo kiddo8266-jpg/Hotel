@@ -36,7 +36,7 @@ export async function generateMetadata(): Promise<Metadata> {
       siteName: siteSetting?.hotelName || "NL Josephine's Hotel",
       images: [
         {
-          url: "https://images.unsplash.com/photo-1542314831-c6a4d14d8343?q=80&w=2600&auto=format&fit=crop",
+          url: siteSetting?.seoImage || "https://images.unsplash.com/photo-1542314831-c6a4d14d8343?q=80&w=2600&auto=format&fit=crop",
           width: 1200,
           height: 630,
           alt: siteSetting?.hotelName || "NL Josephine's Hotel",
@@ -49,7 +49,7 @@ export async function generateMetadata(): Promise<Metadata> {
       card: "summary_large_image",
       title,
       description,
-      images: ["https://images.unsplash.com/photo-1542314831-c6a4d14d8343?q=80&w=2600&auto=format&fit=crop"],
+      images: [siteSetting?.seoImage || "https://images.unsplash.com/photo-1542314831-c6a4d14d8343?q=80&w=2600&auto=format&fit=crop"],
     },
     icons: { icon: '/favicon.ico' },
   };

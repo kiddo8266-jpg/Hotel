@@ -21,16 +21,16 @@ export default function AmenitiesSection({
     description,
     subtitle,
     experienceTitle,
-    experienceSubtitle,
-    experienceLabel
+    experienceLabel,
+    amenitiesImage
 }: {
     amenities: Amenity[];
     heading?: string;
     description?: string;
     subtitle?: string;
     experienceTitle?: string;
-    experienceSubtitle?: string;
     experienceLabel?: string;
+    amenitiesImage?: string;
 }) {
     if (!amenities || amenities.length === 0) return null;
 
@@ -49,7 +49,7 @@ export default function AmenitiesSection({
                     >
                         <div className="aspect-[4/5] md:aspect-square lg:aspect-[4/5] rounded-[40px] overflow-hidden shadow-2xl relative z-10">
                             <img
-                                src="https://images.unsplash.com/photo-1566665797739-1674de7a421a?q=80&w=2600&auto=format&fit=crop"
+                                src={amenitiesImage || "https://images.unsplash.com/photo-1566665797739-1674de7a421a?q=80&w=2600&auto=format&fit=crop"}
                                 alt="Luxury Hotel Amenities"
                                 className="w-full h-full object-cover scale-105 hover:scale-100 transition-transform duration-1000"
                             />
@@ -59,8 +59,7 @@ export default function AmenitiesSection({
                                     {experienceLabel || "Unparalleled Comfort"}
                                 </span>
                                 <h3 className="text-3xl font-light text-white leading-tight">
-                                    {experienceTitle || "Everything you need,"}<br />
-                                    {experienceSubtitle || "beautifully anticipated."}
+                                    {experienceTitle || "Everything you need, beautifully anticipated."}
                                 </h3>
                             </div>
                         </div>
@@ -141,10 +140,7 @@ export default function AmenitiesSection({
                             {experienceLabel || "Unparalleled Comfort"}
                         </span>
                         <h3 className="text-3xl md:text-5xl lg:text-6xl font-light text-white mb-10 leading-tight">
-                            {experienceTitle || "Everything you need,"}<br />
-                            <span className="italic font-serif text-[#C9A05B]">
-                                {experienceSubtitle || "beautifully anticipated."}
-                            </span>
+                            {experienceTitle || "Everything you need, beautifully anticipated."}
                         </h3>
                     </div>
                 </motion.div>

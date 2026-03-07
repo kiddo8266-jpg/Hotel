@@ -26,14 +26,22 @@ export default async function ApartmentsPage() {
 
                 <div className="max-w-7xl mx-auto px-6 relative z-10">
                     <header className="text-center max-w-4xl mx-auto space-y-6">
-                        <span className="inline-block px-4 py-1.5 rounded-full border border-[#C9A05B]/30 bg-[#C9A05B]/10 text-[#C9A05B] text-xs font-bold tracking-[0.3em] uppercase mb-4 backdrop-blur-md">
-                            The Collection
-                        </span>
-                        <h1 className="text-5xl md:text-7xl font-light text-white leading-tight mb-8">
-                            Our <span className="italic font-serif text-[#C9A05B]">Accommodations</span>
+                        <div
+                            className="inline-block mb-6 px-4 py-1 border border-[#0F2C23]/20 rounded-full"
+                        >
+                            <span className="font-serif italic text-[#0F2C23] text-sm md:text-base">
+                                {settings?.apartmentsHeroLabel || "The Collection"}
+                            </span>
+                        </div>
+                        <h1
+                            className="text-5xl md:text-7xl lg:text-8xl font-light text-[#0F2C23] mb-8 leading-[1.1]"
+                        >
+                            {settings?.apartmentsHeroTitle || "Our Accommodations"}
                         </h1>
-                        <p className="text-lg md:text-xl text-gray-200 font-light leading-relaxed">
-                            Discover our exclusive collection of premium, fully-serviced apartments designed for ultimate comfort and tranquility in the heart of Seguku.
+                        <p
+                            className="text-lg md:text-xl text-[#0F2C23]/70 font-light max-w-2xl mx-auto leading-relaxed"
+                        >
+                            {settings?.apartmentsHeroDescription || "Discover our exclusive collection of premium, fully-serviced apartments designed for ultimate comfort and tranquility in the heart of Seguku."}
                         </p>
                     </header>
                 </div>

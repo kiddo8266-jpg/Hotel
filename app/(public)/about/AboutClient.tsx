@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Shield, Sparkles, Utensils, Building2 } from 'lucide-react';
+import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -15,12 +16,17 @@ type TeamMember = {
 };
 
 type AboutSettings = {
-    heroHeadline: string;
-    visionHeadline: string;
-    visionStory: string;
-    heroImage: string;
-    visionImage1: string;
-    visionImage2: string;
+    aboutHeroLabel?: string;
+    aboutHero?: string;
+    aboutVision?: string;
+    aboutStory?: string;
+    aboutHeroImage?: string;
+    aboutVisionImage1?: string;
+    aboutVisionImage2?: string;
+    aboutLeadershipHeading?: string;
+    aboutLeadershipDescription?: string;
+    aboutPillarsLabel?: string;
+    aboutPillarsHeading?: string;
 };
 
 export default function AboutClient({ initialTeam, settings }: { initialTeam: TeamMember[], settings: AboutSettings }) {
@@ -31,13 +37,15 @@ export default function AboutClient({ initialTeam, settings }: { initialTeam: Te
         visible: { opacity: 1, y: 0, transition: { duration: 0.8 } }
     };
 
+    const heroLines = (settings?.aboutHero || "Experience\nLuxury Living").split('\n');
+
     return (
         <div className="min-h-screen bg-[#F5F0E6]">
             {/* Hero Section */}
             <section className="relative h-[80vh] min-h-[600px] flex items-center justify-center overflow-hidden">
                 <div className="absolute inset-0 z-0">
                     <img
-                        src={settings.heroImage}
+                        src={settings?.aboutHeroImage || "/placeholder-hero.jpg"}
                         alt="NL Josephine's Hotel Interior"
                         className="w-full h-full object-cover object-center scale-105 transform origin-center"
                     />
@@ -48,18 +56,23 @@ export default function AboutClient({ initialTeam, settings }: { initialTeam: Te
                     <motion.span
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8 }}
+                        transition={{ duration: 0.7 }}
                         className="inline-block px-4 py-1.5 rounded-full border border-[#C9A05B]/30 bg-[#C9A05B]/10 text-[#C9A05B] text-xs font-bold tracking-[0.3em] uppercase mb-8 backdrop-blur-md"
                     >
-                        Our Heritage
+                        {settings?.aboutHeroLabel || "Our Heritage"}
                     </motion.span>
                     <motion.h1
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8, delay: 0.2 }}
-                        className="text-5xl md:text-7xl lg:text-8xl font-light text-white mb-8 leading-[1.1] tracking-tight whitespace-pre-wrap"
+                        transition={{ duration: 1, ease: 'easeOut' }}
+                        className="text-6xl md:text-7xl lg:text-9xl font-light text-white leading-tight mb-8"
                     >
-                        {settings.heroHeadline.replace(/\\n/g, '\n')}
+                        {heroLines.map((line, index) => (
+                            <React.Fragment key={index}>
+                                {line}
+                                {index !== heroLines.length - 1 && <br />}
+                            </React.Fragment>
+                        ))}
                     </motion.h1>
                     <motion.p
                         initial={{ opacity: 0 }}
@@ -83,12 +96,12 @@ export default function AboutClient({ initialTeam, settings }: { initialTeam: Te
                             variants={fadeInUp}
                         >
                             <span className="text-[#C9A05B] font-medium tracking-widest uppercase text-sm mb-6 block">Our Story</span>
-                            <h2 className="text-4xl md:text-5xl font-light text-[#0F2C23] mb-8 leading-tight">
-                                {settings.visionHeadline}
+                            <h2 className="text-4xl md:text-5xl lg:text-6xl font-light text-[#0F2C23] mb-8 leading-[1.2]">
+                                {settings?.aboutVision || "Born from a desire to blend uncompromising tranquility with modern luxury."}
                             </h2>
-                            <div className="prose prose-stone prose-lg text-gray-500 font-light leading-relaxed whitespace-pre-wrap">
-                                {settings.visionStory}
-                            </div>
+                            <p className="text-lg md:text-xl text-gray-500 font-light leading-relaxed whitespace-pre-line">
+                                {settings?.aboutStory || "NL Josephine's Hotel & Apt was designed as a retreat from the ordinary."}
+                            </p>
                         </motion.div>
 
                         <motion.div
@@ -100,14 +113,14 @@ export default function AboutClient({ initialTeam, settings }: { initialTeam: Te
                         >
                             <div className="aspect-[4/5] rounded-[40px] overflow-hidden shadow-2xl relative z-10">
                                 <img
-                                    src={settings.visionImage1}
+                                    src={settings?.aboutVisionImage1 || "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&q=80"}
                                     alt="Architecture details"
                                     className="w-full h-full object-cover"
                                 />
                             </div>
-                            <div className="absolute -bottom-10 -left-10 w-2/3 aspect-square rounded-[40px] overflow-hidden shadow-xl border-8 border-[#F5F0E6] z-20">
+                            <div className="absolute top-1/4 -left-12 md:-left-24 w-48 md:w-64 aspect-[3/4] rounded-[2rem] overflow-hidden border-8 border-[#F5F0E6] shadow-2xl z-10">
                                 <img
-                                    src={settings.visionImage2}
+                                    src={settings?.aboutVisionImage2 || "https://images.unsplash.com/photo-1512918728675-ed5a9ecdebfd?auto=format&fit=crop&q=80"}
                                     alt="Luxury interior"
                                     className="w-full h-full object-cover"
                                 />
@@ -129,8 +142,12 @@ export default function AboutClient({ initialTeam, settings }: { initialTeam: Te
                         variants={fadeInUp}
                         className="text-center mb-16"
                     >
-                        <span className="text-[#C9A05B] font-medium tracking-widest uppercase text-sm mb-4 block">The Foundation</span>
-                        <h2 className="text-4xl md:text-5xl font-light text-[#0F2C23]">Our Core Pillars</h2>
+                        <span className="text-[#C9A05B] font-medium tracking-widest uppercase text-sm mb-4 block">
+                            {settings?.aboutPillarsLabel || "The Foundation"}
+                        </span>
+                        <h2 className="text-4xl md:text-5xl font-light text-[#0F2C23]">
+                            {settings?.aboutPillarsHeading || "Our Core Pillars"}
+                        </h2>
                     </motion.div>
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">

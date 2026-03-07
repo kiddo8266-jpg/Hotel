@@ -31,7 +31,72 @@ const contactDetails = [
     },
 ];
 
-export default function ContactClient({ heroImage }: { heroImage: string }) {
+export default function ContactClient({
+    heroImage,
+    heroLabel = "Get in Touch",
+    heroTitle = "Welcome To NL Josephine's Hotel",
+    heroDescription = "Whether you're planning a stay, have a question about our suites, or simply want to say hello — our concierge team is always ready.",
+    formHeading = "Send an Enquiry",
+    formDescription = "Our team will personally respond within 24 hours.",
+    contactMapUrl = "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.7547316428!2d32.5618!3d0.2717!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMCcxOC44Ik4gMzLCsDMzJzQyLjUiRQ!5e0!3m2!1sen!2sug!4v1620000000000!5m2!1sen!2sug",
+    contactHoursWeekday = "8:00 AM – 9:00 PM",
+    contactHoursSaturday = "9:00 AM – 8:00 PM",
+    contactHoursSunday = "10:00 AM – 6:00 PM",
+    contactHoursReception = "Open 24 / 7",
+    contactCallHeading = "Prefer to call?",
+    contactCallDescription = "Our team is always delighted to assist over a direct call.",
+    contactCallButtonText = "0772560696",
+    contactCallButtonLink = "tel:+256772560696",
+    contactPhone = "0772560696",
+    contactEmail = "info@josehotel.com",
+    address = "Seguku, Entebbe Road\nKampala, Uganda"
+}: {
+    heroImage: string;
+    heroLabel?: string;
+    heroTitle?: string;
+    heroDescription?: string;
+    formHeading?: string;
+    formDescription?: string;
+    contactMapUrl?: string;
+    contactHoursWeekday?: string;
+    contactHoursSaturday?: string;
+    contactHoursSunday?: string;
+    contactHoursReception?: string;
+    contactCallHeading?: string;
+    contactCallDescription?: string;
+    contactCallButtonText?: string;
+    contactCallButtonLink?: string;
+    contactPhone?: string;
+    contactEmail?: string;
+    address?: string;
+}) {
+    // Generate dynamic contact details using the passed props
+    const dynamicContactDetails = [
+        {
+            icon: Phone,
+            label: 'Call Us',
+            value: contactPhone,
+            sub: 'Available 24 hours',
+        },
+        {
+            icon: Mail,
+            label: 'Email',
+            value: contactEmail,
+            sub: 'We reply within 24 hours',
+        },
+        {
+            icon: MapPin,
+            label: 'Location',
+            value: address.split('\n')[0],
+            sub: address.split('\n')[1] || '',
+        },
+        {
+            icon: Clock,
+            label: 'Availability',
+            value: '24 / 7 Concierge',
+            sub: 'Always at your service',
+        },
+    ];
     const [submitted, setSubmitted] = useState(false);
     const [form, setForm] = useState({ name: '', email: '', phone: '', subject: '', message: '' });
 
@@ -87,7 +152,7 @@ export default function ContactClient({ heroImage }: { heroImage: string }) {
                         transition={{ duration: 0.7 }}
                         className="inline-block px-4 py-1.5 rounded-full border border-[#C9A05B]/30 bg-[#C9A05B]/10 text-[#C9A05B] text-xs font-bold tracking-[0.3em] uppercase mb-8 backdrop-blur-md"
                     >
-                        Get in Touch
+                        {heroLabel}
                     </motion.span>
                     <motion.h1
                         initial={{ opacity: 0, y: 30 }}
@@ -95,8 +160,7 @@ export default function ContactClient({ heroImage }: { heroImage: string }) {
                         transition={{ duration: 1, ease: 'easeOut' }}
                         className="text-6xl md:text-7xl lg:text-8xl font-light text-white leading-tight mb-6"
                     >
-                        Welcome To{' '}
-                        <span className="italic font-serif text-[#C9A05B]">NL Josephine&apos;s Hotel</span>
+                        {heroTitle}
                     </motion.h1>
                     <motion.p
                         initial={{ opacity: 0, y: 20 }}
@@ -104,7 +168,7 @@ export default function ContactClient({ heroImage }: { heroImage: string }) {
                         transition={{ duration: 1, delay: 0.3 }}
                         className="text-lg text-gray-300 font-light max-w-2xl mx-auto leading-relaxed"
                     >
-                        Whether you&apos;re planning a stay, have a question about our suites, or simply want to say hello — our concierge team is always ready.
+                        {heroDescription}
                     </motion.p>
                 </div>
             </section>
@@ -112,7 +176,7 @@ export default function ContactClient({ heroImage }: { heroImage: string }) {
             {/* Contact Cards Row */}
             <section className="max-w-7xl mx-auto px-6 -mt-16 mb-20 relative z-20">
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                    {contactDetails.map((detail, i) => (
+                    {dynamicContactDetails.map((detail, i) => (
                         <motion.div
                             key={detail.label}
                             initial={{ opacity: 0, y: 40 }}
@@ -148,8 +212,8 @@ export default function ContactClient({ heroImage }: { heroImage: string }) {
                             <div className="absolute top-0 right-0 w-80 h-80 bg-[#C9A05B]/10 rounded-full blur-[100px] pointer-events-none" />
 
                             <div className="relative z-10">
-                                <h2 className="text-3xl md:text-4xl font-light text-white mb-2">Send an Enquiry</h2>
-                                <p className="text-gray-400 font-light mb-10">Our team will personally respond within 24 hours.</p>
+                                <h2 className="text-3xl md:text-4xl font-light text-white mb-2">{formHeading}</h2>
+                                <p className="text-gray-400 font-light mb-10">{formDescription}</p>
 
                                 {submitted ? (
                                     <motion.div
@@ -267,7 +331,7 @@ export default function ContactClient({ heroImage }: { heroImage: string }) {
                         {/* Map Embed Card */}
                         <div className="rounded-[32px] overflow-hidden shadow-2xl bg-white border border-gray-100 aspect-[4/3]">
                             <iframe
-                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.7547316428!2d32.5618!3d0.2717!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMCcxOC44Ik4gMzLCsDMzJzQyLjUiRQ!5e0!3m2!1sen!2sug!4v1620000000000!5m2!1sen!2sug"
+                                src={contactMapUrl}
                                 width="100%"
                                 height="100%"
                                 style={{ border: 0, minHeight: '280px' }}
@@ -283,10 +347,10 @@ export default function ContactClient({ heroImage }: { heroImage: string }) {
                             <h3 className="text-xl font-light text-[#0F2C23]">Concierge Hours</h3>
                             <div className="space-y-3 divide-y divide-gray-50">
                                 {[
-                                    { day: 'Monday – Friday', hours: '8:00 AM – 9:00 PM' },
-                                    { day: 'Saturday', hours: '9:00 AM – 8:00 PM' },
-                                    { day: 'Sunday', hours: '10:00 AM – 6:00 PM' },
-                                    { day: 'Reception / Security', hours: 'Open 24 / 7' },
+                                    { day: 'Monday – Friday', hours: contactHoursWeekday },
+                                    { day: 'Saturday', hours: contactHoursSaturday },
+                                    { day: 'Sunday', hours: contactHoursSunday },
+                                    { day: 'Reception / Security', hours: contactHoursReception },
                                 ].map(({ day, hours }) => (
                                     <div key={day} className="flex justify-between pt-3 first:pt-0">
                                         <span className="text-sm text-gray-500 font-light">{day}</span>
@@ -298,11 +362,11 @@ export default function ContactClient({ heroImage }: { heroImage: string }) {
 
                         {/* CTA Strip */}
                         <div className="bg-[#C9A05B] rounded-[28px] p-8 text-[#0F2C23] shadow-xl">
-                            <h4 className="font-serif text-xl italic mb-2">Prefer to call?</h4>
-                            <p className="text-sm font-light mb-5 opacity-80">Our team is always delighted to assist over a direct call.</p>
-                            <a href="tel:+256772560696" className="inline-flex items-center gap-2 bg-[#0F2C23] text-white px-6 py-3 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-white hover:text-[#0F2C23] transition-all duration-500">
+                            <h4 className="font-serif text-xl italic mb-2">{contactCallHeading}</h4>
+                            <p className="text-sm font-light mb-5 opacity-80">{contactCallDescription}</p>
+                            <a href={contactCallButtonLink} className="inline-flex items-center gap-2 bg-[#0F2C23] text-white px-6 py-3 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-white hover:text-[#0F2C23] transition-all duration-500">
                                 <Phone size={14} />
-                                0772560696
+                                {contactCallButtonText}
                             </a>
                         </div>
                     </motion.div>
