@@ -45,3 +45,4 @@ next-env.d.ts
 
 # utility scripts
 reset-password.js
+local_scripts/
