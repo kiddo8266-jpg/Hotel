@@ -6,14 +6,14 @@ async function updateDB() {
     if (currentSettings) {
         const newHeroTitle = currentSettings.heroTitle.replace(/Josephine Haven/g, "NL Josephine's Hotel");
         const newAboutText = currentSettings.aboutText.replace(/NL Josephine’s Apartments/g, "NL Josephine's Hotel").replace(/NL Josephine's Apartments/g, "NL Josephine's Hotel").replace(/Josephine Haven/g, "NL Josephine's Hotel");
-        const newAboutStory = currentSettings.aboutStory.replace(/Josephine Haven/g, "NL Josephine's Hotel").replace(/NL Josephine's Apartments/g, "NL Josephine's Hotel").replace(/NL Josephine’s Apartments/g, "NL Josephine's Hotel");
+        const newAboutStory = currentSettings.aboutStory ? currentSettings.aboutStory.replace(/Josephine Haven/g, "NL Josephine's Hotel").replace(/NL Josephine's Apartments/g, "NL Josephine's Hotel").replace(/NL Josephine’s Apartments/g, "NL Josephine's Hotel") : null;
 
         await prisma.siteSetting.update({
             where: { id: currentSettings.id },
             data: {
                 heroTitle: newHeroTitle,
                 aboutText: newAboutText,
-                aboutStory: newAboutStory
+                ...(newAboutStory !== null && { aboutStory: newAboutStory })
             }
         });
         console.log("Updated SiteSettings!");

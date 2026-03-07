@@ -27,6 +27,11 @@ async function main() {
             console.log('Sample BlogPosts:', JSON.stringify(posts, null, 2));
         }
 
+        if (heroContentCount > 0) {
+            const heroes = await prisma.heroContent.findMany();
+            console.log('HeroContent data:', JSON.stringify(heroes, null, 2));
+        }
+
         if (cardsCount > 0) {
             const cards = await prisma.journalMarketingCard.findMany({ take: 2 });
             console.log('Sample MarketingCards:', JSON.stringify(cards, null, 2));

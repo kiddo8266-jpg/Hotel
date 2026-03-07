@@ -1,0 +1,36 @@
+--- DATABASE DIAGNOSTICS ---
+BlogPosts count: 0
+JournalMarketingCards count: 1
+HeroContent count: 1
+Apartments count: 3
+Amenities count: 8
+Users count: 1
+SiteSettings journalHeroTitle: The Journal
+SiteSettings journalHeroDescription: Stay updated with the latest happenings, exclusive offers, and stories from our sanctuary.
+----------------------------
+HeroContent data: [
+  {
+    "id": "cmmfyd1by0000lqdr2z0r4sbm",
+    "title": "",
+    "subtitle": "",
+    "mediaUrl": "/uploads/e9246643-7546-407b-b024-e0e28db27d59.jpg",
+    "mediaType": "image",
+    "order": 0,
+    "isActive": true,
+    "createdAt": "2026-03-07T06:38:49.342Z"
+  }
+]
+Sample MarketingCards: [
+  {
+    "id": "cmmfzpn5c0000fe4f31edluhj",
+    "tag": "",
+    "title": "Saturday Night",
+    "description": "Book 3 table and win 50K coupon in return instantly.",
+    "image": "",
+    "buttonLabel": "Send Enquiry",
+    "subject": "New Enquiry from Journal Page",
+    "order": 1,
+    "isActive": true,
+    "createdAt": "2026-03-07T07:16:37.105Z"
+  }
+]

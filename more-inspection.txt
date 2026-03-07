@@ -1,0 +1,18 @@
+--- MEDIA ---
+[]
+--- ENQUIRIES ---
+[
+  {
+    "id": "cmmgcq9y40000g2igqnuvab1r",
+    "name": "okeng",
+    "email": "k.district87@gmail.com",
+    "phone": "+256788567526",
+    "subject": "Room Viewing Request – Journal Page",
+    "message": "fhhhhh",
+    "isRead": false,
+    "status": "new",
+    "createdAt": "2026-03-07T13:21:01.659Z"
+  }
+]
+--- TEAM ---
+[]

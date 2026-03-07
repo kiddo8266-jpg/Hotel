@@ -1,0 +1,133 @@
+--- APARTMENTS ---
+[
+  {
+    "id": "cmmfy4ij30001oij5n4ot0uk3",
+    "title": "Executive Suite",
+    "description": "Our most luxurious offering, featuring spacious living areas, premium furnishings, and a panoramic city view.",
+    "price": 450,
+    "priceDuration": "per month",
+    "image": "https://images.unsplash.com/photo-1631049307264-da0ec9d70304?q=80&w=2600&auto=format&fit=crop",
+    "type": "Executive",
+    "bedrooms": 2,
+    "bathrooms": 2,
+    "size": 1200,
+    "features": "King Bed,City View,Free Wi-Fi,Mini Bar,Jacuzzi,Lounge Access,24/7 Room Service,Premium Toiletries",
+    "createdAt": "2026-03-07T06:32:11.727Z",
+    "amenities": []
+  },
+  {
+    "id": "cmmfy4ijg0002oij5p39ddo75",
+    "title": "Deluxe single and Double room",
+    "description": "Perfect for families or business travelers, offering versatility and unmatched comfort with modern amenities.",
+    "price": 250,
+    "priceDuration": "per month",
+    "image": "https://images.unsplash.com/photo-1590490360182-c33d57733427?q=80&w=2600&auto=format&fit=crop",
+    "type": "Deluxe single and Double room",
+    "bedrooms": 1,
+    "bathrooms": 1,
+    "size": 800,
+    "features": "Choice of Bed,Workspace,Free Wi-Fi,Smart TV,Coffee Maker,Rain Shower",
+    "createdAt": "2026-03-07T06:32:11.741Z",
+    "amenities": []
+  },
+  {
+    "id": "cmmfy4ijt0003oij56kbssp3c",
+    "title": "Standard suite",
+    "description": "A cozy yet elegant space designed to provide all the essential luxuries for a perfect stay.",
+    "price": 150,
+    "priceDuration": "per month",
+    "image": "https://images.unsplash.com/photo-1566665797739-1674de7a421a?q=80&w=2600&auto=format&fit=crop",
+    "type": "Standard suite",
+    "bedrooms": 1,
+    "bathrooms": 1,
+    "size": 500,
+    "features": "Queen Bed,Free Wi-Fi,Smart TV,En-suite Bathroom,Air Conditioning",
+    "createdAt": "2026-03-07T06:32:11.753Z",
+    "amenities": []
+  }
+]
+--- AMENITIES ---
+[
+  {
+    "id": "cmmfy4ik80004oij5n6wvd6m9",
+    "iconName": "Wifi",
+    "title": "Free Fast WiFi",
+    "description": "Seamless, high-speed connectivity throughout the haven.",
+    "image": "",
+    "isActive": true,
+    "order": 1,
+    "createdAt": "2026-03-07T06:32:11.769Z"
+  },
+  {
+    "id": "cmmfy4ikn0005oij52an3c5vn",
+    "iconName": "ShieldCheck",
+    "title": "24/7 Security & CCTV",
+    "description": "Uncompromising safety with round-the-clock surveillance.",
+    "image": "",
+    "isActive": true,
+    "order": 2,
+    "createdAt": "2026-03-07T06:32:11.784Z"
+  },
+  {
+    "id": "cmmfy4il20006oij5y3zff0pb",
+    "iconName": "Car",
+    "title": "Ample Free Parking",
+    "description": "Secure and spacious private parking for all guests.",
+    "image": "",
+    "isActive": true,
+    "order": 3,
+    "createdAt": "2026-03-07T06:32:11.798Z"
+  },
+  {
+    "id": "cmmfy4ill0007oij5oo57uonp",
+    "iconName": "Leaf",
+    "title": "Tranquil Gardens",
+    "description": "Lush outdoor spaces designed for relaxation and peace.",
+    "image": "",
+    "isActive": true,
+    "order": 4,
+    "createdAt": "2026-03-07T06:32:11.817Z"
+  },
+  {
+    "id": "cmmfy4ilz0008oij5uaenalrf",
+    "iconName": "Wine",
+    "title": "Mini Bar",
+    "description": "Curated refreshments ready in the comfort of your suite.",
+    "image": "",
+    "isActive": true,
+    "order": 5,
+    "createdAt": "2026-03-07T06:32:11.832Z"
+  },
+  {
+    "id": "cmmfy4ime0009oij5l9pomlxg",
+    "iconName": "Zap",
+    "title": "Standby Generator",
+    "description": "Guaranteed uninterrupted power supply at all times.",
+    "image": "",
+    "isActive": true,
+    "order": 6,
+    "createdAt": "2026-03-07T06:32:11.846Z"
+  },
+  {
+    "id": "cmmfy4imr000aoij5wizodtmq",
+    "iconName": "Tv",
+    "title": "DSTV & Smart TV",
+    "description": "Premium global entertainment right at your fingertips.",
+    "image": "",
+    "isActive": true,
+    "order": 7,
+    "createdAt": "2026-03-07T06:32:11.859Z"
+  },
+  {
+    "id": "cmmfy4in3000boij5l3kh3yjs",
+    "iconName": "Sparkles",
+    "title": "Laundry Services",
+    "description": "Impeccable garment care to keep you looking your best.",
+    "image": "",
+    "isActive": true,
+    "order": 8,
+    "createdAt": "2026-03-07T06:32:11.872Z"
+  }
+]
+--- BLOG POSTS ---
+[]
