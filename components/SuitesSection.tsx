@@ -5,7 +5,17 @@ import { Wifi, Home, Bath, Tv, CheckCircle2, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import type { Apartment } from './ApartmentCard';
 
-export default function SuitesSection({ apartments }: { apartments: Apartment[] }) {
+export default function SuitesSection({
+    apartments,
+    heading,
+    description
+}: {
+    apartments: Apartment[];
+    heading?: string;
+    description?: string;
+}) {
+    const defaultHeading = "Distinctive Suites";
+    const defaultDescription = "Our most exclusive accommodations, individually curated to offer exceptional comfort, blending modern aesthetics with thoughtful amenities.";
     // Only show up to 3 featured suites on the homepage
     const featuredApartments = apartments.slice(0, 3);
 
@@ -17,20 +27,19 @@ export default function SuitesSection({ apartments }: { apartments: Apartment[] 
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
-                        className="text-4xl md:text-5xl font-serif text-[#0F2C23] mb-4"
+                        className="text-4xl md:text-5xl lg:text-7xl font-light text-[#0F2C23] mb-8 leading-[1.1] tracking-tight"
                     >
-                        Distinctive Suites
+                        {heading || defaultHeading}
                     </motion.h2>
-                    <motion.div
-                        initial={{ scaleX: 0 }}
-                        whileInView={{ scaleX: 1 }}
+                    <motion.p
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
-                        className="w-24 h-1 bg-[#C9A05B] mx-auto mb-6 origin-left"
-                    />
-                    <p className="text-gray-600 font-light">
-                        Our most exclusive accommodations, individually curated to offer exceptional comfort,
-                        blending modern aesthetics with thoughtful amenities.
-                    </p>
+                        transition={{ duration: 0.8, delay: 0.2 }}
+                        className="text-gray-500 text-lg md:text-xl font-light leading-relaxed max-w-2xl"
+                    >
+                        {description || defaultDescription}
+                    </motion.p>
                 </div>
 
                 <div className="flex flex-col gap-24">

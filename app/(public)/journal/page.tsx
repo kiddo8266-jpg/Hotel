@@ -23,7 +23,7 @@ async function getJournalData() {
             hero: {
                 label: settings?.journalHeroLabel ?? 'Our Stories',
                 title: settings?.journalHeroTitle ?? 'The Journal',
-                description: settings?.journalHeroDescription ?? 'Stay updated with the latest happenings, exclusive offers, and stories from our sanctuary.',
+                description: settings?.journalHeroDescription ?? 'Stay updated with the latest happenings, exclusive offers, and stories from our haven.',
                 backgroundImage: settings?.journalHeroImage ?? 'https://images.unsplash.com/photo-1455391704245-2376bb74b358?auto=format&fit=crop&q=80',
             },
             marketingCards: JSON.parse(JSON.stringify(marketingCards)),
@@ -35,7 +35,7 @@ async function getJournalData() {
             hero: {
                 label: 'Our Stories',
                 title: 'The Journal',
-                description: 'Stay updated with the latest happenings, exclusive offers, and stories from our sanctuary.',
+                description: 'Stay updated with the latest happenings, exclusive offers, and stories from our haven.',
                 backgroundImage: 'https://images.unsplash.com/photo-1455391704245-2376bb74b358?auto=format&fit=crop&q=80',
             },
             marketingCards: [],

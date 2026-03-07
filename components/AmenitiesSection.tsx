@@ -15,7 +15,23 @@ type Amenity = {
     image?: string | null;
 };
 
-export default function AmenitiesSection({ amenities }: { amenities: Amenity[] }) {
+export default function AmenitiesSection({
+    amenities,
+    heading,
+    description,
+    subtitle,
+    experienceTitle,
+    experienceSubtitle,
+    experienceLabel
+}: {
+    amenities: Amenity[];
+    heading?: string;
+    description?: string;
+    subtitle?: string;
+    experienceTitle?: string;
+    experienceSubtitle?: string;
+    experienceLabel?: string;
+}) {
     if (!amenities || amenities.length === 0) return null;
 
     return (
@@ -39,8 +55,13 @@ export default function AmenitiesSection({ amenities }: { amenities: Amenity[] }
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-[#0F2C23]/80 via-transparent to-transparent opacity-80" />
                             <div className="absolute bottom-10 left-10 right-10">
-                                <span className="text-[#C9A05B] font-bold tracking-widest uppercase text-xs mb-2 block">Unparalleled Comfort</span>
-                                <h3 className="text-3xl font-light text-white leading-tight">Everything you need,<br />beautifully anticipated.</h3>
+                                <span className="text-[#C9A05B] font-bold tracking-widest uppercase text-xs mb-2 block">
+                                    {experienceLabel || "Unparalleled Comfort"}
+                                </span>
+                                <h3 className="text-3xl font-light text-white leading-tight">
+                                    {experienceTitle || "Everything you need,"}<br />
+                                    {experienceSubtitle || "beautifully anticipated."}
+                                </h3>
                             </div>
                         </div>
                         {/* Decorative elements */}
@@ -54,12 +75,16 @@ export default function AmenitiesSection({ amenities }: { amenities: Amenity[] }
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
-                            className="mb-12"
+                            className="max-w-xl"
                         >
-                            <span className="text-[#C9A05B] font-medium tracking-widest uppercase text-sm mb-4 block">The Experience</span>
-                            <h2 className="text-4xl md:text-5xl font-light text-[#0F2C23] mb-6">Curated Amenities</h2>
-                            <p className="text-gray-500 font-light leading-relaxed max-w-lg">
-                                We believe true luxury lies in the details. Discover a thoughtful collection of amenities designed to elevate every moment of your stay with us.
+                            <span className="text-[#C9A05B] font-medium tracking-widest uppercase text-sm mb-6 block">
+                                {subtitle || "The Experience"}
+                            </span>
+                            <h2 className="text-4xl md:text-5xl font-light text-[#0F2C23] mb-8 leading-tight">
+                                {heading || "Curated Amenities"}
+                            </h2>
+                            <p className="text-gray-500 font-light leading-relaxed mb-10">
+                                {description || "We believe true luxury lies in the details. Discover a thoughtful collection of amenities designed to elevate every moment of your stay with us."}
                             </p>
                         </motion.div>
 
@@ -99,8 +124,30 @@ export default function AmenitiesSection({ amenities }: { amenities: Amenity[] }
                             })}
                         </div>
                     </div>
-
                 </div>
+
+                {/* Experience Highlight Banner */}
+                <motion.div
+                    initial={{ opacity: 0, y: 40 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 1 }}
+                    className="mt-32 p-12 md:p-20 rounded-[60px] bg-[#0F2C23] relative overflow-hidden group"
+                >
+                    <div className="absolute top-0 right-0 w-96 h-96 bg-[#C9A05B]/10 rounded-full blur-[100px] -mr-48 -mt-48 transition-all duration-700 group-hover:bg-[#C9A05B]/20" />
+
+                    <div className="relative z-10 flex flex-col items-center text-center">
+                        <span className="text-[#C9A05B] font-medium tracking-[0.3em] uppercase text-xs mb-8">
+                            {experienceLabel || "Unparalleled Comfort"}
+                        </span>
+                        <h3 className="text-3xl md:text-5xl lg:text-6xl font-light text-white mb-10 leading-tight">
+                            {experienceTitle || "Everything you need,"}<br />
+                            <span className="italic font-serif text-[#C9A05B]">
+                                {experienceSubtitle || "beautifully anticipated."}
+                            </span>
+                        </h3>
+                    </div>
+                </motion.div>
             </div>
         </section>
     );

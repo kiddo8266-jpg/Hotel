@@ -198,10 +198,12 @@ export default function AboutClient({ initialTeam, settings }: { initialTeam: Te
                         >
                             <div>
                                 <span className="text-[#C9A05B] font-medium tracking-widest uppercase text-sm mb-4 block">Leadership</span>
-                                <h2 className="text-4xl md:text-5xl font-light text-[#0F2C23]">The People Behind<br />The Sanctuary</h2>
+                                <h2 className="text-4xl md:text-5xl font-light text-[#0F2C23]">
+                                    {(settings as any).aboutLeadershipHeading || "The People Behind\nThe Haven"}
+                                </h2>
                             </div>
                             <p className="text-gray-500 font-light max-w-sm">
-                                A dedicated team of professionals committed to delivering an exceptional living experience.
+                                {(settings as any).aboutLeadershipDescription || "A dedicated team of professionals committed to delivering an exceptional living experience."}
                             </p>
                         </motion.div>
 
@@ -244,7 +246,7 @@ export default function AboutClient({ initialTeam, settings }: { initialTeam: Te
                 <div className="max-w-4xl mx-auto text-center relative z-10">
                     <Sparkles size={40} className="text-[#C9A05B] mx-auto mb-8" />
                     <h2 className="text-4xl md:text-5xl lg:text-6xl font-light text-white mb-8 leading-tight">
-                        Experience the <span className="italic font-serif text-[#C9A05B]">Sanctuary</span>
+                        Experience the <span className="italic font-serif text-[#C9A05B]">Haven</span>
                     </h2>
                     <Link href="/apartments" className="inline-flex items-center gap-3 bg-white text-[#0F2C23] px-8 py-4 rounded-full font-bold text-xs uppercase tracking-[0.2em] hover:bg-[#C9A05B] hover:text-white transition-all duration-500 group">
                         Discover Apartments

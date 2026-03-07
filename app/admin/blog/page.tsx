@@ -303,7 +303,8 @@ function JournalPageTab() {
         setHero({
           journalHeroLabel: data.journalHeroLabel || 'Our Stories',
           journalHeroTitle: data.journalHeroTitle || 'The Journal',
-          journalHeroDescription: data.journalHeroDescription || 'Stay updated with the latest happenings, exclusive offers, and stories from our sanctuary.',
+          journalHeroDescription: data.journalHeroDescription || 'Stay updated with the latest happenings, exclusive offers, and stories from our haven.',
+
         });
       }
     } catch { toast.error('Could not load journal settings'); }

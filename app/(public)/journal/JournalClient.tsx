@@ -87,7 +87,7 @@ export default function JournalClient({
 }) {
     const heroLabel = hero?.label || 'Our Stories';
     const heroTitle = hero?.title || 'The Journal';
-    const heroDescription = hero?.description || 'Stay updated with the latest happenings, exclusive offers, and stories from our sanctuary.';
+    const heroDescription = hero?.description || 'Stay updated with the latest happenings, exclusive offers, and stories from our haven.';
     // Fall back to hardcoded defaults when no cards are stored in the DB
     const marketingCards = (marketingCardsProp && marketingCardsProp.length > 0) ? marketingCardsProp : DEFAULT_MARKETING_CARDS;
     const [posts] = useState(initialPosts);

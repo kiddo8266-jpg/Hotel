@@ -125,7 +125,8 @@ export default function ApartmentDetailClient({ apartment, contactEmail, contact
 
                         {/* Description */}
                         <div>
-                            <h2 className="text-3xl font-light text-[#0F2C23] mb-8">About this sanctuary</h2>
+                            <h2 className="text-3xl font-light text-[#0F2C23] mb-8">About this haven</h2>
+
                             <div className="prose prose-stone prose-lg text-gray-600 font-light leading-relaxed max-w-none"
                                 dangerouslySetInnerHTML={{ __html: apartment.description }} />
                         </div>

@@ -16,9 +16,10 @@ export default async function PublicLayout({
         })
     ]);
 
-    const hotelName = settings?.hotelName || "NL Josephine's Hotel";
+    const hotelName = settings?.hotelName || "NL Josephine's Hotel & Apt";
     const logoUrl = settings?.logoUrl || '';
-    const logoAlt = settings?.logoAlt || "NL Josephine's Hotel Logo";
+    const logoAlt = settings?.logoAlt || "NL Josephine's Hotel & Apt Logo";
+
 
     return (
         <>

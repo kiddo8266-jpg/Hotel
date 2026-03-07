@@ -3,7 +3,6 @@ import HeroSection from '@/components/HeroSection';
 import SuitesSection from '@/components/SuitesSection';
 import AmenitiesSection from '@/components/AmenitiesSection';
 
-// This is a Server Component, meaning database calls happen securely on the server
 export default async function Home() {
     const settings = await prisma.siteSetting.findUnique({
         where: { id: 'main' },
@@ -17,6 +16,8 @@ export default async function Home() {
     const apartments = await prisma.apartment.findMany({
         orderBy: { createdAt: 'desc' },
     });
+
+    const featuredApartments = apartments.slice(0, 3);
 
     const amenities = await prisma.amenity.findMany({
         where: { isActive: true },
@@ -42,13 +43,18 @@ export default async function Home() {
                 }}
             />
 
+            {/* Spirit Section / About Intro */}
             <section className="py-24 md:py-32 bg-[#F5F0E6] relative overflow-hidden">
                 <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
                     <div className="relative z-10">
-                        <span className="text-[#C9A05B] font-medium tracking-widest uppercase text-sm mb-6 block">{settings.spiritLabel || 'Our Heritage'}</span>
+                        <span className="text-[#C9A05B] font-medium tracking-widest uppercase text-sm mb-6 block">
+                            {settings.spiritLabel || 'Our Heritage'}
+                        </span>
                         <h2 className="text-4xl md:text-5xl lg:text-6xl font-light text-[#0F2C23] mb-8 leading-tight">
-                            {(settings.spiritHeading || 'The Spirit of NL Josephine\'s Hotel').split('\n').map((line: string, i: number) => (
-                                <span key={i}>{i === 0 ? line : <><br /><span className="italic font-serif text-[#C9A05B]">{line}</span></>}</span>
+                            {(settings.spiritHeading || "The Spirit of NL Josephine's Hotel & Apt").split('\n').map((line, i) => (
+                                <span key={i}>
+                                    {i === 0 ? line : <><br /><span className="italic font-serif text-[#C9A05B]">{line}</span></>}
+                                </span>
                             ))}
                         </h2>
                         <p className="text-lg md:text-xl text-gray-600 font-light leading-relaxed whitespace-pre-wrap mb-10">
@@ -60,11 +66,12 @@ export default async function Home() {
                             <span className="transform group-hover:translate-x-2 transition-transform">→</span>
                         </a>
                     </div>
+
                     <div className="relative">
                         <div className="aspect-[4/5] rounded-[40px] overflow-hidden shadow-2xl relative z-10">
                             <img
                                 src={settings.spiritImage || 'https://images.unsplash.com/photo-1582719508461-905c673771fd?q=80&w=2600&auto=format&fit=crop'}
-                                alt={settings.spiritHeading || 'The Spirit of NL Josephine\'s Hotel'}
+                                alt={settings.spiritHeading || "NL Josephine's Hotel & Apt"}
                                 className="w-full h-full object-cover scale-105 hover:scale-100 transition-transform duration-1000"
                             />
                         </div>
@@ -75,9 +82,25 @@ export default async function Home() {
                 </div>
             </section>
 
-            <SuitesSection apartments={apartments} />
+            {/* Featured Suites */}
+            <div id="suites">
+                <SuitesSection
+                    apartments={featuredApartments}
+                    heading={settings.suitesHeading}
+                    description={settings.suitesDescription}
+                />
+            </div>
 
-            <AmenitiesSection amenities={amenities} />
+            {/* Amenities Section */}
+            <AmenitiesSection
+                amenities={amenities}
+                heading={settings.amenitiesHeading}
+                description={settings.amenitiesDescription}
+                subtitle={settings.amenitiesSubtitle}
+                experienceTitle={settings.experienceTitle}
+                experienceSubtitle={settings.experienceSubtitle}
+                experienceLabel={settings.experienceLabel}
+            />
         </main>
     );
 }

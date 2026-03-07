@@ -147,21 +147,21 @@ export default function Navbar({
                         >
                             <div className="flex items-center justify-between mb-10 text-white">
                                 <div className="flex flex-col items-center gap-1">
-                                    {logoUrl ? (
-                                        <>
-                                            <img src={logoUrl} alt={logoAlt} className="h-10 w-auto object-contain" />
-                                            <span className="text-[9px] font-bold text-[#C9A05B] uppercase tracking-[0.2em] font-serif whitespace-nowrap">
-                                                {hotelName}
-                                            </span>
-                                        </>
-                                    ) : (
-                                        <div className="flex items-center gap-2">
-                                            <div className="w-8 h-8 bg-[#C9A05B] rounded-full flex items-center justify-center">
-                                                <span className="text-[#0F2C23] text-lg font-light">J</span>
-                                            </div>
-                                            <span className="text-lg font-light tracking-tight">{hotelName}</span>
-                                        </div>
-                                    )}
+                                    <div className="relative w-10 h-10">
+                                        <div className="absolute inset-0 bg-[#C9A05B] rounded-full blur-xl opacity-20" />
+                                        <img
+                                            src={logoUrl || "https://cdn-icons-png.flaticon.com/512/2983/2983803.png"}
+                                            alt={logoAlt || "NL Josephine's Hotel & Apt Logo"}
+                                            className="relative z-10 w-full h-full object-contain"
+                                            onError={(e) => {
+                                                e.currentTarget.src = 'https://cdn-icons-png.flaticon.com/512/2983/2983803.png';
+                                            }}
+                                        />
+
+                                    </div>
+                                    <span className="text-[9px] font-bold text-[#C9A05B] uppercase tracking-[0.2em] font-serif whitespace-nowrap">
+                                        {hotelName || "NL Josephine's Hotel & Apt"}
+                                    </span>
                                 </div>
                                 <button onClick={() => setIsOpen(false)}>
                                     <X size={22} />

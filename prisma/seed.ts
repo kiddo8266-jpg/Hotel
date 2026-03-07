@@ -86,7 +86,8 @@ async function main() {
         {
             iconName: 'Wifi',
             title: 'Free Fast WiFi',
-            description: 'Seamless, high-speed connectivity throughout the sanctuary.',
+            description: 'Seamless, high-speed connectivity throughout the haven.',
+
             order: 1,
         },
         {

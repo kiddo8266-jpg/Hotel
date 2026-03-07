@@ -70,7 +70,7 @@ model SiteSetting {
   contactEmail     String
   aboutHero        String @default("More Than a Residence.\\nNL Josephine's Hotel.")
   aboutVision      String @default("Born from a desire to blend uncompromising tranquility with modern luxury.")
-  aboutStory       String @default("NL Josephine's Hotel was designed as a retreat from the ordinary. We believe that a home is not just a place, but a feeling—a serene sanctuary where life's best moments unfold.\\n\\nEvery detail, from the grand architecture to the finest interior finishes, has been meticulously curated to foster an environment of peace, security, and absolute comfort for our residents.")
+  aboutStory       String @default("NL Josephine's Hotel & Apt was designed as a retreat from the ordinary. We believe that a home is not just a place, but a feeling—a serene haven where life's best moments unfold.\\n\\nEvery detail, from the grand architecture to the finest interior finishes, has been meticulously curated to foster an environment of peace, security, and absolute comfort for our residents.")
   facebookUrl      String @default("https://facebook.com")
   instagramUrl     String @default("https://instagram.com")
   twitterUrl       String @default("https://twitter.com")
@@ -95,6 +95,17 @@ model SiteSetting {
   apartmentsHeroImage    String @default("https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&q=80")
   contactHeroImage       String @default("https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80")
   journalHeroImage       String @default("https://images.unsplash.com/photo-1455391704245-2376bb74b358?auto=format&fit=crop&q=80")
+  
+  // New managed fields for sections
+  suitesHeading          String @default("Distinctive Suites")
+  suitesDescription      String @default("Our most exclusive accommodations, individually curated to offer exceptional comfort, blending modern aesthetics with thoughtful amenities.")
+  amenitiesHeading       String @default("Curated Amenities")
+  amenitiesDescription   String @default("We believe true luxury lies in the details. Discover a thoughtful collection of amenities designed to elevate every moment of your stay with us.")
+  amenitiesSubtitle      String @default("The Experience")
+  experienceTitle        String @default("Everything you need, beautifully anticipated.")
+  experienceLabel        String @default("Unparalleled Comfort")
+  aboutLeadershipHeading String @default("The People Behind The Haven")
+  aboutLeadershipDescription String @default("A dedicated team of professionals committed to delivering an exceptional living experience.")
 }
 
 model Team {

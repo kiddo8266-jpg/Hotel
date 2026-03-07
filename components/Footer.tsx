@@ -30,26 +30,34 @@ export default async function Footer() {
         <footer className="bg-[#163C2E] text-gray-400 py-16 border-t border-[#C9A05B]/10">
             <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-12 gap-12 lg:gap-20">
                 <div className="md:col-span-4 space-y-6">
-                    {settings?.footerBadge && (
-                        <span className="inline-block px-3 py-1 rounded-full border border-white/10 bg-white/5 text-white/60 text-[10px] font-bold tracking-[0.3em] uppercase mb-2 backdrop-blur-md">
-                            {settings.footerBadge}
-                        </span>
-                    )}
-                    <div className="flex flex-col items-start gap-2 mb-6">
-                        {logoUrl ? (
-                            <>
-                                <img src={logoUrl} alt={logoAlt} className="h-12 w-auto object-contain mb-1" />
-                                <span className="text-xs font-bold text-[#C9A05B] uppercase tracking-[0.3em] font-serif">
+                    <div>
+                        <Link href="/" className="inline-flex flex-col gap-1 mb-8 group">
+                            <div className="flex items-center gap-2">
+                                <div className="w-8 h-8 md:w-10 md:h-10 relative">
+                                    <div className="absolute inset-0 bg-[#C9A05B] rounded-full blur-xl opacity-20" />
+                                    <img
+                                        src={logoUrl || 'https://cdn-icons-png.flaticon.com/512/2983/2983803.png'}
+                                        alt={logoAlt}
+                                        className="relative z-10 w-full h-full object-contain"
+                                    />
+
+                                </div>
+                                <span className="text-white font-serif text-xl md:text-2xl tracking-wider uppercase group-hover:text-[#C9A05B] transition-colors duration-500">
                                     {hotelName}
                                 </span>
-                            </>
-                        ) : (
-                            <h3 className="text-3xl font-light text-white font-serif italic">{hotelName}</h3>
-                        )}
+                            </div>
+                        </Link>
+                        <p className="text-gray-400 font-light leading-relaxed mb-8 max-w-sm">
+                            {settings?.footerDescription || "Experience quiet luxury and uncompromising comfort. Your serene home away from home in the heart of Seguku."}
+                        </p>
+                        <div className="flex items-center gap-4">
+                            <div className="px-4 py-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-md">
+                                <span className="text-[#C9A05B] text-[10px] font-bold uppercase tracking-[0.2em]">
+                                    {settings?.footerBadge || "A Haven"}
+                                </span>
+                            </div>
+                        </div>
                     </div>
-                    <p className="text-sm font-light leading-relaxed text-gray-300 max-w-sm whitespace-pre-line">
-                        {settings?.footerDescription || 'Experience quiet luxury and uncompromising comfort. Your serene home away from home.'}
-                    </p>
                 </div>
 
                 <div className="md:col-span-2 space-y-6">

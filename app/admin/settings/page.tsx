@@ -195,6 +195,16 @@ export default function AdminSettingsPage() {
         apartmentsHeroImage: '',
         contactHeroImage: '',
         journalHeroImage: '',
+        suitesHeading: '',
+        suitesDescription: '',
+        amenitiesHeading: '',
+        amenitiesDescription: '',
+        amenitiesSubtitle: '',
+        experienceTitle: '',
+        experienceSubtitle: '',
+        experienceLabel: '',
+        aboutLeadershipHeading: '',
+        aboutLeadershipDescription: '',
     });
 
     const [heroItems, setHeroItems] = useState<HeroItem[]>([]);
@@ -814,7 +824,6 @@ export default function AdminSettingsPage() {
                     </CardHeader>
                     <CardContent className="space-y-8 pt-6">
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                            {/* About Page Hero */}
                             <div className="space-y-3">
                                 <Label className="text-[#0F2C23] font-semibold">About Page: Main Hero</Label>
                                 <div className="aspect-video rounded-xl overflow-hidden bg-gray-100 border border-[#C9A05B]/20 relative group">
@@ -830,7 +839,6 @@ export default function AdminSettingsPage() {
                                 <Input name="aboutHeroImage" value={settings.aboutHeroImage || ''} onChange={handleChange} placeholder="Image URL" className="text-[10px] h-7" />
                             </div>
 
-                            {/* About Vision 1 */}
                             <div className="space-y-3">
                                 <Label className="text-[#0F2C23] font-semibold">About Page: Vision Detail 1</Label>
                                 <div className="aspect-video rounded-xl overflow-hidden bg-gray-100 border border-[#C9A05B]/20 relative group">
@@ -846,7 +854,6 @@ export default function AdminSettingsPage() {
                                 <Input name="aboutVisionImage1" value={settings.aboutVisionImage1 || ''} onChange={handleChange} placeholder="Image URL" className="text-[10px] h-7" />
                             </div>
 
-                            {/* About Vision 2 */}
                             <div className="space-y-3">
                                 <Label className="text-[#0F2C23] font-semibold">About Page: Vision Detail 2</Label>
                                 <div className="aspect-video rounded-xl overflow-hidden bg-gray-100 border border-[#C9A05B]/20 relative group">
@@ -862,7 +869,6 @@ export default function AdminSettingsPage() {
                                 <Input name="aboutVisionImage2" value={settings.aboutVisionImage2 || ''} onChange={handleChange} placeholder="Image URL" className="text-[10px] h-7" />
                             </div>
 
-                            {/* Apartments Hero */}
                             <div className="space-y-3">
                                 <Label className="text-[#0F2C23] font-semibold">Apartments Page Hero</Label>
                                 <div className="aspect-video rounded-xl overflow-hidden bg-gray-100 border border-[#C9A05B]/20 relative group">
@@ -878,7 +884,6 @@ export default function AdminSettingsPage() {
                                 <Input name="apartmentsHeroImage" value={settings.apartmentsHeroImage || ''} onChange={handleChange} placeholder="Image URL" className="text-[10px] h-7" />
                             </div>
 
-                            {/* Contact Hero */}
                             <div className="space-y-3">
                                 <Label className="text-[#0F2C23] font-semibold">Contact Page Hero Bg</Label>
                                 <div className="aspect-video rounded-xl overflow-hidden bg-gray-100 border border-[#C9A05B]/20 relative group">
@@ -894,7 +899,6 @@ export default function AdminSettingsPage() {
                                 <Input name="contactHeroImage" value={settings.contactHeroImage || ''} onChange={handleChange} placeholder="Image URL" className="text-[10px] h-7" />
                             </div>
 
-                            {/* Journal Hero */}
                             <div className="space-y-3">
                                 <Label className="text-[#0F2C23] font-semibold">Journal Page Hero Bg</Label>
                                 <div className="aspect-video rounded-xl overflow-hidden bg-gray-100 border border-[#C9A05B]/20 relative group">
@@ -913,146 +917,202 @@ export default function AdminSettingsPage() {
                     </CardContent>
                 </Card>
 
-                <Card>
-                    <CardHeader>
-                        <CardTitle>Global Site Settings</CardTitle>
+                {/* Global Site Settings */}
+                <Card className="border-[#C9A05B]/20">
+                    <CardHeader className="bg-[#F5F0E6]/50">
+                        <CardTitle className="text-[#0F2C23]">Global Site Settings</CardTitle>
+                        <p className="text-sm text-gray-500">Manage all website content, contact info, and branding details.</p>
                     </CardHeader>
-                    <CardContent className="space-y-6">
+                    <CardContent className="space-y-8 pt-6">
+                        {/* About Us Page Content */}
                         <div className="space-y-4">
                             <h3 className="font-semibold text-lg text-[#0F2C23] border-b pb-2">About Us Page Content</h3>
-                            <div className="space-y-2">
-                                <Label>Hero Headline</Label>
-                                <Input
-                                    name="aboutHero"
-                                    value={settings.aboutHero || ''}
-                                    onChange={handleChange}
-                                    placeholder="e.g. More Than a Residence.\nA Sanctuary."
-                                />
-                                <p className="text-xs text-gray-400">Use \n for line breaks</p>
-                            </div>
-                            <div className="space-y-2">
-                                <Label>Vision Headline</Label>
-                                <Input
-                                    name="aboutVision"
-                                    value={settings.aboutVision || ''}
-                                    onChange={handleChange}
-                                    placeholder="e.g. Born from a desire to blend uncompromising tranquility..."
-                                />
-                            </div>
-                            <div className="space-y-2">
-                                <Label>Vision Story</Label>
-                                <Textarea
-                                    name="aboutStory"
-                                    value={settings.aboutStory || ''}
-                                    onChange={handleChange}
-                                    className="min-h-[150px]"
-                                    placeholder="Enter the main body text for the About Us story section."
-                                />
-                            </div>
-                        </div>
-
-                        <div className="space-y-2">
-                            <h3 className="font-semibold text-lg text-[#0F2C23] border-b pb-2 mt-6">Homepage / General</h3>
-                            <Label>Spirit Section Description (under heading)</Label>
-                            <Textarea
-                                name="aboutText"
-                                value={settings.aboutText}
-                                onChange={handleChange}
-                                className="min-h-[100px]"
-                            />
-                            <div className="space-y-2 mt-4">
-                                <h3 className="font-semibold text-lg text-[#0F2C23] border-b pb-2 mt-6">Footer Configuration</h3>
-
-                                <div className="grid gap-4 mt-4">
-                                    <div className="space-y-2">
-                                        <Label>Footer Branding Badge (Uppercase style)</Label>
-                                        <Input
-                                            name="footerBadge"
-                                            value={settings.footerBadge || ''}
-                                            onChange={handleChange}
-                                            placeholder="e.g. A Sanctuary"
-                                        />
-                                    </div>
-                                    <div className="space-y-2">
-                                        <Label>Footer Branding Description</Label>
-                                        <Textarea
-                                            name="footerDescription"
-                                            value={settings.footerDescription || ''}
-                                            onChange={handleChange}
-                                            className="min-h-[80px]"
-                                            placeholder="Experience quiet luxury and uncompromising comfort..."
-                                        />
-                                    </div>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div className="space-y-2">
+                                    <Label>Hero Headline</Label>
+                                    <Input
+                                        name="aboutHero"
+                                        value={settings.aboutHero || ''}
+                                        onChange={handleChange}
+                                        placeholder="e.g. More Than a Residence.\nA Haven."
+                                    />
+                                    <p className="text-xs text-gray-400">Use \n for line breaks</p>
+                                </div>
+                                <div className="space-y-2">
+                                    <Label>Vision Headline</Label>
+                                    <Input
+                                        name="aboutVision"
+                                        value={settings.aboutVision || ''}
+                                        onChange={handleChange}
+                                        placeholder="e.g. Born from a desire to blend uncompromising tranquility..."
+                                    />
+                                </div>
+                                <div className="space-y-2 md:col-span-2">
+                                    <Label>Vision Story</Label>
+                                    <Textarea
+                                        name="aboutStory"
+                                        value={settings.aboutStory || ''}
+                                        onChange={handleChange}
+                                        className="min-h-[150px]"
+                                        placeholder="Enter the main body text for the About Us story section."
+                                    />
                                 </div>
                             </div>
                         </div>
 
-                        <div className="grid grid-cols-2 gap-4">
-                            <div className="space-y-2">
-                                <Label>Contact Phone</Label>
-                                <Input name="contactPhone" value={settings.contactPhone} onChange={handleChange} />
-                            </div>
-                            <div className="space-y-2">
-                                <Label>Contact Email</Label>
-                                <Input name="contactEmail" type="email" value={settings.contactEmail} onChange={handleChange} />
-                            </div>
-                            <div className="space-y-2 mt-4">
-                                <Label>Hotel Name</Label>
-                                <Input name="hotelName" value={settings.hotelName || ''} onChange={handleChange} />
-                            </div>
-                            <div className="space-y-2 mt-4">
-                                <Label>Physical Address</Label>
-                                <Textarea name="address" value={settings.address || ''} onChange={handleChange} placeholder="Seguku, Entebbe Road\nKampala, Uganda" />
-                            </div>
-                            <div className="space-y-2 mt-4 col-span-2">
-                                <Label>Global Booking / Payment Gateway Link</Label>
-                                <Input name="bookingLink" value={settings.bookingLink || ''} onChange={handleChange} placeholder="https://..." />
-                                <p className="text-xs text-gray-400">If provided, guests will be redirected here after submitting a viewing/booking request.</p>
+                        {/* Homepage Sections */}
+                        <div className="space-y-4 pt-6 border-t border-gray-100">
+                            <h3 className="font-semibold text-lg text-[#0F2C23] border-b pb-2">Suites & Amenities Sections (Homepage)</h3>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div className="space-y-2">
+                                    <Label>Suites Heading</Label>
+                                    <Input name="suitesHeading" value={settings.suitesHeading || ''} onChange={handleChange} placeholder="e.g. Distinctive Suites" />
+                                </div>
+                                <div className="space-y-2">
+                                    <Label>Suites Description</Label>
+                                    <Textarea name="suitesDescription" value={settings.suitesDescription || ''} onChange={handleChange} placeholder="Description for the suites section..." />
+                                </div>
+                                <div className="space-y-2">
+                                    <Label>Amenities Subtitle (Small Top Label)</Label>
+                                    <Input name="amenitiesSubtitle" value={settings.amenitiesSubtitle || ''} onChange={handleChange} placeholder="e.g. The Experience" />
+                                </div>
+                                <div className="space-y-2">
+                                    <Label>Amenities Heading</Label>
+                                    <Input name="amenitiesHeading" value={settings.amenitiesHeading || ''} onChange={handleChange} placeholder="e.g. Curated Amenities" />
+                                </div>
+                                <div className="space-y-2 md:col-span-2">
+                                    <Label>Amenities Description</Label>
+                                    <Textarea name="amenitiesDescription" value={settings.amenitiesDescription || ''} onChange={handleChange} placeholder="Description for the amenities section..." />
+                                </div>
+                                <div className="space-y-2">
+                                    <Label>Amenity Highlight: Label</Label>
+                                    <Input name="experienceLabel" value={settings.experienceLabel || ''} onChange={handleChange} placeholder="e.g. Unparalleled Comfort" />
+                                </div>
+                                <div className="space-y-2">
+                                    <Label>Amenity Highlight: Title</Label>
+                                    <Input name="experienceTitle" value={settings.experienceTitle || ''} onChange={handleChange} placeholder="e.g. Everything you need," />
+                                </div>
+                                <div className="space-y-2 md:col-span-2">
+                                    <Label>Amenity Highlight: Subtitle (Italicized)</Label>
+                                    <Input name="experienceSubtitle" value={settings.experienceSubtitle || ''} onChange={handleChange} placeholder="e.g. beautifully anticipated." />
+                                </div>
                             </div>
                         </div>
 
-                        <div className="space-y-4 pt-6 border-t border-gray-100 mt-6">
-                            <h3 className="font-semibold text-lg text-[#0F2C23]">Social Media Links</h3>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {/* About Us: Leadership Section */}
+                        <div className="space-y-4 pt-6 border-t border-gray-100">
+                            <h3 className="font-semibold text-lg text-[#0F2C23] border-b pb-2">About Us: Leadership Section</h3>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div className="space-y-2">
+                                    <Label>Leadership Heading</Label>
+                                    <Input name="aboutLeadershipHeading" value={settings.aboutLeadershipHeading || ''} onChange={handleChange} placeholder="e.g. The People Behind\nThe Haven" />
+                                    <p className="text-xs text-gray-400">Use \n for line break</p>
+                                </div>
+                                <div className="space-y-2">
+                                    <Label>Leadership Description</Label>
+                                    <Textarea name="aboutLeadershipDescription" value={settings.aboutLeadershipDescription || ''} onChange={handleChange} placeholder="Description for the people section..." />
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Footer Configuration */}
+                        <div className="space-y-4 pt-6 border-t border-gray-100">
+                            <h3 className="font-semibold text-lg text-[#0F2C23] border-b pb-2">Footer Configuration</h3>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div className="space-y-2">
+                                    <Label>Footer Branding Badge</Label>
+                                    <Input
+                                        name="footerBadge"
+                                        value={settings.footerBadge || ''}
+                                        onChange={handleChange}
+                                        placeholder="e.g. A Haven"
+                                    />
+                                </div>
+                                <div className="space-y-2">
+                                    <Label>Footer Branding Description</Label>
+                                    <Textarea
+                                        name="footerDescription"
+                                        value={settings.footerDescription || ''}
+                                        onChange={handleChange}
+                                        className="min-h-[80px]"
+                                        placeholder="Experience quiet luxury..."
+                                    />
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Contact & Branding */}
+                        <div className="space-y-4 pt-6 border-t border-gray-100">
+                            <h3 className="font-semibold text-lg text-[#0F2C23] border-b pb-2">Contact & Branding</h3>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div className="space-y-2">
+                                    <Label>Hotel Name</Label>
+                                    <Input name="hotelName" value={settings.hotelName || ''} onChange={handleChange} placeholder="NL Josephine's Hotel & Apt" />
+                                </div>
+                                <div className="space-y-2">
+                                    <Label>Physical Address</Label>
+                                    <Textarea name="address" value={settings.address || ''} onChange={handleChange} placeholder="Address detail..." />
+                                </div>
+                                <div className="space-y-2">
+                                    <Label>Contact Phone</Label>
+                                    <Input name="contactPhone" value={settings.contactPhone || ''} onChange={handleChange} />
+                                </div>
+                                <div className="space-y-2">
+                                    <Label>Contact Email</Label>
+                                    <Input name="contactEmail" type="email" value={settings.contactEmail || ''} onChange={handleChange} />
+                                </div>
+                                <div className="space-y-2 md:col-span-2">
+                                    <Label>Global Booking Link</Label>
+                                    <Input name="bookingLink" value={settings.bookingLink || ''} onChange={handleChange} placeholder="https://..." />
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Social Media Links */}
+                        <div className="space-y-4 pt-6 border-t border-gray-100">
+                            <h3 className="font-semibold text-lg text-[#0F2C23] border-b pb-2">Social Media Links</h3>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div className="space-y-2">
                                     <Label>Facebook URL</Label>
-                                    <Input name="facebookUrl" type="url" value={settings.facebookUrl || ''} onChange={handleChange} placeholder="https://facebook.com/..." />
+                                    <Input name="facebookUrl" type="url" value={settings.facebookUrl || ''} onChange={handleChange} />
                                 </div>
                                 <div className="space-y-2">
                                     <Label>Instagram URL</Label>
-                                    <Input name="instagramUrl" type="url" value={settings.instagramUrl || ''} onChange={handleChange} placeholder="https://instagram.com/..." />
+                                    <Input name="instagramUrl" type="url" value={settings.instagramUrl || ''} onChange={handleChange} />
                                 </div>
                                 <div className="space-y-2">
                                     <Label>Twitter/X URL</Label>
-                                    <Input name="twitterUrl" type="url" value={settings.twitterUrl || ''} onChange={handleChange} placeholder="https://twitter.com/..." />
+                                    <Input name="twitterUrl" type="url" value={settings.twitterUrl || ''} onChange={handleChange} />
                                 </div>
                                 <div className="space-y-2">
                                     <Label>YouTube URL</Label>
-                                    <Input name="youtubeUrl" type="url" value={settings.youtubeUrl || ''} onChange={handleChange} placeholder="https://youtube.com/..." />
+                                    <Input name="youtubeUrl" type="url" value={settings.youtubeUrl || ''} onChange={handleChange} />
                                 </div>
                                 <div className="space-y-2">
                                     <Label>TikTok URL</Label>
-                                    <Input name="tiktokUrl" type="url" value={settings.tiktokUrl || ''} onChange={handleChange} placeholder="https://tiktok.com/..." />
+                                    <Input name="tiktokUrl" type="url" value={settings.tiktokUrl || ''} onChange={handleChange} />
                                 </div>
                             </div>
                         </div>
 
-                        <div className="space-y-4 pt-6 border-t border-gray-100 mt-6">
-                            <h3 className="font-semibold text-lg text-[#0F2C23]">Search Engine Optimization (SEO)</h3>
-                            <div className="space-y-2">
-                                <Label>SEO Keywords</Label>
-                                <Input name="seoKeywords" value={settings.seoKeywords || ''} onChange={handleChange} placeholder="e.g. hotel, luxury, entebbe, accommodation" />
-                                <p className="text-xs text-gray-400">Comma-separated list of keywords that help guests find your hotel.</p>
-                            </div>
-                            <div className="space-y-2">
-                                <Label>SEO Site Description</Label>
-                                <Textarea name="seoDescription" value={settings.seoDescription || ''} onChange={handleChange} placeholder="A short description of the hotel for search engines..." />
+                        {/* SEO */}
+                        <div className="space-y-4 pt-6 border-t border-gray-100">
+                            <h3 className="font-semibold text-lg text-[#0F2C23] border-b pb-2">Search Engine Optimization (SEO)</h3>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div className="space-y-2">
+                                    <Label>SEO Keywords</Label>
+                                    <Input name="seoKeywords" value={settings.seoKeywords || ''} onChange={handleChange} placeholder="hotel, luxury, etc." />
+                                </div>
+                                <div className="space-y-2">
+                                    <Label>SEO Site Description</Label>
+                                    <Textarea name="seoDescription" value={settings.seoDescription || ''} onChange={handleChange} />
+                                </div>
                             </div>
                         </div>
                     </CardContent>
                 </Card>
 
-                <div className="sticky bottom-0 bg-white/80 backdrop-blur-md border-t border-gray-100 p-4 -mx-6 mb-[-1.5rem] mt-10 flex justify-end z-10">
+                <div className="sticky bottom-0 bg-white/80 backdrop-blur-md p-4 -mx-6 mb-[-1.5rem] mt-10 flex justify-end z-10 border-t border-gray-100">
                     <Button type="submit" className="bg-[#C9A05B] hover:bg-[#B38F4F] text-[#0F2C23] px-8 py-4 h-auto text-lg font-medium shadow-lg" disabled={saving}>
                         {saving ? 'Saving...' : 'Save All Global Settings'}
                     </Button>
